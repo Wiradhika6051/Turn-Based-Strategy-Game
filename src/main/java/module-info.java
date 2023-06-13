@@ -13,4 +13,6 @@ module com.tbsg.turnbasedstrategygame {
 
     opens com.tbsg.turnbasedstrategygame to javafx.fxml;
     exports com.tbsg.turnbasedstrategygame;
+    exports com.tbsg.turnbasedstrategygame.controllers;
+    opens com.tbsg.turnbasedstrategygame.controllers to javafx.fxml;
 }

@@ -1,9 +1,9 @@
-package com.tbsg.turnbasedstrategygame;
+package com.tbsg.turnbasedstrategygame.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class LoadingScreenController {
     @FXML
     private Label welcomeText;
 
