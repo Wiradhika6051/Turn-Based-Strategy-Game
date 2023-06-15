@@ -18,7 +18,7 @@
     <!--    </padding>-->
     <!--    <ProgressBar fx:id="progressBar" progress="0.2" prefWidth="${screen.visualBounds.width}"/>-->
     <!--    <ProgressBar fx:id="progressBar" progress="0.2" prefWidth="${controller.progressBarWidth}"/>-->
-    <ProgressBar fx:id="progressBar" progress="0.2"/>
+    <ProgressBar fx:id="progressBar" progress="0.0"/>
     <!--    <Label fx:id="welcomeText"/>-->
-    <Button text="HI kawan!" onAction="#onHelloButtonClick"/>
+    <!--    <Button text="HI kawan!" onAction="#onHelloButtonClick"/>-->
 </VBox>
