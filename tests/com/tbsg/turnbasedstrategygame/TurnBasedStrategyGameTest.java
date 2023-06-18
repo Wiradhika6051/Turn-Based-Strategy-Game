@@ -40,30 +40,11 @@ public class TurnBasedStrategyGameTest extends ApplicationTest {
             e.printStackTrace();
         }
         stage.setTitle("Turn Based Strategy Game");
-//        fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("loading-screen.fxml"));
-//        Scene scene2 = new Scene(fxmlLoader.load(),320,240);
         //set scene
         Scene scene = sceneManager.getScene("LOADING_SCREEN");
         System.out.println(scene);
         stage.setScene(scene);
-//        PauseTransition pause = new PauseTransition(Duration.seconds(2));
-//        pause.setOnFinished(event ->{
-//            System.out.println("halo");
-//            stage.setScene(scene2);
-//        });
-//
         stage.show();
-        //mulai
-        //init progress bar manager
-//        initProgessBarManager();
-//        //mulai
-//        try {
-//            startProgressBarManager();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println("Hi");
-//        pause.play();
     }
 
     void initProgessBarManager() {
@@ -81,14 +62,8 @@ public class TurnBasedStrategyGameTest extends ApplicationTest {
 
     void initScene() throws IOException {
         fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("loading-screen.fxml"));
-        System.out.println("masuk");
-        System.out.println(fxmlLoader);
-        System.out.println("masuk2");
         Scene scene = new Scene(fxmlLoader.load(), 640, 480);
         controller = fxmlLoader.getController();
-        System.out.println("Scene:");
-//        System.out.println(scene);
-        System.out.println("aman");
         sceneManager.addScene("LOADING_SCREEN", scene);
     }
 
@@ -104,18 +79,26 @@ public class TurnBasedStrategyGameTest extends ApplicationTest {
     }
 
     @Test
-    public void testProgressBarRendered() {
+    public void test_progressBarRendered() {
         ProgressBar pb = lookup("#progressBar").query();
         //cek apakah kerender
         FxAssert.verifyThat(pb, NodeMatchers.isVisible());
         //cek apakah valuenya 0
         System.out.println(pb.getProgress());
         assertEquals(0, pb.getProgress(), 0.01);
-//        GuiTest.find("progressBar");
-//        assertEquals(pb.getProgress(), 0.0);
     }
-//    @Test
-//    public void test() {
-//        assertEquals(2, 2);
-//    }
+
+    @Test
+    public void test_progressBarUpdated() {
+        //jalanin kode
+        initProgessBarManager();
+        try {
+            startProgressBarManager();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //test
+        ProgressBar pb = lookup("#progressBar").query();
+        assertEquals(1.0, pb.getProgress(), 0.1);
+    }
 }
