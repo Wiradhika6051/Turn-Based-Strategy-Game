@@ -1,6 +1,7 @@
 package com.tbsg.turnbasedstrategygame.controllers;
 
 import com.tbsg.turnbasedstrategygame.library.engine.IProgressBarHandler;
+import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,7 +24,7 @@ public class LoadingScreenController implements Initializable, IProgressBarHandl
 
     private double progressBarWidth;
     //
-    private double windowWidth;
+//    private double windowWidth;
 
     @FXML
 //    protected void onHelloButtonClick() {
@@ -34,11 +35,16 @@ public class LoadingScreenController implements Initializable, IProgressBarHandl
     public void initialize(URL url, ResourceBundle resourceBundle) {
         root.boundsInParentProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                windowWidth = newValue.getWidth();
-                progressBarWidth = windowWidth * 0.8;
-                progressBar.setPrefWidth(progressBarWidth);
+                updateWidth(newValue.getWidth());
             }
         });
+    }
+
+    public void updateWidth(double width) {
+        GraphicsConst.windowWidth = width;
+//                windowWidth = newValue.getWidth();
+        progressBarWidth = GraphicsConst.windowWidth * 0.8;
+        progressBar.setPrefWidth(progressBarWidth);
     }
 
     @Override

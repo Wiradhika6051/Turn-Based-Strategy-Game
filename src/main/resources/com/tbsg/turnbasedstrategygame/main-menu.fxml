@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+      fx:id="root"
+      fx:controller="com.tbsg.turnbasedstrategygame.controllers.MainMenuController"
+>
+    <Label text="Turn Based Strategy Game" fx:id="label">
+        <font>
+            <Font name="System Bold" size="30.0"/>
+        </font>
+    </Label>
+    <Button fx:id="newGame" text="New Game"/>
+    <Button fx:id="continueGame" text="Continue"/>
+    <Button fx:id="setting" text="Setting"/>
+    <Button fx:id="credits" text="Credits"/>
+    <Button fx:id="quit" text="Quit"/>
+</VBox>

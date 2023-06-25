@@ -77,6 +77,7 @@ public class TurnBasedStrategyGameTest extends ApplicationTest {
         release(new KeyCode[]{});
         release(new MouseButton[]{});
     }
+    //NOTE: ini test udah  gak work (kecuali kalau loadingnya lama?)
 
     @Test
     public void test_progressBarRendered() {

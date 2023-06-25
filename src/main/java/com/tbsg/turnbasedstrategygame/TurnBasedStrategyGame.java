@@ -49,6 +49,7 @@ public class TurnBasedStrategyGame extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        stage.setScene(sceneManager.getScene("MAIN_MENU"));
 //        System.out.println("Hi");
 //        pause.play();
     }
@@ -60,9 +61,9 @@ public class TurnBasedStrategyGame extends Application {
 
     void startProgressBarManager() throws IOException {
         //load fxml
-        fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("hello-view.fxml"));
+        fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("main-menu.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 640, 480);
-        sceneManager.addScene("TEST", scene);
+        sceneManager.addScene("MAIN_MENU", scene);
         pb_manager.forwardProgress("LOADING_FXML");
     }
 
