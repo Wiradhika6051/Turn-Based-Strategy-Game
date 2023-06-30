@@ -3,11 +3,9 @@ package com.tbsg.turnbasedstrategygame.controllers;
 import com.tbsg.turnbasedstrategygame.TurnBasedStrategyGame;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.junit.After;
@@ -19,8 +17,6 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.base.NodeMatchers;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import static org.junit.Assert.assertEquals;
 
@@ -45,11 +41,11 @@ public class MainMenuControllerTest extends ApplicationTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
     }
 
     @Test
