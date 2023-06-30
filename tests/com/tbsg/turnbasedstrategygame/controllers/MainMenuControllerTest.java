@@ -11,9 +11,11 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.testfx.api.FxAssert;
+import org.testfx.api.FxRobot;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.base.NodeMatchers;
 
@@ -24,10 +26,12 @@ import static org.junit.Assert.assertEquals;
 
 public class MainMenuControllerTest extends ApplicationTest {
     MainMenuController controller;
+    Stage stage;
 
     public void start(Stage stage) throws Exception {
         //init loading
         FXMLLoader fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("loading-screen.fxml"));
+        this.stage = stage;
         stage.setTitle("Turn Based Strategy Game");
         Scene scene = new Scene(fxmlLoader.load(), 640, 480);
         stage.setScene(scene);
@@ -71,6 +75,14 @@ public class MainMenuControllerTest extends ApplicationTest {
         FxAssert.verifyThat(creditsButton, NodeMatchers.isVisible());
         Button quitButton = lookup("#quit").query();
         FxAssert.verifyThat(quitButton, NodeMatchers.isVisible());
+    }
+
+    @Test
+    public void test_exitButtonClosed() {
+        FxRobot robot = new FxRobot();
+        Assert.assertTrue(stage.isShowing());
+        robot.clickOn("#quit");
+        Assert.assertFalse(stage.isShowing());
     }
 
 }

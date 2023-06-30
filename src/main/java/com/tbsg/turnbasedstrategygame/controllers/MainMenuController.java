@@ -4,6 +4,7 @@ import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,5 +29,13 @@ public class MainMenuController implements Initializable {
         credits.setPrefWidth(GraphicsConst.windowWidth * 0.5);
         quit.setPrefWidth(GraphicsConst.windowWidth * 0.5);
 
+    }
+
+    @FXML
+    protected void exitGame() {
+        Stage stage = (Stage) quit.getScene().getWindow();
+        //handle buat tutup data
+        //tutup stage
+        stage.close();
     }
 }
