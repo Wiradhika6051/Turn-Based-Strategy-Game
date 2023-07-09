@@ -16,11 +16,11 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 public class SceneManagerTest extends ApplicationTest {
-    SceneManager manager;
+//    SceneManager manager;
 
     @Before
     public void setUp() throws Exception {
-        manager = new SceneManager();
+//        manager = new SceneManager();
     }
 
     @After
@@ -33,17 +33,19 @@ public class SceneManagerTest extends ApplicationTest {
     @Test
     public void test_addScene() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("loading-screen.fxml"));
-        manager.addScene("TEST", new Scene(fxmlLoader.load(), 100, 100));
+//        manager.addScene("TEST", new Scene(fxmlLoader.load(), 100, 100));
+        SceneManager.sceneMap.clear();
+        SceneManager.addScene("TEST", new Scene(fxmlLoader.load(), 100, 100));
         //cek apakah sizenya >1
-        assertEquals(1, manager.sceneMap.size());
+        assertEquals(1, SceneManager.sceneMap.size());
     }
 
     @Test
     public void test_getScene() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("loading-screen.fxml"));
         //pasttiin hasilnya bukan null
-        manager.addScene("TEST_1", new Scene(fxmlLoader.load(), 150, 100));
-        Scene scene = manager.getScene("TEST_1");
+        SceneManager.addScene("TEST_1", new Scene(fxmlLoader.load(), 150, 100));
+        Scene scene = SceneManager.getScene("TEST_1");
         assertNotNull(scene);
         //pastiin ukurannya nya bener
         assertEquals(150, scene.getWidth(), 0.1);

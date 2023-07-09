@@ -24,7 +24,7 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 public class TurnBasedStrategyGameTest extends ApplicationTest {
-    SceneManager sceneManager;
+    //    SceneManager sceneManager;
     LoadingScreenController controller;
 
     FXMLLoader fxmlLoader;
@@ -33,7 +33,7 @@ public class TurnBasedStrategyGameTest extends ApplicationTest {
 
     @Override
     public void start(Stage stage) throws Exception {
-        sceneManager = new SceneManager();
+//        sceneManager = new SceneManager();
         try {
             initScene();
         } catch (IOException e) {
@@ -41,7 +41,7 @@ public class TurnBasedStrategyGameTest extends ApplicationTest {
         }
         stage.setTitle("Turn Based Strategy Game");
         //set scene
-        Scene scene = sceneManager.getScene("LOADING_SCREEN");
+        Scene scene = SceneManager.getScene("LOADING_SCREEN");
         System.out.println(scene);
         stage.setScene(scene);
         stage.show();
@@ -56,7 +56,7 @@ public class TurnBasedStrategyGameTest extends ApplicationTest {
         //load fxml
         fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 640, 480);
-        sceneManager.addScene("TEST", scene);
+        SceneManager.addScene("TEST", scene);
         pb_manager.forwardProgress("LOADING_FXML");
     }
 
@@ -64,7 +64,7 @@ public class TurnBasedStrategyGameTest extends ApplicationTest {
         fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("loading-screen.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 640, 480);
         controller = fxmlLoader.getController();
-        sceneManager.addScene("LOADING_SCREEN", scene);
+        SceneManager.addScene("LOADING_SCREEN", scene);
     }
 
     @Before

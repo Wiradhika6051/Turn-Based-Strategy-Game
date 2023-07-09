@@ -23,13 +23,6 @@ public class LoadingScreenController implements Initializable, IProgressBarHandl
     VBox root;
 
     private double progressBarWidth;
-    //
-//    private double windowWidth;
-
-    @FXML
-//    protected void onHelloButtonClick() {
-//        progressBar.setProgress(0.6767);
-//    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

@@ -23,12 +23,12 @@ import static org.junit.Assert.*;
 public class ProgressBarManagerTest extends ApplicationTest {
     ProgressBarManager manager;
     LoadingScreenController handler;
-    SceneManager sceneManager;
+    //    SceneManager sceneManager;
     FXMLLoader fxmlLoader;
 
     @Override
     public void start(Stage stage) throws Exception {
-        sceneManager = new SceneManager();
+//        sceneManager = new SceneManager();
         try {
             initScene();
         } catch (IOException e) {
@@ -36,7 +36,7 @@ public class ProgressBarManagerTest extends ApplicationTest {
         }
         stage.setTitle("Turn Based Strategy Game");
         //set scene
-        Scene scene = sceneManager.getScene("LOADING_SCREEN");
+        Scene scene = SceneManager.getScene("LOADING_SCREEN");
         System.out.println(scene);
         stage.setScene(scene);
         stage.show();

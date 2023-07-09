@@ -6,16 +6,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SceneManager {
-    Map<String, Scene> sceneMap;
+    static Map<String, Scene> sceneMap;
 
-    public SceneManager(){
-        sceneMap = new HashMap<>();
+    //    public SceneManager(){
+//        sceneMap = new HashMap<>();
+//    }
+
+    private SceneManager() {
     }
-    public void addScene(String name, Scene scene) {
-        sceneMap.put(name,scene);
+
+    public static void addScene(String name, Scene scene) {
+        if (SceneManager.sceneMap == null) {
+            SceneManager.sceneMap = new HashMap<>();
+        }
+        SceneManager.sceneMap.put(name, scene);
     }
-    public Scene getScene(String name){
-        return sceneMap.get(name);
+
+    public static Scene getScene(String name) {
+        if (SceneManager.sceneMap == null) {
+            return null;
+        }
+        return SceneManager.sceneMap.get(name);
     }
 
 }

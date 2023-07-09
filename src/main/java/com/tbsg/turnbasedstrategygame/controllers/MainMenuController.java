@@ -38,4 +38,10 @@ public class MainMenuController implements Initializable {
         //tutup stage
         stage.close();
     }
+
+    @FXML
+    protected void seeCredit() {
+        Stage stage = (Stage) credits.getScene().getWindow();
+//        stage.setScene();
+    }
 }
