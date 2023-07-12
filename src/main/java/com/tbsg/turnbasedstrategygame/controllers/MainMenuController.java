@@ -1,6 +1,7 @@
 package com.tbsg.turnbasedstrategygame.controllers;
 
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
+import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -42,6 +43,6 @@ public class MainMenuController implements Initializable {
     @FXML
     protected void seeCredit() {
         Stage stage = (Stage) credits.getScene().getWindow();
-//        stage.setScene();
+        stage.setScene(SceneManager.getScene("CREDIT_SCREEN"));
     }
 }

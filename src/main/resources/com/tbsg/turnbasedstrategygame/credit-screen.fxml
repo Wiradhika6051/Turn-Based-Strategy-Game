@@ -7,14 +7,31 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.Font?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<VBox alignment="TOP_CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
       fx:id="root"
       fx:controller="com.tbsg.turnbasedstrategygame.controllers.CreditScreenController"
 >
-    <Label text="Credits" fx:id="label">
+    <HBox alignment="TOP_LEFT">
+        <Button HBox.hgrow="NEVER" onMouseClicked="#backToMenu">
+            <graphic>
+                <ImageView fx:id="backButton" smooth="true">
+                    <image>
+                        <Image url="@image/arrow.png"></Image>
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+    </HBox>
+    <!--    <Pane HBox.hgrow="ALWAYS"/>-->
+    <Separator/>
+    <Label text="Credits" fx:id="label" alignment="TOP_CENTER">
         <font>
             <Font name="System Bold" size="30.0"/>
         </font>
     </Label>
-    <VBox fx:id="list"></VBox>
+    <!--    <Pane HBox.hgrow="ALWAYS"/>-->
+    <!--    </HBox>-->
+    <VBox fx:id="list" alignment="TOP_CENTER"></VBox>
 </VBox>
