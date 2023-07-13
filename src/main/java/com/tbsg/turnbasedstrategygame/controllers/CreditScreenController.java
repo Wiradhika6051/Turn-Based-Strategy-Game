@@ -24,8 +24,9 @@ public class CreditScreenController implements Initializable {
 
     @FXML
     VBox root;
-    final String[] creditList = {"Game Designer", "Programmer", "Icons"};
+    final String[] creditList = {"Game Designer", "Programmer", "QA", "Icons"};
     final String[][] credits = {
+            {"Fawwaz (Wiradhika6051)"},
             {"Fawwaz (Wiradhika6051)"},
             {"Fawwaz (Wiradhika6051)"},
             {"Back Icon: Kirill Kazachek - Flaticon"}
@@ -60,12 +61,19 @@ public class CreditScreenController implements Initializable {
     }
 
     void updateWidth(double width, double height) {
+        System.out.println(width);
+        System.out.println(height);
         //set const
         if (width != 0) {
             GraphicsConst.windowWidth = width;
         }
         if (height != 0) {
             GraphicsConst.windowHeight = height;
+        }
+        //set size root
+        if (root != null) {
+            root.setPrefWidth(GraphicsConst.windowWidth);
+            root.setPrefHeight(GraphicsConst.windowHeight);
         }
         //set size komponen
         if (backButton != null) {

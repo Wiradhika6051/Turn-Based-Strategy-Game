@@ -14,18 +14,18 @@
       fx:controller="com.tbsg.turnbasedstrategygame.controllers.CreditScreenController"
 >
     <HBox alignment="TOP_LEFT">
-        <Button HBox.hgrow="NEVER" onMouseClicked="#backToMenu">
+        <Button HBox.hgrow="NEVER" onMouseClicked="#backToMenu" fx:id="buttonBack">
             <graphic>
                 <ImageView fx:id="backButton" smooth="true">
                     <image>
-                        <Image url="@image/arrow.png"></Image>
+                        <Image fx:id="image" url="@image/arrow.png"></Image>
                     </image>
                 </ImageView>
             </graphic>
         </Button>
     </HBox>
     <!--    <Pane HBox.hgrow="ALWAYS"/>-->
-    <Separator/>
+    <Separator fx:id="separator"/>
     <Label text="Credits" fx:id="label" alignment="TOP_CENTER">
         <font>
             <Font name="System Bold" size="30.0"/>

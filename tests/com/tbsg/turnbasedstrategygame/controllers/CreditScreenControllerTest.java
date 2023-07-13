@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.junit.After;
@@ -18,11 +20,10 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.base.NodeMatchers;
 
+import static org.junit.Assert.*;
 
-import static org.junit.Assert.assertEquals;
-
-public class MainMenuControllerTest extends ApplicationTest {
-    MainMenuController controller;
+public class CreditScreenControllerTest extends ApplicationTest {
+    CreditScreenController controller;
     Stage stage;
 
     public void start(Stage stage) throws Exception {
@@ -34,20 +35,17 @@ public class MainMenuControllerTest extends ApplicationTest {
         stage.setScene(scene);
         stage.show();
         //load
-        fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("credit-screen.fxml"));
-        SceneManager.addScene("CREDIT_SCREEN", new Scene(fxmlLoader.load(), 640, 480));
-        //mulai scene
         fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("main-menu.fxml"));
+        SceneManager.addScene("MAIN_MENU", new Scene(fxmlLoader.load(), 640, 480));
+        //mulai scene
+        fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("credit-screen.fxml"));
         scene = new Scene(fxmlLoader.load(), 640, 480);
         controller = fxmlLoader.getController();
         stage.setScene(scene);
-
-
     }
 
     @Before
     public void setUp() {
-
     }
 
     @After
@@ -57,44 +55,47 @@ public class MainMenuControllerTest extends ApplicationTest {
     @Test
     public void test_sizeMatching() {
         //cari ukuran
-        VBox root = lookup("#root").query();
-        double width = root.getWidth();
+        ImageView button = lookup("#backButton").query();
+        double width = button.getFitWidth();
         //pastiin ukurannya sama
-        assertEquals(width, GraphicsConst.windowWidth, 0.1);
+        System.out.println("width");
+        assertEquals(width, GraphicsConst.windowWidth * 0.07, 0.1);
     }
 
     @Test
     public void test_componentRendered() {
-        Label label = lookup("#label").query();
-        FxAssert.verifyThat(label, NodeMatchers.isVisible());
-        Button newGameButton = lookup("#newGame").query();
+        Button buttonBack = lookup("#buttonBack").query();
+        FxAssert.verifyThat(buttonBack, NodeMatchers.isVisible());
+        ImageView buttonLogo = lookup("#backButton").query();
+        FxAssert.verifyThat(buttonLogo, NodeMatchers.isVisible());
+        Separator newGameButton = lookup("#separator").query();
         FxAssert.verifyThat(newGameButton, NodeMatchers.isVisible());
-        Button continueButton = lookup("#continueGame").query();
-        FxAssert.verifyThat(continueButton, NodeMatchers.isVisible());
-        Button settingButton = lookup("#setting").query();
-        FxAssert.verifyThat(settingButton, NodeMatchers.isVisible());
-        Button creditsButton = lookup("#credits").query();
-        FxAssert.verifyThat(creditsButton, NodeMatchers.isVisible());
-        Button quitButton = lookup("#quit").query();
-        FxAssert.verifyThat(quitButton, NodeMatchers.isVisible());
+        Label credits = lookup("#label").query();
+        FxAssert.verifyThat(credits, NodeMatchers.isVisible());
+        VBox list = lookup("#list").query();
+        FxAssert.verifyThat(list, NodeMatchers.isVisible());
     }
 
     @Test
-    public void test_exitButtonClosed() {
-        FxRobot robot = new FxRobot();
-        Assert.assertTrue(stage.isShowing());
-        robot.clickOn("#quit");
-        Assert.assertFalse(stage.isShowing());
+    public void test_backIconRendered() {
+        ImageView buttonLogo = lookup("#backButton").query();
+        assertTrue(buttonLogo.getImage() != null);
     }
 
     @Test
-    public void test_creditButtonOpened() {
+    public void test_creditInserted() {
+        VBox list = lookup("#list").query();
+        System.out.println("length: " + list.getChildren().size());
+        assertTrue(list.getChildren().size() > 0);
+    }
+
+    @Test
+    public void test_backButtonWorking() {
         FxRobot robot = new FxRobot();
-        robot.clickOn("#credits");
-        //cek bener gak di halaman credits
+        robot.clickOn("#buttonBack");
+        //cek bener gak di main menu
         Label title = lookup("#label").query();
         FxAssert.verifyThat(title, NodeMatchers.isVisible());
-        assertEquals(title.getText(), "Credits"); // nama game
+        assertEquals(title.getText(), "Turn Based Strategy Game"); // nama game
     }
-
 }
