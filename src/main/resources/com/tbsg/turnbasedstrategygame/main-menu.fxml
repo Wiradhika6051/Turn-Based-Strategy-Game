@@ -18,7 +18,7 @@
         </font>
     </Label>
     <Button fx:id="newGame" text="New Game"/>
-    <Button fx:id="continueGame" text="Continue"/>
+    <Button fx:id="continueGame" text="Continue" disable="true"/>
     <Button fx:id="setting" text="Setting"/>
     <Button fx:id="credits" text="Credits" onAction="#seeCredit"/>
     <Button fx:id="quit" text="Quit" onAction="#exitGame"/>

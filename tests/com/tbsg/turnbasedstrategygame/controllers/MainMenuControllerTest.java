@@ -13,6 +13,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit.ApplicationTest;
@@ -95,6 +96,12 @@ public class MainMenuControllerTest extends ApplicationTest {
         Label title = lookup("#label").query();
         FxAssert.verifyThat(title, NodeMatchers.isVisible());
         assertEquals(title.getText(), "Credits"); // nama game
+    }
+
+    @Test
+    public void test_continueButtonDisabled() {
+        Button continueButton = lookup("#continueGame").query();
+        Assertions.assertTrue(continueButton.isDisable());
     }
 
 }
