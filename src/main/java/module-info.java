@@ -3,6 +3,7 @@ module com.tbsg.turnbasedstrategygame {
     requires javafx.fxml;
     requires javafx.web;
     requires javafx.graphics;
+    requires javafx.media;
 
 
     requires org.controlsfx.controls;

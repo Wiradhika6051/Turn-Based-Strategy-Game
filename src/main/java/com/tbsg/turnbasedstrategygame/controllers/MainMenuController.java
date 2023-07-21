@@ -29,6 +29,7 @@ public class MainMenuController implements Initializable {
         setting.setPrefWidth(GraphicsConst.windowWidth * 0.5);
         credits.setPrefWidth(GraphicsConst.windowWidth * 0.5);
         quit.setPrefWidth(GraphicsConst.windowWidth * 0.5);
+        //play backsound
 
     }
 
