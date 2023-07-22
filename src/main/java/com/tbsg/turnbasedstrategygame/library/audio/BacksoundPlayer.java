@@ -68,7 +68,8 @@ public class BacksoundPlayer extends AudioPlayer {
             });
             mediaPlayer.play();
         }
-
+        //reset sound
+        sound = null;
     }
 
     @Override
