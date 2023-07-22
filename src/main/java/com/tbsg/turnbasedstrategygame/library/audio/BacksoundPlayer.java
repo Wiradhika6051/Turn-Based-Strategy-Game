@@ -2,20 +2,27 @@ package com.tbsg.turnbasedstrategygame.library.audio;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BacksoundPlayer extends AudioPlayer {
 
     static BacksoundPlayer instance;
-    Map<String, Media> soundLists;
+    List<AudioData> soundLists;
+    Map<String, Integer> soundIndex;
+
+    Media sound;
 
     private BacksoundPlayer() {
         //init sound list
-        soundLists = new HashMap<>();
+        soundLists = new ArrayList<>();
+        soundIndex = new HashMap<>();
+        sound = null;
     }
 
     public void addSound(String path) {
@@ -28,19 +35,37 @@ public class BacksoundPlayer extends AudioPlayer {
             e.printStackTrace();
         }
         if (sound != null) {
-            soundLists.put(path, sound);
+            AudioData metadata = new AudioData(path, sound);
+            soundLists.add(metadata);
+            soundIndex.put(path, soundLists.indexOf(metadata));
         }
     }
 
     @Override
     public void play(String path) {
-        Media sound = soundLists.get(path);
+        Integer index = soundIndex.get(path);
+        if (index == null && soundIndex.size() > 0) {
+            index = 0;
+        }
+        //dapetin sound
+        if (index != null) {
+            sound = soundLists.get(index).audio;
+        }
         if (sound == null) {
             addSound(path);
-            sound = soundLists.get(path);
+            index = soundIndex.get(path);
+            sound = soundLists.get(index).audio;
         }
         if (sound != null) {
             mediaPlayer = new MediaPlayer(sound);
+            //autoplay
+
+            mediaPlayer.setOnEndOfMedia(new Runnable() {
+                @Override
+                public void run() {
+                    mediaPlayer.seek(Duration.ZERO);
+                }
+            });
             mediaPlayer.play();
         }
 

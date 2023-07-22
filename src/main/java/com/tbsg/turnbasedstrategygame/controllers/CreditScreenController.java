@@ -24,12 +24,13 @@ public class CreditScreenController implements Initializable {
 
     @FXML
     VBox root;
-    final String[] creditList = {"Game Designer", "Programmer", "QA", "Icons"};
+    final String[] creditList = {"Game Designer", "Programmer", "QA", "Icons", "Audio"};
     final String[][] credits = {
             {"Fawwaz (Wiradhika6051)"},
             {"Fawwaz (Wiradhika6051)"},
             {"Fawwaz (Wiradhika6051)"},
-            {"Back Icon: Kirill Kazachek - Flaticon"}
+            {"Back Icon: Kirill Kazachek - Flaticon"},
+            {"Forest With Small River Birds By Pixabay"}
     };
 
     @Override
