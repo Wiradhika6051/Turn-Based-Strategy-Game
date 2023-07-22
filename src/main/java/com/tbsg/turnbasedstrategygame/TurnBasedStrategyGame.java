@@ -1,6 +1,7 @@
 package com.tbsg.turnbasedstrategygame;
 
 import com.tbsg.turnbasedstrategygame.controllers.LoadingScreenController;
+import com.tbsg.turnbasedstrategygame.library.audio.BacksoundPlayer;
 import com.tbsg.turnbasedstrategygame.library.engine.ProgressBarManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import javafx.application.Application;
@@ -20,6 +21,9 @@ public class TurnBasedStrategyGame extends Application {
 
     //file fxml yanh dimuat di loading screen
     String[] fxml_files = {"main-menu", "credit-screen"};
+
+    //    final String BACKSOUND_PATH = "@sound/forest-with-small-river-birds-and-nature-field-recording-6735.ogg";
+    final String BACKSOUND_PATH = "forest-with-small-river-birds-and-nature-field-recording-6735.mp3";
 
     int WIDTH = 640;
     int HEIGHT = 480;
@@ -57,6 +61,8 @@ public class TurnBasedStrategyGame extends Application {
             e.printStackTrace();
         }
         stage.setScene(SceneManager.getScene("MAIN_MENU"));
+        //mulai main backsound
+        BacksoundPlayer.getInstance().play(BACKSOUND_PATH);
 //        System.out.println("Hi");
 //        pause.play();
     }

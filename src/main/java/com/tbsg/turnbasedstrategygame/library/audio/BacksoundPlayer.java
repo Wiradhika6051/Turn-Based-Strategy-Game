@@ -21,8 +21,10 @@ public class BacksoundPlayer extends AudioPlayer {
     public void addSound(String path) {
         Media sound = null;
         try {
-            sound = new Media(getClass().getResource(path).toURI().toString());
+            sound = new Media(getClass().getResource(AudioConst.AUDIO_FOLDER + path).toURI().toString());
         } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         if (sound != null) {
