@@ -9,6 +9,7 @@
 <VBox alignment="TOP_CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
       fx:id="root"
       fx:controller="com.tbsg.turnbasedstrategygame.controllers.SettingsController"
+      stylesheets="@stylesheet/settings.css"
 >
     <HBox alignment="TOP_CENTER">
         <Button HBox.hgrow="NEVER" onMouseClicked="#backToMenu" fx:id="buttonBack">

@@ -1,0 +1,6 @@
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: rgba(0,0,0,0);
+    -fx-border-color: rgb(180,180,180);
+    -fx-border-width: 0 0 1 0;
+    -fx-border-style: solid;
+}
