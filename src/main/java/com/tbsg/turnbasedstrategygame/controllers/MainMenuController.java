@@ -46,4 +46,10 @@ public class MainMenuController implements Initializable {
         Stage stage = (Stage) credits.getScene().getWindow();
         stage.setScene(SceneManager.getScene("CREDIT_SCREEN"));
     }
+
+    @FXML
+    protected void openSettings() {
+        Stage stage = (Stage) setting.getScene().getWindow();
+        stage.setScene(SceneManager.getScene("SETTINGS"));
+    }
 }

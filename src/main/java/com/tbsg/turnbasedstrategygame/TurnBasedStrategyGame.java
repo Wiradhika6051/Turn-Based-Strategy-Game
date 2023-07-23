@@ -20,7 +20,7 @@ public class TurnBasedStrategyGame extends Application {
     ProgressBarManager pb_manager;
 
     //file fxml yanh dimuat di loading screen
-    String[] fxml_files = {"main-menu", "credit-screen"};
+    String[] fxml_files = {"main-menu", "credit-screen", "settings"};
 
     //    final String BACKSOUND_PATH = "@sound/forest-with-small-river-birds-and-nature-field-recording-6735.ogg";
     final String BACKSOUND_PATH = "forest-with-small-river-birds-and-nature-field-recording-6735.mp3";
@@ -69,7 +69,7 @@ public class TurnBasedStrategyGame extends Application {
 
     void initProgessBarManager() {
         pb_manager = new ProgressBarManager(controller);
-        pb_manager.addProgressTask("LOADING_FXML", 2);
+        pb_manager.addProgressTask("LOADING_FXML", 3);
     }
 
     void startProgressBarManager() throws IOException {
