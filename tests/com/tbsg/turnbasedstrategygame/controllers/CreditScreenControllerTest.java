@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.junit.After;
@@ -74,6 +75,8 @@ public class CreditScreenControllerTest extends ApplicationTest {
         FxAssert.verifyThat(credits, NodeMatchers.isVisible());
         VBox list = lookup("#list").query();
         FxAssert.verifyThat(list, NodeMatchers.isVisible());
+        Region padding = lookup("#padding").query();
+        FxAssert.verifyThat(padding, NodeMatchers.isVisible());
     }
 
     @Test

@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -24,6 +25,9 @@ public class CreditScreenController implements Initializable {
 
     @FXML
     VBox root;
+
+    @FXML
+    Region padding;
     final String[] creditList = {"Game Designer", "Programmer", "QA", "Icons", "Audio"};
     final String[][] credits = {
             {"Fawwaz (Wiradhika6051)"},
@@ -80,6 +84,9 @@ public class CreditScreenController implements Initializable {
         if (backButton != null) {
             backButton.setFitWidth(GraphicsConst.windowWidth * 0.07);
             backButton.setFitHeight(GraphicsConst.windowHeight * 0.05);
+            //set padding
+            padding.setPrefWidth(GraphicsConst.windowWidth * 0.07);
+            padding.setPrefHeight(GraphicsConst.windowHeight * 0.05);
         }
     }
 

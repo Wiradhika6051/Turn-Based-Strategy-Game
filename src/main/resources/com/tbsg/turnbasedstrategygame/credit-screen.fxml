@@ -23,15 +23,22 @@
                 </ImageView>
             </graphic>
         </Button>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label text="Credits" fx:id="label" alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
+            <font>
+                <Font name="System Bold" size="30.0"/>
+            </font>
+        </Label>
+        <Region HBox.hgrow="ALWAYS"/>
     </HBox>
     <!--    <Pane HBox.hgrow="ALWAYS"/>-->
     <Separator fx:id="separator"/>
-    <Label text="Credits" fx:id="label" alignment="TOP_CENTER">
-        <font>
-            <Font name="System Bold" size="30.0"/>
-        </font>
-    </Label>
     <!--    <Pane HBox.hgrow="ALWAYS"/>-->
     <!--    </HBox>-->
-    <VBox fx:id="list" alignment="TOP_CENTER"></VBox>
+    <HBox>
+        <Region fx:id="padding"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <VBox fx:id="list" alignment="TOP_CENTER"></VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+    </HBox>
 </VBox>
