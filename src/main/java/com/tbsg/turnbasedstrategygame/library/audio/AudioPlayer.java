@@ -13,4 +13,8 @@ public abstract class AudioPlayer {
     public abstract void play(String path);
 
     public abstract void stop();
+
+    public abstract void changeVolume(double value);
+
+    public abstract double getVolume();
 }

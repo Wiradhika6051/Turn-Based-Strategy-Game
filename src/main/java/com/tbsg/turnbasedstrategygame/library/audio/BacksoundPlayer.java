@@ -79,6 +79,22 @@ public class BacksoundPlayer extends AudioPlayer {
         }
     }
 
+    @Override
+    public void changeVolume(double value) {
+        if (mediaPlayer != null) {
+            mediaPlayer.setVolume(value);
+        }
+    }
+
+    @Override
+    public double getVolume() {
+        if (mediaPlayer == null) {
+            return 0;
+        }
+        //return value
+        return mediaPlayer.getVolume();
+    }
+
     public static AudioPlayer getInstance() {
         if (instance == null) {
             instance = new BacksoundPlayer();

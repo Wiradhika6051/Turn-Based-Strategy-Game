@@ -31,7 +31,34 @@
     </HBox>
     <Separator fx:id="separator"/>
     <TabPane tabClosingPolicy="UNAVAILABLE">
-        <Tab text="Graphics"></Tab>
-        <Tab text="Audio"></Tab>
+        <Tab text="Graphics">
+            <VBox fx:id="screen" styleClass="tab-content" alignment="CENTER">
+                <Label text="Screen">
+                    <font>
+                        <Font name="System Bold" size="20.0"/>
+                    </font>
+                </Label>
+                <HBox alignment="CENTER">
+                    <Label text="Resolution"/>
+                </HBox>
+                <HBox alignment="CENTER">
+                    <Label text="GUI Scaling"/>
+                </HBox>
+            </VBox>
+        </Tab>
+        <Tab text="Audio">
+            <VBox fx:id="music" styleClass="tab-content" alignment="CENTER">
+                <Label text="Music" alignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="20.0"/>
+                    </font>
+                </Label>
+                <HBox alignment="CENTER">
+                    <Label text="Master Volume"/>
+                    <Slider fx:id="masterVolumeSlider" min="0.0" max="1.0" showTickMarks="true" showTickLabels="true"
+                            majorTickUnit="0.25" onMouseDragged="#changeMasterVolume"/>
+                </HBox>
+            </VBox>
+        </Tab>
     </TabPane>
 </VBox>
