@@ -81,6 +81,7 @@ public class SettingsController implements Initializable {
         //change master volume
         AudioPlayer masterAudioPlayer = BacksoundPlayer.getInstance();
         masterAudioPlayer.changeVolume(masterVolumeSlider.getValue());
+        //simpan ke config
     }
 
 }
