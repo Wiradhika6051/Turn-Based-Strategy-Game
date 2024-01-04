@@ -12,9 +12,20 @@ public class ConfigManager {
     Map<String, String> configs;
     String path;
 
-    public ConfigManager(String configPath) {
+    static ConfigManager instance = null;
+
+    ConfigManager(String configPath) {
         this.configs = new HashMap<>();
         loadConfig(configPath);
+    }
+
+    public static void setInstance(String configPath) {
+        //TODO should it check for indempotence to help reduce memory?
+        ConfigManager.instance = new ConfigManager(configPath);
+    }
+
+    public static ConfigManager getInstance() {
+        return ConfigManager.instance;
     }
 
     void loadConfig(String path) {

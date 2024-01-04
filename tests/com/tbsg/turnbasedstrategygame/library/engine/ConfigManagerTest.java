@@ -19,6 +19,7 @@ public class ConfigManagerTest {
     @Before
     public void setup() {
         manager = new ConfigManager(filePath);
+        System.out.println("Started");
     }
 
     @Test
@@ -26,6 +27,12 @@ public class ConfigManagerTest {
         //confignya harusnya kemuat
         assertTrue(manager.configs.size() > 0);
         System.out.println("Configurations Loaded");
+    }
+
+    @Test
+    public void test_set_get_Instance() {
+        ConfigManager.setInstance(filePath);
+        assertNotNull(ConfigManager.getInstance());
     }
 
     @Test

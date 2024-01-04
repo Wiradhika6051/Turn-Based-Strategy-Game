@@ -2,11 +2,15 @@ package com.tbsg.turnbasedstrategygame.controllers;
 
 import com.tbsg.turnbasedstrategygame.library.audio.AudioPlayer;
 import com.tbsg.turnbasedstrategygame.library.audio.BacksoundPlayer;
+import com.tbsg.turnbasedstrategygame.library.engine.ConfigManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -30,6 +34,9 @@ public class SettingsController implements Initializable {
     @FXML
     Slider masterVolumeSlider;
 
+    @FXML
+    MenuButton resolutionDropdown;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -39,6 +46,8 @@ public class SettingsController implements Initializable {
                 updateWidth(newValue.getWidth(), newValue.getHeight());
                 //set master volume slider initial value
                 masterVolumeSlider.setValue(BacksoundPlayer.getInstance().getVolume());
+                //set default resolution
+                resolutionDropdown.setText(ConfigManager.getInstance().get("graphics.screen.resolution"));
             }
         });
 
@@ -84,4 +93,9 @@ public class SettingsController implements Initializable {
         //simpan ke config
     }
 
+    @FXML
+    protected void handleResolutionChange(ActionEvent event) {
+        String selectedResolutions = ((MenuItem) event.getSource()).getText();
+        resolutionDropdown.setText(selectedResolutions);
+    }
 }

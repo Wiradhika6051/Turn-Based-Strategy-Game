@@ -2,6 +2,7 @@ package com.tbsg.turnbasedstrategygame;
 
 import com.tbsg.turnbasedstrategygame.controllers.LoadingScreenController;
 import com.tbsg.turnbasedstrategygame.library.audio.BacksoundPlayer;
+import com.tbsg.turnbasedstrategygame.library.engine.ConfigManager;
 import com.tbsg.turnbasedstrategygame.library.engine.ProgressBarManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import javafx.application.Application;
@@ -18,6 +19,8 @@ public class TurnBasedStrategyGame extends Application {
     FXMLLoader fxmlLoader;
 
     ProgressBarManager pb_manager;
+    //file path ke config
+    static String filePath = System.getProperty("user.dir") + "/src/main/resources/com/tbsg/turnbasedstrategygame/setting.conf";
 
     //file fxml yanh dimuat di loading screen
     String[] fxml_files = {"main-menu", "credit-screen", "settings"};
@@ -37,6 +40,7 @@ public class TurnBasedStrategyGame extends Application {
             e.printStackTrace();
         }
         stage.setTitle("Turn Based Strategy Game");
+        //load config
 //        fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("loading-screen.fxml"));
 //        Scene scene2 = new Scene(fxmlLoader.load(),320,240);
         //set scene
@@ -70,9 +74,13 @@ public class TurnBasedStrategyGame extends Application {
     void initProgessBarManager() {
         pb_manager = new ProgressBarManager(controller);
         pb_manager.addProgressTask("LOADING_FXML", 3);
+        pb_manager.addProgressTask("LOADING_CONFIG", 1);
     }
 
     void startProgressBarManager() throws IOException {
+        //load config
+        ConfigManager.setInstance(filePath);
+        pb_manager.forwardProgress("LOADING_CONFIG");
         //load fxml
         for (String filename : fxml_files) {
             fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource(filename + ".fxml"));
@@ -80,14 +88,6 @@ public class TurnBasedStrategyGame extends Application {
             SceneManager.addScene(filename.toUpperCase().replace('-', '_'), scene);
             pb_manager.forwardProgress("LOADING_FXML");
         }
-        //load fxml main menu
-//        fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("main-menu.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load(), 640, 480);
-//        sceneManager.addScene("MAIN_MENU", scene);
-//        pb_manager.forwardProgress("LOADING_FXML");
-//        //load fxml credit screen
-//        fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("credit-screen.fxml"));
-
     }
 
     void initScene() throws IOException {

@@ -40,6 +40,16 @@
                 </Label>
                 <HBox alignment="CENTER">
                     <Label text="Resolution"/>
+                    <!--                    <Slider fx:id="masterVolumeSlider" min="0.0" max="1.0" showTickMarks="true" showTickLabels="true"-->
+                    <!--                            majorTickUnit="0.25" onMouseDragged="#changeMasterVolume"/>-->
+                    <MenuButton fx:id="resolutionDropdown" text="Resolution">
+                        <items>
+                            <MenuItem text="1920x1080" onAction="#handleResolutionChange"/>
+                            <MenuItem text="1600x900" onAction="#handleResolutionChange"/>
+                            <MenuItem text="1280x720" onAction="#handleResolutionChange"/>
+                            <MenuItem text="1024x768" onAction="#handleResolutionChange"/>
+                        </items>
+                    </MenuButton>
                 </HBox>
                 <HBox alignment="CENTER">
                     <Label text="GUI Scaling"/>
