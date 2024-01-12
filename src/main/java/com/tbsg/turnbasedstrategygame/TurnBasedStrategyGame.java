@@ -73,6 +73,11 @@ public class TurnBasedStrategyGame extends Application {
 ////        });
 ////
         stage.show();
+        //mulai main backsound
+        BacksoundPlayer.getInstance().play(BACKSOUND_PATH);
+        // set volume
+        BacksoundPlayer.getInstance().changeVolume(Double.parseDouble(ConfigManager.getInstance().get("audio.music.master")));
+        pb_manager.forwardProgress("SETTING_SOUND");
         //mulai
         try {
             startProgressBarManager();
@@ -81,14 +86,14 @@ public class TurnBasedStrategyGame extends Application {
             return;
         }
         stage.setScene(SceneManager.getScene("MAIN_MENU"));
-        //mulai main backsound
-        BacksoundPlayer.getInstance().play(BACKSOUND_PATH);
     }
 
     void initProgessBarManager() {
         pb_manager = new ProgressBarManager(controller);
         pb_manager.addProgressTask("LOADING_FXML", 4);
 //        pb_manager.addProgressTask("LOADING_CONFIG", 2);
+        pb_manager.addProgressTask("SETTING_SOUND", 1);
+
     }
 
     void startProgressBarManager() throws IOException {
