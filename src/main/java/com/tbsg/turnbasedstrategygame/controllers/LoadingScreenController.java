@@ -2,6 +2,7 @@ package com.tbsg.turnbasedstrategygame.controllers;
 
 import com.tbsg.turnbasedstrategygame.library.engine.IProgressBarHandler;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
+import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -39,7 +40,7 @@ public class LoadingScreenController implements Initializable, IProgressBarHandl
 //        GraphicsConst.windowWidth = width;
 //                windowWidth = newValue.getWidth();
 
-        progressBarWidth = GraphicsConst.windowWidth * 0.8;
+        progressBarWidth = StageManager.calculateWidth(0.8);
         progressBar.setPrefWidth(progressBarWidth);
     }
 

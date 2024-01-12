@@ -39,7 +39,6 @@ public class TurnBasedStrategyGame extends Application {
 //        sceneManager = new SceneManager();
         //mulai
         //init progress bar manager
-
         try {
             loadConfig();
             initScene();
@@ -52,14 +51,8 @@ public class TurnBasedStrategyGame extends Application {
         stage.setResizable(false);
         //remove window button
         stage.initStyle(StageStyle.UNDECORATED);
-//        stage.setMaximized(true);
         //register stage
         StageManager.setInstance(stage);
-        //load config
-//        fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("loading-screen.fxml"));
-//        Scene scene2 = new Scene(fxmlLoader.load(),320,240);
-        //set scene
-//        Scene scene = sceneManager.getScene("LOADING_SCREEN");
 
         Scene scene = SceneManager.getScene("LOADING_SCREEN");
         resizeLoadingScreen();
@@ -114,9 +107,6 @@ public class TurnBasedStrategyGame extends Application {
         String[] resolutions = ConfigManager.getInstance().get("graphics.screen.resolution").split("x");
         GraphicsConst.windowWidth = Integer.parseInt(resolutions[0]);
         GraphicsConst.windowHeight = Integer.parseInt(resolutions[1]);
-//        StageManager.getInstance().setWidth(Integer.parseInt(resolutions[0]));
-//        StageManager.getInstance().setHeight(Integer.parseInt(resolutions[1]));
-//        pb_manager.forwardProgress("LOADING_CONFIG");
     }
 
     void initScene() throws IOException {

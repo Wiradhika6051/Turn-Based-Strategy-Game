@@ -5,6 +5,7 @@ import com.tbsg.turnbasedstrategygame.library.audio.BacksoundPlayer;
 import com.tbsg.turnbasedstrategygame.library.engine.ConfigManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
+import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -68,12 +69,12 @@ public class SettingsController implements Initializable {
         if (root != null) {
             root.setPrefWidth(GraphicsConst.windowWidth);
             root.setPrefHeight(GraphicsConst.windowHeight);
-            root.setPadding(new Insets(0.013 * GraphicsConst.windowHeight, 0, 0, 0));
+            root.setPadding(new Insets(StageManager.calculateHeight(0.013), 0, 0, 0));
         }
         //set size komponen
         if (backButton != null) {
-            backButton.setFitWidth(GraphicsConst.windowWidth * 0.07);
-            backButton.setFitHeight(GraphicsConst.windowHeight * 0.05);
+            backButton.setFitWidth(StageManager.calculateWidth(0.07));
+            backButton.setFitHeight(StageManager.calculateHeight(0.05));
         }
     }
 

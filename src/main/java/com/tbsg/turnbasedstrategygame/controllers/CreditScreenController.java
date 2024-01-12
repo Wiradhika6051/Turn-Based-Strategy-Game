@@ -2,6 +2,7 @@ package com.tbsg.turnbasedstrategygame.controllers;
 
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
+import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -68,8 +69,6 @@ public class CreditScreenController implements Initializable {
     }
 
     void updateWidth(double width, double height) {
-        System.out.println(width);
-        System.out.println(height);
         //set const
         if (width != 0) {
             GraphicsConst.windowWidth = width;
@@ -82,15 +81,15 @@ public class CreditScreenController implements Initializable {
             root.setPrefWidth(GraphicsConst.windowWidth);
             root.setPrefHeight(GraphicsConst.windowHeight);
             //set padding root
-            root.setPadding(new Insets(0.013 * GraphicsConst.windowHeight, 0, 0, 0));
+            root.setPadding(new Insets(StageManager.calculateHeight(0.013), 0, 0, 0));
         }
         //set size komponen
         if (backButton != null) {
-            backButton.setFitWidth(GraphicsConst.windowWidth * 0.07);
-            backButton.setFitHeight(GraphicsConst.windowHeight * 0.05);
+            backButton.setFitWidth(StageManager.calculateWidth(0.07));
+            backButton.setFitHeight(StageManager.calculateHeight(0.05));
             //set padding
-            padding.setPrefWidth(GraphicsConst.windowWidth * 0.07);
-            padding.setPrefHeight(GraphicsConst.windowHeight * 0.05);
+            padding.setPrefWidth(StageManager.calculateWidth(0.07));
+            padding.setPrefHeight(StageManager.calculateHeight(0.05));
         }
     }
 

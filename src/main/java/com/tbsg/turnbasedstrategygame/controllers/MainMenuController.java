@@ -2,6 +2,7 @@ package com.tbsg.turnbasedstrategygame.controllers;
 
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
+import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -29,11 +30,11 @@ public class MainMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //set root margin
-        newGame.setPrefWidth(GraphicsConst.windowWidth * 0.5);
-        continueGame.setPrefWidth(GraphicsConst.windowWidth * 0.5);
-        setting.setPrefWidth(GraphicsConst.windowWidth * 0.5);
-        credits.setPrefWidth(GraphicsConst.windowWidth * 0.5);
-        quit.setPrefWidth(GraphicsConst.windowWidth * 0.5);
+        newGame.setPrefWidth(StageManager.calculateWidth(0.5));
+        continueGame.setPrefWidth(StageManager.calculateWidth(0.5));
+        setting.setPrefWidth(StageManager.calculateWidth(0.5));
+        credits.setPrefWidth(StageManager.calculateWidth(0.5));
+        quit.setPrefWidth(StageManager.calculateWidth(0.5));
         //play backsound
 
     }
