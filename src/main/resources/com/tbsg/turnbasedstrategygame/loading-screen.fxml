@@ -7,7 +7,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.stage.Screen?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+<VBox alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
       fx:id="root"
       fx:controller="com.tbsg.turnbasedstrategygame.controllers.LoadingScreenController">
     <ProgressBar fx:id="progressBar" progress="0.0"/>

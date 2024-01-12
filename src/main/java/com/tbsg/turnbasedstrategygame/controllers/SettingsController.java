@@ -8,14 +8,12 @@ import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.geometry.Insets;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -41,15 +39,15 @@ public class SettingsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //update size back button
-        root.boundsInParentProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                updateWidth(newValue.getWidth(), newValue.getHeight());
-                //set master volume slider initial value
-                masterVolumeSlider.setValue(BacksoundPlayer.getInstance().getVolume());
-                //set default resolution
-                resolutionDropdown.setText(ConfigManager.getInstance().get("graphics.screen.resolution"));
-            }
-        });
+//        root.boundsInParentProperty().addListener((observable, oldValue, newValue) -> {
+//            if (newValue != null) {
+        updateWidth(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
+        //set master volume slider initial value
+        masterVolumeSlider.setValue(BacksoundPlayer.getInstance().getVolume());
+        //set default resolution
+        resolutionDropdown.setText(ConfigManager.getInstance().get("graphics.screen.resolution"));
+//            }
+//        });
 
 //        masterVolumeSlider.boundsInParentProperty().addListener((observable, oldValue, newValue) -> {
 //            if (newValue != null) {
@@ -70,6 +68,7 @@ public class SettingsController implements Initializable {
         if (root != null) {
             root.setPrefWidth(GraphicsConst.windowWidth);
             root.setPrefHeight(GraphicsConst.windowHeight);
+            root.setPadding(new Insets(0.013 * GraphicsConst.windowHeight, 0, 0, 0));
         }
         //set size komponen
         if (backButton != null) {
@@ -97,5 +96,10 @@ public class SettingsController implements Initializable {
     protected void handleResolutionChange(ActionEvent event) {
         String selectedResolutions = ((MenuItem) event.getSource()).getText();
         resolutionDropdown.setText(selectedResolutions);
+        String[] resolutionConfig = selectedResolutions.split("x");
+        //update width and height
+//        StageManager.getInstance().setWidth(Integer.parseInt(resolutionConfig[0]));
+//        StageManager.getInstance().setHeight(Integer.parseInt(resolutionConfig[1]));
+        updateWidth(Integer.parseInt(resolutionConfig[0]), Integer.parseInt(resolutionConfig[1]));
     }
 }

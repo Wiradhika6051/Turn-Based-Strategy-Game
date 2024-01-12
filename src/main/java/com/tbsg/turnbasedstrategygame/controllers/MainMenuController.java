@@ -5,6 +5,7 @@ import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -22,8 +23,12 @@ public class MainMenuController implements Initializable {
     @FXML
     Button quit;
 
+    @FXML
+    VBox root;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //set root margin
         newGame.setPrefWidth(GraphicsConst.windowWidth * 0.5);
         continueGame.setPrefWidth(GraphicsConst.windowWidth * 0.5);
         setting.setPrefWidth(GraphicsConst.windowWidth * 0.5);

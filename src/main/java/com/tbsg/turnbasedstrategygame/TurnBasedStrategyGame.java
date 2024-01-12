@@ -4,11 +4,14 @@ import com.tbsg.turnbasedstrategygame.controllers.LoadingScreenController;
 import com.tbsg.turnbasedstrategygame.library.audio.BacksoundPlayer;
 import com.tbsg.turnbasedstrategygame.library.engine.ConfigManager;
 import com.tbsg.turnbasedstrategygame.library.engine.ProgressBarManager;
+import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
+import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -34,67 +37,93 @@ public class TurnBasedStrategyGame extends Application {
     @Override
     public void start(Stage stage) {
 //        sceneManager = new SceneManager();
+        //mulai
+        //init progress bar manager
+
         try {
+            loadConfig();
             initScene();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        initProgessBarManager();
         stage.setTitle("Turn Based Strategy Game");
+        stage.setFullScreen(true);
+        stage.setResizable(false);
+        //remove window button
+        stage.initStyle(StageStyle.UNDECORATED);
+//        stage.setMaximized(true);
+        //register stage
+        StageManager.setInstance(stage);
         //load config
 //        fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("loading-screen.fxml"));
 //        Scene scene2 = new Scene(fxmlLoader.load(),320,240);
         //set scene
 //        Scene scene = sceneManager.getScene("LOADING_SCREEN");
+
         Scene scene = SceneManager.getScene("LOADING_SCREEN");
-        System.out.println(scene);
+        resizeLoadingScreen();
         stage.setScene(scene);
-//        PauseTransition pause = new PauseTransition(Duration.seconds(2));
-//        pause.setOnFinished(event ->{
-//            System.out.println("halo");
-//            stage.setScene(scene2);
-//        });
-//
+
+
+////        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+////        pause.setOnFinished(event ->{
+////            System.out.println("halo");
+////            stage.setScene(scene2);
+////        });
+////
         stage.show();
-        //mulai
-        //init progress bar manager
-        initProgessBarManager();
         //mulai
         try {
             startProgressBarManager();
         } catch (IOException e) {
             e.printStackTrace();
+            return;
         }
         stage.setScene(SceneManager.getScene("MAIN_MENU"));
         //mulai main backsound
         BacksoundPlayer.getInstance().play(BACKSOUND_PATH);
-//        System.out.println("Hi");
-//        pause.play();
     }
 
     void initProgessBarManager() {
         pb_manager = new ProgressBarManager(controller);
-        pb_manager.addProgressTask("LOADING_FXML", 3);
-        pb_manager.addProgressTask("LOADING_CONFIG", 1);
+        pb_manager.addProgressTask("LOADING_FXML", 4);
+//        pb_manager.addProgressTask("LOADING_CONFIG", 2);
     }
 
     void startProgressBarManager() throws IOException {
-        //load config
-        ConfigManager.setInstance(filePath);
-        pb_manager.forwardProgress("LOADING_CONFIG");
         //load fxml
         for (String filename : fxml_files) {
             fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource(filename + ".fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), WIDTH, HEIGHT);
+            Scene scene = new Scene(fxmlLoader.load(), GraphicsConst.windowWidth, GraphicsConst.windowHeight);
             SceneManager.addScene(filename.toUpperCase().replace('-', '_'), scene);
             pb_manager.forwardProgress("LOADING_FXML");
         }
     }
 
+    void loadConfig() {
+        //load config
+        ConfigManager.setInstance(filePath);
+//        pb_manager.forwardProgress("LOADING_CONFIG");
+        //update screen size
+        String[] resolutions = ConfigManager.getInstance().get("graphics.screen.resolution").split("x");
+        GraphicsConst.windowWidth = Integer.parseInt(resolutions[0]);
+        GraphicsConst.windowHeight = Integer.parseInt(resolutions[1]);
+//        StageManager.getInstance().setWidth(Integer.parseInt(resolutions[0]));
+//        StageManager.getInstance().setHeight(Integer.parseInt(resolutions[1]));
+//        pb_manager.forwardProgress("LOADING_CONFIG");
+    }
+
     void initScene() throws IOException {
         fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("loading-screen.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), WIDTH, HEIGHT);
+//        Scene scene = new Scene(fxmlLoader.load(), WIDTH, HEIGHT);
+        Scene scene = new Scene(fxmlLoader.load(), GraphicsConst.windowWidth, GraphicsConst.windowHeight);
         controller = fxmlLoader.getController();
         SceneManager.addScene("LOADING_SCREEN", scene);
+    }
+
+    void resizeLoadingScreen() {
+        SceneManager.getScene("LOADING_SCREEN");
     }
 
     public static void main(String[] args) {

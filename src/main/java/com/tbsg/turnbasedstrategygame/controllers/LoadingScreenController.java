@@ -26,16 +26,19 @@ public class LoadingScreenController implements Initializable, IProgressBarHandl
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        root.boundsInParentProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                updateWidth(newValue.getWidth());
-            }
-        });
+//        root.boundsInParentProperty().addListener((observable, oldValue, newValue) -> {
+//            if (newValue != null) {
+//                updateWidth(newValue.getWidth());
+//            }
+//        });
+        updateWidth();
     }
 
-    public void updateWidth(double width) {
-        GraphicsConst.windowWidth = width;
+    public void updateWidth() {
+//        System.out.println("Width: " + width);
+//        GraphicsConst.windowWidth = width;
 //                windowWidth = newValue.getWidth();
+
         progressBarWidth = GraphicsConst.windowWidth * 0.8;
         progressBar.setPrefWidth(progressBarWidth);
     }

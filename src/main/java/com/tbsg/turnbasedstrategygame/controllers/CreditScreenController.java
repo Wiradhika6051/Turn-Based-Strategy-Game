@@ -4,6 +4,7 @@ import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -40,11 +41,12 @@ public class CreditScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //update size back button
-        root.boundsInParentProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                updateWidth(newValue.getWidth(), newValue.getHeight());
-            }
-        });
+//        root.boundsInParentProperty().addListener((observable, oldValue, newValue) -> {
+//            if (newValue != null) {
+//                updateWidth(newValue.getWidth(), newValue.getHeight());
+//            }
+//        });
+        updateWidth(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
 //        backButton.boundsInParentProperty().addListener((observable, oldValue, newValue) -> {
 //            if (newValue != null) {
 //                updateWidth(newValue.getWidth(), newValue.getHeight());
@@ -79,6 +81,8 @@ public class CreditScreenController implements Initializable {
         if (root != null) {
             root.setPrefWidth(GraphicsConst.windowWidth);
             root.setPrefHeight(GraphicsConst.windowHeight);
+            //set padding root
+            root.setPadding(new Insets(0.013 * GraphicsConst.windowHeight, 0, 0, 0));
         }
         //set size komponen
         if (backButton != null) {

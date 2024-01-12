@@ -8,9 +8,12 @@
 
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import java.net.URL?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:id="root"
       fx:controller="com.tbsg.turnbasedstrategygame.controllers.MainMenuController"
+      styleClass="main-menu-root"
 >
     <Label text="Turn Based Strategy Game" fx:id="label">
         <font>
@@ -22,4 +25,7 @@
     <Button fx:id="setting" text="Setting" onAction="#openSettings"/>
     <Button fx:id="credits" text="Credits" onAction="#seeCredit"/>
     <Button fx:id="quit" text="Quit" onAction="#exitGame"/>
+    <!--    <stylesheets>-->
+    <!--        <URL value="@stylesheet/main-menu.css"/>-->
+    <!--    </stylesheets>-->
 </VBox>

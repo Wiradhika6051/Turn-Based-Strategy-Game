@@ -9,10 +9,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import java.net.URL?>
 <VBox alignment="TOP_CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
       fx:id="root"
-      fx:controller="com.tbsg.turnbasedstrategygame.controllers.CreditScreenController"
->
+      fx:controller="com.tbsg.turnbasedstrategygame.controllers.CreditScreenController">
+    <!--      styleClass="credit-screen-root"-->
     <HBox alignment="TOP_LEFT">
         <Button HBox.hgrow="NEVER" onMouseClicked="#backToMenu" fx:id="buttonBack">
             <graphic>
@@ -41,4 +42,7 @@
         <VBox fx:id="list" alignment="TOP_CENTER"></VBox>
         <Region HBox.hgrow="ALWAYS"/>
     </HBox>
+    <!--    <stylesheets>-->
+    <!--        <URL value="@stylesheet/credit-screen.css"/>-->
+    <!--    </stylesheets>-->
 </VBox>
