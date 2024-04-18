@@ -17,21 +17,22 @@ public class StageManager {
         return StageManager.instance;
     }
 
-    public static double calculateWidth(double scale) {
+    public static double calculateWidth(double factor) {
         if (StageManager.instance == null) {
             return 0.0;
         }
         //only support single screen
 //        return scale * (GraphicsConst.screenWidth / GraphicsConst.windowWidth) * GraphicsConst.screenWidth;
-        return scale * (StageManager.getInstance().getWidth() / GraphicsConst.windowWidth) * StageManager.getInstance().getWidth();
+//        return scale * (StageManager.getInstance().getWidth() / GraphicsConst.windowWidth) * StageManager.getInstance().getWidth();
+        return factor * GraphicsConst.windowWidth;
 
     }
 
-    public static double calculateHeight(double scale) {
+    public static double calculateHeight(double factor) {
         if (StageManager.instance == null) {
             return 0.0;
         }
         //only support single screen
-        return scale * (StageManager.getInstance().getHeight() / GraphicsConst.windowHeight) * StageManager.getInstance().getHeight();
+        return factor * GraphicsConst.windowHeight;
     }
 }

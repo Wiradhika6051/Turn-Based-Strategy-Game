@@ -65,11 +65,16 @@ public class SettingsController implements Initializable {
         if (height != 0) {
             GraphicsConst.windowHeight = height;
         }
+        //change scene size
         //set size root
         if (root != null) {
             root.setPrefWidth(GraphicsConst.windowWidth);
             root.setPrefHeight(GraphicsConst.windowHeight);
             root.setPadding(new Insets(StageManager.calculateHeight(0.013), 0, 0, 0));
+            //set root font
+//            root.setStyle(String.format("-fx-font-size: %dpx;", (int) (10)));
+//            StageManager.getInstance().setWidth(GraphicsConst.windowWidth);
+//            StageManager.getInstance().setHeight(GraphicsConst.windowHeight);
         }
         //set size komponen
         if (backButton != null) {
@@ -99,8 +104,13 @@ public class SettingsController implements Initializable {
         resolutionDropdown.setText(selectedResolutions);
         String[] resolutionConfig = selectedResolutions.split("x");
         //update width and height
-//        StageManager.getInstance().setWidth(Integer.parseInt(resolutionConfig[0]));
-//        StageManager.getInstance().setHeight(Integer.parseInt(resolutionConfig[1]));
+        StageManager.getInstance().setWidth(Integer.parseInt(resolutionConfig[0]));
+        StageManager.getInstance().setHeight(Integer.parseInt(resolutionConfig[1]));
         updateWidth(Integer.parseInt(resolutionConfig[0]), Integer.parseInt(resolutionConfig[1]));
+    }
+
+    @FXML
+    protected void handleScalingChange(ActionEvent event) {
+
     }
 }

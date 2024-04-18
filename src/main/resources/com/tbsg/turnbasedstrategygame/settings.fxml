@@ -49,9 +49,22 @@
                         </items>
                     </MenuButton>
                 </HBox>
-                <HBox alignment="CENTER">
-                    <Label text="GUI Scaling"/>
-                </HBox>
+                <!--                <HBox alignment="CENTER">-->
+                <!--                    <Label text="GUI Scaling"/>-->
+                <!--                    <MenuButton fx:id="scalingDropdown" text="Resolution">-->
+                <!--                        <items>-->
+                <!--                            <MenuItem text="0.50" onAction="#handleScalingChange"/>-->
+                <!--                            <MenuItem text="0.75" onAction="#handleScalingChange"/>-->
+                <!--                            <MenuItem text="1.00" onAction="#handleScalingChange"/>-->
+                <!--                            <MenuItem text="1.25" onAction="#handleScalingChange"/>-->
+                <!--                            <MenuItem text="1.50" onAction="#handleScalingChange"/>-->
+                <!--                            <MenuItem text="1.75" onAction="#handleScalingChange"/>-->
+                <!--                            <MenuItem text="2.00" onAction="#handleScalingChange"/>-->
+                <!--                            <MenuItem text="2.25" onAction="#handleScalingChange"/>-->
+                <!--                            <MenuItem text="2.50" onAction="#handleScalingChange"/>-->
+                <!--                        </items>-->
+                <!--                    </MenuButton>-->
+                <!--                </HBox>-->
             </VBox>
         </Tab>
         <Tab text="Audio">
