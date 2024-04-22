@@ -26,7 +26,7 @@ public class TurnBasedStrategyGame extends Application {
     static String filePath = System.getProperty("user.dir") + "/src/main/resources/com/tbsg/turnbasedstrategygame/setting.conf";
 
     //file fxml yanh dimuat di loading screen
-    String[] fxml_files = {"main-menu", "credit-screen", "settings"};
+    String[] fxml_files = {"main-menu", "credit-screen", "settings", "new-game"};
 
     //    final String BACKSOUND_PATH = "@sound/forest-with-small-river-birds-and-nature-field-recording-6735.ogg";
     final String BACKSOUND_PATH = "forest-with-small-river-birds-and-nature-field-recording-6735.mp3";
@@ -83,7 +83,7 @@ public class TurnBasedStrategyGame extends Application {
 
     void initProgessBarManager() {
         pb_manager = new ProgressBarManager(controller);
-        pb_manager.addProgressTask("LOADING_FXML", 4);
+        pb_manager.addProgressTask("LOADING_FXML", fxml_files.length + 1);
 //        pb_manager.addProgressTask("LOADING_CONFIG", 2);
         pb_manager.addProgressTask("SETTING_SOUND", 1);
 

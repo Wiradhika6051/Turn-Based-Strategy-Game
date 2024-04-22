@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<VBox alignment="TOP_CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
+      fx:id="root"
+      fx:controller="com.tbsg.turnbasedstrategygame.controllers.NewGameController">
+    <!--      styleClass="credit-screen-root"-->
+    <!--    styleClass="credit-screen-root"-->
+    <HBox alignment="TOP_LEFT">
+        <Button HBox.hgrow="NEVER" onMouseClicked="#backToMenu" fx:id="buttonBack">
+            <graphic>
+                <ImageView fx:id="backButton" smooth="true">
+                    <image>
+                        <Image fx:id="image" url="@image/arrow.png"></Image>
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label text="New Game" fx:id="label" alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
+            <font>
+                <Font name="System Bold" size="30.0"/>
+            </font>
+        </Label>
+        <Region HBox.hgrow="ALWAYS"/>
+    </HBox>
+    <!--    <Pane HBox.hgrow="ALWAYS"/>-->
+    <Separator fx:id="separator"/>
+    <VBox alignment="TOP_CENTER">
+        <HBox alignment="TOP_CENTER">
+            <Label text="Civilization Name" fx:id="civLabel"/>
+            <TextField fx:id="civNameInput"/>
+        </HBox>
+        <Button fx:id="startButton" text="Start" onMouseClicked="#onStartButtonClicked"/>
+    </VBox>
+    <!--    <stylesheets>-->
+    <!--        <URL value="@stylesheet/credit-screen.css"/>-->
+    <!--    </stylesheets>-->
+</VBox>

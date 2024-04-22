@@ -58,4 +58,10 @@ public class MainMenuController implements Initializable {
         Stage stage = (Stage) setting.getScene().getWindow();
         stage.setScene(SceneManager.getScene("SETTINGS"));
     }
+
+    @FXML
+    protected void startNewGame() {
+        Stage stage = (Stage) setting.getScene().getWindow();
+        stage.setScene(SceneManager.getScene("NEW_GAME"));
+    }
 }
