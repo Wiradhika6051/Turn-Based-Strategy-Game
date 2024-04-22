@@ -85,6 +85,9 @@ public class SettingsController implements Initializable {
 
     @FXML
     protected void backToMenu() {
+        // Simpan konfigurasi
+        ConfigManager.getInstance().save();
+        // Pindah ke Main Menu
         Stage stage = (Stage) root.getScene().getWindow();
         stage.setScene(SceneManager.getScene("MAIN_MENU"));
     }
@@ -94,8 +97,11 @@ public class SettingsController implements Initializable {
         System.out.println(masterVolumeSlider.getValue());
         //change master volume
         AudioPlayer masterAudioPlayer = BacksoundPlayer.getInstance();
+        System.out.println(masterVolumeSlider.getValue());
         masterAudioPlayer.changeVolume(masterVolumeSlider.getValue());
+        System.out.println(masterAudioPlayer.getVolume());
         //simpan ke config
+        ConfigManager.getInstance().set("audio.music.master", Double.toString(masterAudioPlayer.getVolume()));
     }
 
     @FXML
@@ -107,6 +113,8 @@ public class SettingsController implements Initializable {
         StageManager.getInstance().setWidth(Integer.parseInt(resolutionConfig[0]));
         StageManager.getInstance().setHeight(Integer.parseInt(resolutionConfig[1]));
         updateWidth(Integer.parseInt(resolutionConfig[0]), Integer.parseInt(resolutionConfig[1]));
+        //simpan ke config
+        ConfigManager.getInstance().set("graphics.screen.resolution", selectedResolutions);
     }
 
     @FXML

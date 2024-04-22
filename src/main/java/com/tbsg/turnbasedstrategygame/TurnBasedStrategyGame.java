@@ -47,10 +47,10 @@ public class TurnBasedStrategyGame extends Application {
         }
         initProgessBarManager();
         stage.setTitle("Turn Based Strategy Game");
-        stage.setFullScreen(true);
+//        stage.setFullScreen(true);
         stage.setResizable(false);
         //remove window button
-        stage.initStyle(StageStyle.UNDECORATED);
+//        stage.initStyle(StageStyle.UNDECORATED);
         //register stage
         StageManager.setInstance(stage);
 
