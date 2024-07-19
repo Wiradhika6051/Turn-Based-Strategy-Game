@@ -1,6 +1,7 @@
 package com.tbsg.turnbasedstrategygame.controllers;
 
-import com.tbsg.turnbasedstrategygame.library.engine.ConfigManager;
+import com.tbsg.turnbasedstrategygame.library.engine.Civilization;
+import com.tbsg.turnbasedstrategygame.library.engine.TurnManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
@@ -10,7 +11,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -65,5 +65,8 @@ public class NewGameController implements Initializable {
         // Dapatkan nama civilization
         String civilization_name = civNameInput.getText();
         //TODO konekin ke map dan game engine
+        TurnManager turnManager = TurnManager.getInstance();
+        Civilization player = new Civilization(0, civilization_name);
+        turnManager.addCivilization(player);
     }
 }
