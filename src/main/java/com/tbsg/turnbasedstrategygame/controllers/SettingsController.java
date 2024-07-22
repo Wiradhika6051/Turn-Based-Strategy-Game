@@ -14,6 +14,8 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -23,6 +25,12 @@ import java.util.ResourceBundle;
 public class SettingsController implements Initializable {
     @FXML
     VBox list;
+
+    @FXML
+    HBox resolutionTab;
+
+    @FXML
+    HBox masterVolumeTab;
 
     @FXML
     ImageView backButton;
@@ -36,6 +44,11 @@ public class SettingsController implements Initializable {
     @FXML
     MenuButton resolutionDropdown;
 
+    @FXML
+    Region resolutionMargin;
+
+    @FXML
+    Region masterVolumeMargin;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -80,6 +93,20 @@ public class SettingsController implements Initializable {
         if (backButton != null) {
             backButton.setFitWidth(StageManager.calculateWidth(0.07));
             backButton.setFitHeight(StageManager.calculateHeight(0.05));
+        }
+
+        if (resolutionTab != null) {
+            resolutionTab.setPrefWidth(StageManager.calculateWidth(0.5));
+//            resolutionTab.setPrefHeight(StageManager.calculateHeight(1.0));
+        }
+        if (resolutionMargin != null) {
+            resolutionMargin.setPrefWidth(StageManager.calculateWidth(0.1));
+        }
+        if (masterVolumeTab != null) {
+            resolutionTab.setPrefWidth(StageManager.calculateWidth(0.5));
+        }
+        if (masterVolumeMargin != null) {
+            masterVolumeMargin.setPrefWidth(StageManager.calculateWidth(0.1));
         }
     }
 

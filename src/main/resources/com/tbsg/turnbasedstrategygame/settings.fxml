@@ -16,7 +16,7 @@
             <graphic>
                 <ImageView fx:id="backButton" smooth="true">
                     <image>
-                        <Image fx:id="image" url="@image/arrow.png"></Image>
+                        <Image url="@image/arrow.png"></Image>
                     </image>
                 </ImageView>
             </graphic>
@@ -38,8 +38,9 @@
                         <Font name="System Bold" size="20.0"/>
                     </font>
                 </Label>
-                <HBox alignment="CENTER">
+                <HBox alignment="CENTER" fx:id="resolutionTab">
                     <Label text="Resolution"/>
+                    <Region fx:id="resolutionMargin"/>
                     <MenuButton fx:id="resolutionDropdown" text="Resolution">
                         <items>
                             <MenuItem text="1920x1080" onAction="#handleResolutionChange"/>
@@ -74,8 +75,9 @@
                         <Font name="System Bold" size="20.0"/>
                     </font>
                 </Label>
-                <HBox alignment="CENTER">
+                <HBox alignment="CENTER" fx:id="masterVolumeTab">
                     <Label text="Master Volume"/>
+                    <Region fx:id="masterVolumeMargin"/>
                     <Slider fx:id="masterVolumeSlider" min="0.0" max="1.0" showTickMarks="true" showTickLabels="true"
                             majorTickUnit="0.25" onMouseDragged="#changeMasterVolume"/>
                 </HBox>
