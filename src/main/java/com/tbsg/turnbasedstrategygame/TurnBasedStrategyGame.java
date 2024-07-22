@@ -26,9 +26,7 @@ public class TurnBasedStrategyGame extends Application {
     static String filePath = System.getProperty("user.dir") + "/src/main/resources/com/tbsg/turnbasedstrategygame/setting.conf";
 
     //file fxml yanh dimuat di loading screen
-    String[] fxml_files = {"main-menu", "credit-screen", "settings", "new-game"};
-
-    //    final String BACKSOUND_PATH = "@sound/forest-with-small-river-birds-and-nature-field-recording-6735.ogg";
+    String[] fxml_files = {"main-menu", "credit-screen", "settings", "new-game", "game"};
     final String BACKSOUND_PATH = "forest-with-small-river-birds-and-nature-field-recording-6735.mp3";
 
     int WIDTH = 640;

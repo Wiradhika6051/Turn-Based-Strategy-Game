@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -26,6 +27,8 @@ public class NewGameController implements Initializable {
     TextField civNameInput;
     @FXML
     Button startButton;
+    @FXML
+    Label civNamewarning;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -64,9 +67,17 @@ public class NewGameController implements Initializable {
     protected void onStartButtonClicked() {
         // Dapatkan nama civilization
         String civilization_name = civNameInput.getText();
-        //TODO konekin ke map dan game engine
-        TurnManager turnManager = TurnManager.getInstance();
-        Civilization player = new Civilization(0, civilization_name);
-        turnManager.addCivilization(player);
+        if (civilization_name.isBlank()) {
+            civNamewarning.setText("Civilization Name Cannot Be Blank!");
+        } else if (!civNamewarning.getText().isEmpty()) {
+            civNamewarning.setText("");
+            //TODO konekin ke map dan game engine
+            TurnManager turnManager = TurnManager.getInstance();
+            Civilization player = new Civilization(0, civilization_name);
+            turnManager.addCivilization(player);
+            // Start Game
+            Stage stage = (Stage) root.getScene().getWindow();
+            stage.setScene(SceneManager.getScene("GAME"));
+        }
     }
 }

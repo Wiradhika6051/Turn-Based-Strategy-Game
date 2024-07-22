@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.canvas.Canvas?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.tbsg.turnbasedstrategygame.controllers.GameController" fx:id="root">
+    <!--    <top>-->
+    <!--        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">-->
+    <!--            <items>-->
+    <!--                <Button mnemonicParsing="false" onAction="#drawCanvas" text="draw"/>-->
+    <!--            </items>-->
+    <!--        </ToolBar>-->
+    <!--    </top>-->
+    <!--    <bottom>-->
+    <!--        <AnchorPane BorderPane.alignment="CENTER">-->
+    <!--            <children>-->
+    <!--                <Label fx:id="co" layoutX="14.0" layoutY="9.0" text="co"/>-->
+    <!--                <Label fx:id="rgb" layoutX="144.0" layoutY="13.0" text="RGB"/>-->
+    <!--                <Label fx:id="zoom" layoutX="245.0" layoutY="9.0" text="zoom"/>-->
+    <!--            </children>-->
+    <!--        </AnchorPane>-->
+    <!--    </bottom>-->
+    <center>
+        <ScrollPane fx:id="img_pane" BorderPane.alignment="CENTER">
+            <content>
+                <Canvas fx:id="game"/>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

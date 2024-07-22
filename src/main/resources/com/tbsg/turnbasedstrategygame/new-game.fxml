@@ -36,6 +36,7 @@
             <Label text="Civilization Name" fx:id="civLabel"/>
             <TextField fx:id="civNameInput"/>
         </HBox>
+        <Label fx:id="civNamewarning"/>
         <Button fx:id="startButton" text="Start" onMouseClicked="#onStartButtonClicked"/>
     </VBox>
     <!--    <stylesheets>-->
