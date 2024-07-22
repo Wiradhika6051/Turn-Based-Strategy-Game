@@ -34,6 +34,7 @@
     <VBox alignment="TOP_CENTER">
         <HBox alignment="TOP_CENTER">
             <Label text="Civilization Name" fx:id="civLabel"/>
+            <Region fx:id="civNameMargin"/>
             <TextField fx:id="civNameInput"/>
         </HBox>
         <Label fx:id="civNamewarning"/>

@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -29,6 +30,9 @@ public class NewGameController implements Initializable {
     Button startButton;
     @FXML
     Label civNamewarning;
+
+    @FXML
+    Region civNameMargin;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -54,6 +58,9 @@ public class NewGameController implements Initializable {
         if (backButton != null) {
             backButton.setFitWidth(StageManager.calculateWidth(0.07));
             backButton.setFitHeight(StageManager.calculateHeight(0.05));
+        }
+        if (civNameMargin != null) {
+            civNameMargin.setPrefWidth(StageManager.calculateWidth(0.1));
         }
     }
 
