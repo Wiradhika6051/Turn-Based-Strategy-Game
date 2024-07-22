@@ -55,10 +55,41 @@ public class GameController implements Initializable {
 //            gc.fillRect(100 * i, 100 * j, 100, 100);
 //            i++;
 //        }
-        for (Tile tile : map.getTiles()) {
-            gc.setFill(colors[tile.getTerrainId()]);
-            gc.fillRect(tile.getX() * 100, tile.getY() * 100, 100, 100);
+        // Cari titik tengah
+        int startX = 0;
+        int startY = 0;
+        Random random = new Random();
+        while (map.findTile(startX, startY).getTerrainId() != 0) {
+            startX = Math.abs(random.nextInt()) % map.getX_longitude();
+            startY = Math.abs(random.nextInt()) % map.getY_lattitude();
         }
+//        startX = map.getX_longitude() - 1;
+//        startY = map.getY_lattitude() - 1;
+        System.out.println(startX);
+        System.out.println(startY);
+
+        final int MAP_SIZE = 4;
+//        System.out.println(startX - MAP_SIZE);
+//        System.out.println(startY - MAP_SIZE);
+        for (int j = startY - MAP_SIZE; j < startY + MAP_SIZE + 1; j++) {
+            for (int i = startX - MAP_SIZE; i < startX + MAP_SIZE + 1; i++) {
+//                System.out.println(i + " " + j);
+//                System.out.println(i - central_x - 3 + " " + (j - central_y - 3));
+                if (i >= 0 && i < map.getX_longitude() && j >= 0 && j < map.getY_lattitude()) {
+                    Tile tile = map.findTile(i, j);
+                    gc.setFill(colors[tile.getTerrainId()]);
+                    int baseX = Math.max(startX - MAP_SIZE, 0);
+                    int baseY = Math.max(startY - MAP_SIZE, 0);
+                    int canvasX = Math.min(i - baseX, map.getX_longitude());
+                    int canvasY = Math.min(j - baseY, map.getY_lattitude());
+                    gc.fillRect(canvasX * 100, canvasY * 100, 100, 100);
+                }
+            }
+        }
+//        for (Tile tile : map.getTiles()) {
+//            gc.setFill(colors[tile.getTerrainId()]);
+//            gc.fillRect(tile.getX() * 100, tile.getY() * 100, 100, 100);
+//        }
     }
 
     public void generateMap() {
