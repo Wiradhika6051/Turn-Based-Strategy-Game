@@ -1,6 +1,10 @@
 package com.tbsg.turnbasedstrategygame.library.graphics;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,4 +33,21 @@ public class SceneManager {
         return SceneManager.sceneMap.get(name);
     }
 
+    public static void addSceneChangeListener(Stage stage, Scene targetScene, Runnable callback) {
+        stage.sceneProperty().addListener(new ChangeListener<Scene>() {
+            @Override
+            public void changed(ObservableValue<? extends Scene> observable, Scene oldScene, Scene newScene) {
+                if (newScene == targetScene) {
+                    callback.run();
+                }
+            }
+        });
+    }
+
+    public static Scene getSceneFromNode(Node node) {
+        if (node == null) {
+            return null;
+        }
+        return node.getScene();
+    }
 }

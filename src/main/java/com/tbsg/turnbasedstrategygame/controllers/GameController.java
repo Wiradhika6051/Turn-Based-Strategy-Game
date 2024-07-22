@@ -2,11 +2,13 @@ package com.tbsg.turnbasedstrategygame.controllers;
 
 import com.tbsg.turnbasedstrategygame.library.audio.AudioConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
+import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
@@ -51,9 +53,7 @@ public class GameController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        gc = game.getGraphicsContext2D();
+    public void generateMap() {
         try {
             URI mapPath = getClass().getResource(GraphicsConst.MAP_FOLDER + "default.txt").toURI();
             File f = new File(mapPath);
@@ -67,6 +67,23 @@ public class GameController implements Initializable {
         } catch (FileNotFoundException e) {
             System.out.println(e);
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        game.sceneProperty().addListener((observable, oldScene, newScene) -> {
+            if (newScene != null) {
+                //add onChange listener
+                Stage stage = StageManager.getStageFromWindow(game);
+                if (stage != null) {
+//                    SceneManager.addSceneChangeListener(stage, newScene, this::generateMap);
+//                    System.out.println(game + " " + stage + " " + newScene);
+                    gc = game.getGraphicsContext2D();
+                    generateMap();
+                    drawCanvas(new ActionEvent());
+                }
+            }
+        });
         //set const
         double width = GraphicsConst.windowWidth;
         double height = GraphicsConst.windowHeight;
@@ -87,7 +104,7 @@ public class GameController implements Initializable {
             game.setWidth(StageManager.calculateWidth(1.0));
             game.setHeight(StageManager.calculateHeight(1.0));
         }
-        drawCanvas(new ActionEvent());
+
         //set size komponen
 //        if (backButton != null) {
 //            backButton.setFitWidth(StageManager.calculateWidth(0.07));

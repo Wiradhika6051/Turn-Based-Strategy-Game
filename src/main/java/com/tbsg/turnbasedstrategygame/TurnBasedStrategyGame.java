@@ -1,5 +1,6 @@
 package com.tbsg.turnbasedstrategygame;
 
+import com.tbsg.turnbasedstrategygame.controllers.GameController;
 import com.tbsg.turnbasedstrategygame.controllers.LoadingScreenController;
 import com.tbsg.turnbasedstrategygame.library.audio.BacksoundPlayer;
 import com.tbsg.turnbasedstrategygame.library.engine.ConfigManager;
@@ -94,6 +95,11 @@ public class TurnBasedStrategyGame extends Application {
             Scene scene = new Scene(fxmlLoader.load(), GraphicsConst.windowWidth, GraphicsConst.windowHeight);
             SceneManager.addScene(filename.toUpperCase().replace('-', '_'), scene);
             pb_manager.forwardProgress("LOADING_FXML");
+            // add changeListener
+//            if (filename == "game") {
+//                GameController gameController = fxmlLoader.getController();
+//                SceneManager.addSceneChangeListener(stage, scene, gameController::generateMap);
+//            }
         }
     }
 

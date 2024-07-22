@@ -78,8 +78,10 @@ public class NewGameController implements Initializable {
         if (civilization_name.isBlank()) {
             civNamewarning.setText("Civilization Name Cannot Be Blank!");
             civNamewarning.setTextFill(Color.RED);
-        } else if (!civNamewarning.getText().isEmpty()) {
-            civNamewarning.setText("");
+        } else {
+            if (!civNamewarning.getText().isEmpty()) {
+                civNamewarning.setText("");
+            }
             //TODO konekin ke map dan game engine
             TurnManager turnManager = TurnManager.getInstance();
             Civilization player = new Civilization(0, civilization_name);

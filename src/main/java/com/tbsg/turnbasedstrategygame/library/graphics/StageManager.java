@@ -1,7 +1,10 @@
 package com.tbsg.turnbasedstrategygame.library.graphics;
 
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class StageManager {
     private static Stage instance;
@@ -34,5 +37,20 @@ public class StageManager {
         }
         //only support single screen
         return factor * GraphicsConst.windowHeight;
+    }
+
+    public static Stage getStageFromWindow(Node node) {
+        if (node == null) {
+            return null;
+        }
+        Scene scene = SceneManager.getSceneFromNode(node);
+        if (scene == null) {
+            return null;
+        }
+        Window window = scene.getWindow();
+        if (window instanceof Stage) {
+            return (Stage) window;
+        }
+        return null;
     }
 }
