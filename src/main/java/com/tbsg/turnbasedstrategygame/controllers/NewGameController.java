@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -76,6 +77,7 @@ public class NewGameController implements Initializable {
         String civilization_name = civNameInput.getText();
         if (civilization_name.isBlank()) {
             civNamewarning.setText("Civilization Name Cannot Be Blank!");
+            civNamewarning.setTextFill(Color.RED);
         } else if (!civNamewarning.getText().isEmpty()) {
             civNamewarning.setText("");
             //TODO konekin ke map dan game engine

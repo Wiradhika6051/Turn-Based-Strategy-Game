@@ -1,7 +1,7 @@
 package com.tbsg.turnbasedstrategygame.controllers;
 
+import com.tbsg.turnbasedstrategygame.library.audio.AudioConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
-import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,9 +13,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class GameController implements Initializable {
 
@@ -49,6 +54,19 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         gc = game.getGraphicsContext2D();
+        try {
+            URI mapPath = getClass().getResource(GraphicsConst.MAP_FOLDER + "default.txt").toURI();
+            File f = new File(mapPath);
+            Scanner scanner = new Scanner(f);
+            while (scanner.hasNextLine()) {
+                System.out.println(scanner.nextLine());
+            }
+
+        } catch (URISyntaxException e) {
+            System.out.println(e);
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+        }
         //set const
         double width = GraphicsConst.windowWidth;
         double height = GraphicsConst.windowHeight;
