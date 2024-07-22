@@ -12,11 +12,11 @@
       stylesheets="@stylesheet/settings.css"
 >
     <HBox alignment="TOP_CENTER">
-        <Button HBox.hgrow="NEVER" onMouseClicked="#backToMenu" fx:id="buttonBack">
+        <Button HBox.hgrow="NEVER" onMouseClicked="#backToMenu">
             <graphic>
                 <ImageView fx:id="backButton" smooth="true">
                     <image>
-                        <Image url="@image/arrow.png"></Image>
+                        <Image url="@image/arrow.png"/>
                     </image>
                 </ImageView>
             </graphic>
