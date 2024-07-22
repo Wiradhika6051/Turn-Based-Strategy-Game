@@ -1,6 +1,5 @@
 package com.tbsg.turnbasedstrategygame.controllers;
 
-import com.tbsg.turnbasedstrategygame.library.audio.AudioConst;
 import com.tbsg.turnbasedstrategygame.library.engine.GameManager;
 import com.tbsg.turnbasedstrategygame.library.engine.MapObject;
 import com.tbsg.turnbasedstrategygame.library.engine.Tile;
@@ -72,6 +71,9 @@ public class GameController implements Initializable {
             map = GameManager.getInstance().getMap();
             while (scanner.hasNextLine()) {
                 String row = scanner.nextLine();
+                if (row.length() == 0) {
+                    continue;
+                }
                 for (String tileId : row.split("")) {
                     Tile tile = new Tile(i, j, Integer.parseInt(tileId));
                     map.addTile(tile);
