@@ -1,3 +1,2 @@
 - testing Scene AManger, StageManager, Tile, MapObject,City,Civilization,TurnManager,Unit, GAmeManager
 - move civ to GameManager
-- handle whitespace only line in map
