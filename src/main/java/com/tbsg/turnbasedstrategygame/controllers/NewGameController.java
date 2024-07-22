@@ -1,6 +1,7 @@
 package com.tbsg.turnbasedstrategygame.controllers;
 
 import com.tbsg.turnbasedstrategygame.library.engine.Civilization;
+import com.tbsg.turnbasedstrategygame.library.engine.GameManager;
 import com.tbsg.turnbasedstrategygame.library.engine.TurnManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
@@ -83,7 +84,7 @@ public class NewGameController implements Initializable {
                 civNamewarning.setText("");
             }
             //TODO konekin ke map dan game engine
-            TurnManager turnManager = TurnManager.getInstance();
+            TurnManager turnManager = GameManager.getInstance().getTurnManager();
             Civilization player = new Civilization(0, civilization_name);
             turnManager.addCivilization(player);
             // Start Game

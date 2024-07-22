@@ -1,10 +1,8 @@
 package com.tbsg.turnbasedstrategygame;
 
-import com.tbsg.turnbasedstrategygame.controllers.GameController;
 import com.tbsg.turnbasedstrategygame.controllers.LoadingScreenController;
 import com.tbsg.turnbasedstrategygame.library.audio.BacksoundPlayer;
-import com.tbsg.turnbasedstrategygame.library.engine.ConfigManager;
-import com.tbsg.turnbasedstrategygame.library.engine.ProgressBarManager;
+import com.tbsg.turnbasedstrategygame.library.engine.*;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
@@ -70,6 +68,9 @@ public class TurnBasedStrategyGame extends Application {
         // set volume
         BacksoundPlayer.getInstance().changeVolume(Double.parseDouble(ConfigManager.getInstance().get("audio.music.master")));
         pb_manager.forwardProgress("SETTING_SOUND");
+        //init game
+        GameManager.initGameManager(TurnManager.getInstance(), new MapObject());
+        pb_manager.forwardProgress("INIT_GAME");
         //mulai
         try {
             startProgressBarManager();
@@ -85,6 +86,7 @@ public class TurnBasedStrategyGame extends Application {
         pb_manager.addProgressTask("LOADING_FXML", fxml_files.length + 1);
 //        pb_manager.addProgressTask("LOADING_CONFIG", 2);
         pb_manager.addProgressTask("SETTING_SOUND", 1);
+        pb_manager.addProgressTask("INIT_GAME", 1);
 
     }
 

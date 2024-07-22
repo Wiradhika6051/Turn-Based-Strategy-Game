@@ -1,6 +1,9 @@
 package com.tbsg.turnbasedstrategygame.controllers;
 
 import com.tbsg.turnbasedstrategygame.library.audio.AudioConst;
+import com.tbsg.turnbasedstrategygame.library.engine.GameManager;
+import com.tbsg.turnbasedstrategygame.library.engine.MapObject;
+import com.tbsg.turnbasedstrategygame.library.engine.Tile;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
@@ -58,10 +61,20 @@ public class GameController implements Initializable {
             URI mapPath = getClass().getResource(GraphicsConst.MAP_FOLDER + "default.txt").toURI();
             File f = new File(mapPath);
             Scanner scanner = new Scanner(f);
+            int i = 0;
+            int j = 0;
+            MapObject map = GameManager.getInstance().getMap();
             while (scanner.hasNextLine()) {
-                System.out.println(scanner.nextLine());
+                String row = scanner.nextLine();
+                for (String tileId : row.split("")) {
+                    Tile tile = new Tile(i, j, Integer.parseInt(tileId));
+                    map.addTile(tile);
+                    i++;
+                }
+                i = 0;
+                j++;
             }
-
+            System.out.println(map);
         } catch (URISyntaxException e) {
             System.out.println(e);
         } catch (FileNotFoundException e) {
@@ -76,8 +89,6 @@ public class GameController implements Initializable {
                 //add onChange listener
                 Stage stage = StageManager.getStageFromWindow(game);
                 if (stage != null) {
-//                    SceneManager.addSceneChangeListener(stage, newScene, this::generateMap);
-//                    System.out.println(game + " " + stage + " " + newScene);
                     gc = game.getGraphicsContext2D();
                     generateMap();
                     drawCanvas(new ActionEvent());
@@ -104,17 +115,6 @@ public class GameController implements Initializable {
             game.setWidth(StageManager.calculateWidth(1.0));
             game.setHeight(StageManager.calculateHeight(1.0));
         }
-
-        //set size komponen
-//        if (backButton != null) {
-//            backButton.setFitWidth(StageManager.calculateWidth(0.07));
-//            backButton.setFitHeight(StageManager.calculateHeight(0.05));
-//        }
-//        System.out.println(game.getWidth() + " " + game.getHeight());
-//        gc.setFill(Color.BLACK);
-//        System.out.println("color set to black");
-//        gc.fillRect(50, 50, 100, 100);
-//        System.out.println("draw rectangle");
     }
 
 }
