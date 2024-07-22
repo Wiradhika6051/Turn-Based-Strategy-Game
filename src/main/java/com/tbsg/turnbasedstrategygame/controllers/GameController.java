@@ -63,8 +63,6 @@ public class GameController implements Initializable {
             startX = Math.abs(random.nextInt()) % map.getX_longitude();
             startY = Math.abs(random.nextInt()) % map.getY_lattitude();
         }
-//        startX = map.getX_longitude() - 1;
-//        startY = map.getY_lattitude() - 1;
         System.out.println(startX);
         System.out.println(startY);
 

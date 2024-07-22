@@ -20,15 +20,24 @@ public class MapObject {
     }
 
     public Tile findTile(int x, int y) {
-        for (Tile tile : tiles) {
-//            System.out.println("START");
-//            System.out.println(tile);
-//            System.out.println(x + " " + y);
-            if (tile.x == x && tile.y == y) {
-                return tile;
-            }
+        if (!isCoordinateValid(x, y)) {
+            return null;
         }
-        return null;
+//        for (Tile tile : tiles) {
+////            System.out.println("START");
+////            System.out.println(tile);
+////            System.out.println(x + " " + y);
+//            if (tile.x == x && tile.y == y) {
+//                return tile;
+//            }
+//        }
+//        return null;
+        int idx = y * x_longitude + x;
+        return tiles.get(idx);
+    }
+
+    public boolean isCoordinateValid(int x, int y) {
+        return x >= 0 && y >= 0 && x < x_longitude && y < y_lattitude;
     }
 
     @Override

@@ -40,7 +40,7 @@
     <HBox>
         <Region fx:id="padding"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <VBox fx:id="list" alignment="TOP_CENTER"></VBox>
+        <VBox fx:id="list" alignment="TOP_CENTER"/>
         <Region HBox.hgrow="ALWAYS"/>
     </HBox>
     <!--    <stylesheets>-->
