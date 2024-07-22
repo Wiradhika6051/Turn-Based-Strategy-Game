@@ -20,7 +20,7 @@
             <graphic>
                 <ImageView fx:id="backButton" smooth="true">
                     <image>
-                        <Image fx:id="image" url="@image/arrow.png"></Image>
+                        <Image fx:id="image" url="@image/arrow.png"/>
                     </image>
                 </ImageView>
             </graphic>

@@ -40,7 +40,6 @@ public class GameController implements Initializable {
 
     Color[] colors = {Color.GREEN, Color.BLUE};
 
-    @FXML
     private void drawCanvas() {
 //        Random rand = new Random();
 //        int i = 0;
@@ -63,25 +62,38 @@ public class GameController implements Initializable {
             startX = Math.abs(random.nextInt()) % map.getX_longitude();
             startY = Math.abs(random.nextInt()) % map.getY_lattitude();
         }
-        System.out.println(startX);
-        System.out.println(startY);
+//        startX = 14;
+//        startY = 14;
+//        System.out.println(startX);
+//        System.out.println(startY);
+//        System.out.println(GraphicsConst.windowWidth);
+//        System.out.println(GraphicsConst.windowHeight);
 
-        final int MAP_SIZE = 4;
-//        System.out.println(startX - MAP_SIZE);
-//        System.out.println(startY - MAP_SIZE);
-        for (int j = startY - MAP_SIZE; j < startY + MAP_SIZE + 1; j++) {
-            for (int i = startX - MAP_SIZE; i < startX + MAP_SIZE + 1; i++) {
+//        final int MAP_SIZE = 4;
+        final int TILE_SIZE = 100;
+        final int MAP_WIDTH = (int) Math.ceil(((GraphicsConst.windowWidth / TILE_SIZE) - 1) / 2);
+        final int MAP_HEIGHT = (int) Math.ceil(((GraphicsConst.windowHeight / TILE_SIZE) - 1) / 2);
+//        System.out.println(MAP_WIDTH + " " + MAP_HEIGHT);
+        final int RIGHT_IDX = Math.max(startX - MAP_WIDTH, 0) + 2 * MAP_WIDTH + 1;//batas astas kudu + 1
+        final int BOTTOM_IDX = Math.max(startY - MAP_HEIGHT, 0) + 2 * MAP_HEIGHT + 1;
+//        System.out.println(RIGHT_IDX + " " + BOTTOM_IDX);
+        for (int j = startY - MAP_HEIGHT; j < BOTTOM_IDX; j++) {
+            for (int i = startX - MAP_WIDTH; i < RIGHT_IDX; i++) {
 //                System.out.println(i + " " + j);
 //                System.out.println(i - central_x - 3 + " " + (j - central_y - 3));
-                if (i >= 0 && i < map.getX_longitude() && j >= 0 && j < map.getY_lattitude()) {
+                int baseX = Math.max(startX - MAP_WIDTH, 0);
+                int baseY = Math.max(startY - MAP_HEIGHT, 0);
+                int canvasX = Math.min(i - baseX, map.getX_longitude());
+                int canvasY = Math.min(j - baseY, map.getY_lattitude());
+                if (i == startX && j == startY) {
+                    gc.setFill(Color.RED);
+                } else if (i >= 0 && i < map.getX_longitude() && j >= 0 && j < map.getY_lattitude()) {
                     Tile tile = map.findTile(i, j);
                     gc.setFill(colors[tile.getTerrainId()]);
-                    int baseX = Math.max(startX - MAP_SIZE, 0);
-                    int baseY = Math.max(startY - MAP_SIZE, 0);
-                    int canvasX = Math.min(i - baseX, map.getX_longitude());
-                    int canvasY = Math.min(j - baseY, map.getY_lattitude());
-                    gc.fillRect(canvasX * 100, canvasY * 100, 100, 100);
+                } else {
+                    gc.setFill(Color.GREY);
                 }
+                gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
             }
         }
 //        for (Tile tile : map.getTiles()) {
