@@ -6,8 +6,13 @@ import java.util.List;
 public class MapObject {
     List<Tile> tiles;
 
+    int x_longitude;//x size
+    int y_lattitude;//y size
+
     public MapObject() {
         this.tiles = new ArrayList<>();
+        x_longitude = -1;
+        y_lattitude = -1;
     }
 
     public void addTile(Tile tile) {
@@ -36,5 +41,21 @@ public class MapObject {
 
     public List<Tile> getTiles() {
         return tiles;
+    }
+
+    public int getX_longitude() {
+        return x_longitude;
+    }
+
+    public void setX_longitude(int x_longitude) {
+        this.x_longitude = x_longitude;
+    }
+
+    public int getY_lattitude() {
+        return y_lattitude;
+    }
+
+    public void setY_lattitude(int y_lattitude) {
+        this.y_lattitude = y_lattitude;
     }
 }

@@ -68,19 +68,30 @@ public class GameController implements Initializable {
             Scanner scanner = new Scanner(f);
             int i = 0;
             int j = 0;
-            map = GameManager.getInstance().getMap();
+            int width = -1;
+            int height = -1;
             while (scanner.hasNextLine()) {
                 String row = scanner.nextLine();
                 if (row.length() == 0) {
                     continue;
                 }
-                for (String tileId : row.split("")) {
-                    Tile tile = new Tile(i, j, Integer.parseInt(tileId));
-                    map.addTile(tile);
-                    i++;
+                if (width < 0 && height < 0) {
+                    // baca ukuran
+                    String[] size = row.split(" ");
+                    width = Integer.parseInt(size[0]);
+                    height = Integer.parseInt(size[1]);
+                    map = GameManager.getInstance().getMap();
+                    map.setX_longitude(width);
+                    map.setY_lattitude(height);
+                } else {
+                    for (String tileId : row.split("")) {
+                        Tile tile = new Tile(i, j, Integer.parseInt(tileId));
+                        map.addTile(tile);
+                        i++;
+                    }
+                    i = 0;
+                    j++;
                 }
-                i = 0;
-                j++;
             }
             System.out.println(map);
         } catch (URISyntaxException e) {
