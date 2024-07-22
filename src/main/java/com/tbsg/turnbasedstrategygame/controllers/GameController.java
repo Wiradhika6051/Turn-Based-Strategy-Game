@@ -37,22 +37,28 @@ public class GameController implements Initializable {
     @FXML
     BorderPane root;
 
-    Color[] colors = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.VIOLET, Color.PURPLE};
+    MapObject map;
+
+    Color[] colors = {Color.GREEN, Color.BLUE};
 
     @FXML
-    private void drawCanvas(ActionEvent event) {
-        Random rand = new Random();
-        int i = 0;
-        int j = 0;
-        while (j * 100 <= game.getHeight()) {
-//            System.out.println(game.getWidth());
-            if (i * 100 > game.getWidth()) {
-                i = 0;
-                j++;
-            }
-            gc.setFill(colors[rand.nextInt(colors.length)]);
-            gc.fillRect(100 * i, 100 * j, 100, 100);
-            i++;
+    private void drawCanvas() {
+//        Random rand = new Random();
+//        int i = 0;
+//        int j = 0;
+//        while (j * 100 <= game.getHeight()) {
+////            System.out.println(game.getWidth());
+//            if (i * 100 > game.getWidth()) {
+//                i = 0;
+//                j++;
+//            }
+//            gc.setFill(colors[rand.nextInt(colors.length)]);
+//            gc.fillRect(100 * i, 100 * j, 100, 100);
+//            i++;
+//        }
+        for (Tile tile : map.getTiles()) {
+            gc.setFill(colors[tile.getTerrainId()]);
+            gc.fillRect(tile.getX() * 100, tile.getY() * 100, 100, 100);
         }
     }
 
@@ -63,7 +69,7 @@ public class GameController implements Initializable {
             Scanner scanner = new Scanner(f);
             int i = 0;
             int j = 0;
-            MapObject map = GameManager.getInstance().getMap();
+            map = GameManager.getInstance().getMap();
             while (scanner.hasNextLine()) {
                 String row = scanner.nextLine();
                 for (String tileId : row.split("")) {
@@ -91,7 +97,7 @@ public class GameController implements Initializable {
                 if (stage != null) {
                     gc = game.getGraphicsContext2D();
                     generateMap();
-                    drawCanvas(new ActionEvent());
+                    drawCanvas();
                 }
             }
         });

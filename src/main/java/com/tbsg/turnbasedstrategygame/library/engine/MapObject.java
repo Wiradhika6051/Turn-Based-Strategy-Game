@@ -33,4 +33,8 @@ public class MapObject {
         buffer.append("]");
         return buffer.toString();
     }
+
+    public List<Tile> getTiles() {
+        return tiles;
+    }
 }

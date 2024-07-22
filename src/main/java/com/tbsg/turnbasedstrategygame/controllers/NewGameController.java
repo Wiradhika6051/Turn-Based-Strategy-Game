@@ -84,7 +84,14 @@ public class NewGameController implements Initializable {
                 civNamewarning.setText("");
             }
             //TODO konekin ke map dan game engine
-            TurnManager turnManager = GameManager.getInstance().getTurnManager();
+            TurnManager turnManager;
+            try {
+                turnManager = GameManager.getInstance().getTurnManager();
+            } catch (NullPointerException npe) {
+                civNamewarning.setText("Game is Still Initializing!");
+                civNamewarning.setTextFill(Color.RED);
+                return;
+            }
             Civilization player = new Civilization(0, civilization_name);
             turnManager.addCivilization(player);
             // Start Game
