@@ -13,7 +13,7 @@ public class ProgressBarManager {
     IProgressBarHandler handler;
 
     public ProgressBarManager(IProgressBarHandler handler) {
-        progress = new HashMap();
+        progress = new HashMap<String, Integer>();
         totalProgress = 0;
         currentProgress = 0;
         this.handler = handler;

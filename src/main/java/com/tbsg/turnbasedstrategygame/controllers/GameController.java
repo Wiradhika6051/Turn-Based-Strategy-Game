@@ -6,13 +6,15 @@ import com.tbsg.turnbasedstrategygame.library.engine.Tile;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
-import javafx.event.ActionEvent;
+import com.tbsg.turnbasedstrategygame.library.io.KeyboardConst;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -40,52 +42,37 @@ public class GameController implements Initializable {
 
     Color[] colors = {Color.GREEN, Color.BLUE};
 
-    private void drawCanvas() {
-//        Random rand = new Random();
-//        int i = 0;
-//        int j = 0;
-//        while (j * 100 <= game.getHeight()) {
-////            System.out.println(game.getWidth());
-//            if (i * 100 > game.getWidth()) {
-//                i = 0;
-//                j++;
-//            }
-//            gc.setFill(colors[rand.nextInt(colors.length)]);
-//            gc.fillRect(100 * i, 100 * j, 100, 100);
-//            i++;
-//        }
-        // Cari titik tengah
-        int startX = 0;
-        int startY = 0;
-        Random random = new Random();
-        while (map.findTile(startX, startY).getTerrainId() != 0) {
-            startX = Math.abs(random.nextInt()) % map.getX_longitude();
-            startY = Math.abs(random.nextInt()) % map.getY_lattitude();
-        }
-//        startX = 14;
-//        startY = 14;
-//        System.out.println(startX);
-//        System.out.println(startY);
-//        System.out.println(GraphicsConst.windowWidth);
-//        System.out.println(GraphicsConst.windowHeight);
+    int centralX = 0;
+    int centralY = 0;
 
-//        final int MAP_SIZE = 4;
-        final int TILE_SIZE = 100;
-        final int MAP_WIDTH = (int) Math.ceil(((GraphicsConst.windowWidth / TILE_SIZE) - 1) / 2);
-        final int MAP_HEIGHT = (int) Math.ceil(((GraphicsConst.windowHeight / TILE_SIZE) - 1) / 2);
+    final int TILE_SIZE = 100;
+    final int MAP_WIDTH = (int) Math.ceil(((GraphicsConst.windowWidth / TILE_SIZE) - 1) / 2);
+    final int MAP_HEIGHT = (int) Math.ceil(((GraphicsConst.windowHeight / TILE_SIZE) - 1) / 2);
+
+    void setStartingPoint() {
+        centralX = 0;
+        centralY = 0;
+        Random random = new Random();
+        while (map.findTile(centralX, centralY).getTerrainId() != 0) {
+            centralX = Math.abs(random.nextInt()) % map.getX_longitude();
+            centralY = Math.abs(random.nextInt()) % map.getY_lattitude();
+        }
+    }
+
+    private void drawCanvas() {
 //        System.out.println(MAP_WIDTH + " " + MAP_HEIGHT);
-        final int RIGHT_IDX = Math.max(startX - MAP_WIDTH, 0) + 2 * MAP_WIDTH + 1;//batas astas kudu + 1
-        final int BOTTOM_IDX = Math.max(startY - MAP_HEIGHT, 0) + 2 * MAP_HEIGHT + 1;
+        final int RIGHT_IDX = Math.max(centralX - MAP_WIDTH, 0) + 2 * MAP_WIDTH + 1;//batas astas kudu + 1
+        final int BOTTOM_IDX = Math.max(centralY - MAP_HEIGHT, 0) + 2 * MAP_HEIGHT + 1;
 //        System.out.println(RIGHT_IDX + " " + BOTTOM_IDX);
-        for (int j = startY - MAP_HEIGHT; j < BOTTOM_IDX; j++) {
-            for (int i = startX - MAP_WIDTH; i < RIGHT_IDX; i++) {
+        for (int j = centralY - MAP_HEIGHT; j < BOTTOM_IDX; j++) {
+            for (int i = centralX - MAP_WIDTH; i < RIGHT_IDX; i++) {
 //                System.out.println(i + " " + j);
 //                System.out.println(i - central_x - 3 + " " + (j - central_y - 3));
-                int baseX = Math.max(startX - MAP_WIDTH, 0);
-                int baseY = Math.max(startY - MAP_HEIGHT, 0);
+                int baseX = Math.max(centralX - MAP_WIDTH, 0);
+                int baseY = Math.max(centralY - MAP_HEIGHT, 0);
                 int canvasX = Math.min(i - baseX, map.getX_longitude());
                 int canvasY = Math.min(j - baseY, map.getY_lattitude());
-                if (i == startX && j == startY) {
+                if (i == centralX && j == centralY) {
                     gc.setFill(Color.RED);
                 } else if (i >= 0 && i < map.getX_longitude() && j >= 0 && j < map.getY_lattitude()) {
                     Tile tile = map.findTile(i, j);
@@ -96,11 +83,8 @@ public class GameController implements Initializable {
                 gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
             }
         }
-//        for (Tile tile : map.getTiles()) {
-//            gc.setFill(colors[tile.getTerrainId()]);
-//            gc.fillRect(tile.getX() * 100, tile.getY() * 100, 100, 100);
-//        }
     }
+
 
     public void generateMap() {
         try {
@@ -142,6 +126,25 @@ public class GameController implements Initializable {
         }
     }
 
+    public void onKeyPressed(KeyEvent event) {
+        int keyId = event.getCode().getCode();
+        switch (keyId) {
+            case KeyboardConst.KEY_NORTH:
+                System.out.println("GO NORTH");
+                break;
+            case KeyboardConst.KEY_SOUTH:
+                System.out.println("GO SOUTH");
+                break;
+            case KeyboardConst.KEY_EAST:
+                System.out.println("GO EAST");
+                break;
+            case KeyboardConst.KEY_WEST:
+                System.out.println("GO WEST");
+                break;
+        }
+
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         game.sceneProperty().addListener((observable, oldScene, newScene) -> {
@@ -151,7 +154,11 @@ public class GameController implements Initializable {
                 if (stage != null) {
                     gc = game.getGraphicsContext2D();
                     generateMap();
+                    setStartingPoint();
                     drawCanvas();
+                    //init key listener
+                    Scene scene = SceneManager.getSceneFromNode(game);
+                    scene.setOnKeyPressed(this::onKeyPressed);
                 }
             }
         });
