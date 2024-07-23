@@ -1,4 +1,3 @@
-- limit geser map pake keyboard
 - geser map pake mouse
 - buat biar seminimal mungkin gray tile muncul kalau di pojok
 - testing Scene AManger, StageManager, Tile, MapObject,City,Civilization,TurnManager,Unit, GAmeManager

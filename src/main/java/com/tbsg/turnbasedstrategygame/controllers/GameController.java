@@ -130,22 +130,29 @@ public class GameController implements Initializable {
         int keyId = event.getCode().getCode();
         switch (keyId) {
             case KeyboardConst.KEY_NORTH:
-                --centralY;
+                if (centralY > 0) {
+                    --centralY;
+                }
                 break;
             case KeyboardConst.KEY_SOUTH:
-                ++centralY;
+                if (centralY < map.getY_lattitude() - 1) {
+                    ++centralY;
+                }
                 break;
             case KeyboardConst.KEY_EAST:
-                ++centralX;
+                if (centralX < map.getX_longitude() - 1) {
+                    ++centralX;
+                }
                 break;
             case KeyboardConst.KEY_WEST:
-                --centralX;
+                if (centralX > 0) {
+                    --centralX;
+                }
                 break;
             default:
                 return;
         }
         drawCanvas();
-
     }
 
     @Override
