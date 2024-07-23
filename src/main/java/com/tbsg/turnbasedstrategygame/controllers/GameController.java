@@ -130,18 +130,21 @@ public class GameController implements Initializable {
         int keyId = event.getCode().getCode();
         switch (keyId) {
             case KeyboardConst.KEY_NORTH:
-                System.out.println("GO NORTH");
+                --centralY;
                 break;
             case KeyboardConst.KEY_SOUTH:
-                System.out.println("GO SOUTH");
+                ++centralY;
                 break;
             case KeyboardConst.KEY_EAST:
-                System.out.println("GO EAST");
+                ++centralX;
                 break;
             case KeyboardConst.KEY_WEST:
-                System.out.println("GO WEST");
+                --centralX;
                 break;
+            default:
+                return;
         }
+        drawCanvas();
 
     }
 
