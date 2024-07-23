@@ -23,8 +23,6 @@ public class LoadingScreenController implements Initializable, IProgressBarHandl
     @FXML
     VBox root;
 
-    private double progressBarWidth;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        root.boundsInParentProperty().addListener((observable, oldValue, newValue) -> {
@@ -40,7 +38,7 @@ public class LoadingScreenController implements Initializable, IProgressBarHandl
 //        GraphicsConst.windowWidth = width;
 //                windowWidth = newValue.getWidth();
 
-        progressBarWidth = StageManager.calculateWidth(0.8);
+        double progressBarWidth = StageManager.calculateWidth(0.8);
         progressBar.setPrefWidth(progressBarWidth);
     }
 

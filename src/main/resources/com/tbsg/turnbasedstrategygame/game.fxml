@@ -6,7 +6,8 @@
 <?import javafx.scene.canvas.Canvas?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.tbsg.turnbasedstrategygame.controllers.GameController" fx:id="root">
+            fx:controller="com.tbsg.turnbasedstrategygame.controllers.GameController" fx:id="root"
+            style="-fx-padding: 0;">
     <!--    <top>-->
     <!--        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">-->
     <!--            <items>-->
@@ -24,7 +25,7 @@
     <!--        </AnchorPane>-->
     <!--    </bottom>-->
     <center>
-        <ScrollPane fx:id="img_pane" BorderPane.alignment="CENTER">
+        <ScrollPane fx:id="img_pane" hbarPolicy="NEVER" vbarPolicy="NEVER" style="-fx-padding: 0;">
             <content>
                 <Canvas fx:id="game"/>
             </content>
