@@ -2,6 +2,7 @@ package com.tbsg.turnbasedstrategygame.controllers;
 
 import com.tbsg.turnbasedstrategygame.library.engine.GameManager;
 import com.tbsg.turnbasedstrategygame.library.engine.MapObject;
+import com.tbsg.turnbasedstrategygame.library.engine.MathUtils;
 import com.tbsg.turnbasedstrategygame.library.engine.Tile;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
@@ -13,7 +14,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -42,8 +42,8 @@ public class GameController implements Initializable {
 
     Color[] colors = {Color.GREEN, Color.BLUE};
 
-    int centralX = 0;
-    int centralY = 0;
+    float centralX = 0;
+    float centralY = 0;
 
     final int TILE_SIZE = 100;
     final int MAP_WIDTH = (int) Math.ceil(((GraphicsConst.windowWidth / TILE_SIZE) - 1) / 2);
@@ -53,7 +53,7 @@ public class GameController implements Initializable {
         centralX = 0;
         centralY = 0;
         Random random = new Random();
-        while (map.findTile(centralX, centralY).getTerrainId() != 0) {
+        while (map.findTile((int) centralX, (int) centralY).getTerrainId() != 0) {
             centralX = Math.abs(random.nextInt()) % map.getX_longitude();
             centralY = Math.abs(random.nextInt()) % map.getY_lattitude();
         }
@@ -61,18 +61,18 @@ public class GameController implements Initializable {
 
     private void drawCanvas() {
 //        System.out.println(MAP_WIDTH + " " + MAP_HEIGHT);
-        final int RIGHT_IDX = Math.max(centralX - MAP_WIDTH, 0) + 2 * MAP_WIDTH + 1;//batas astas kudu + 1
-        final int BOTTOM_IDX = Math.max(centralY - MAP_HEIGHT, 0) + 2 * MAP_HEIGHT + 1;
+        final int RIGHT_IDX = Math.max((int) centralX - MAP_WIDTH, 0) + 2 * MAP_WIDTH + 1;//batas astas kudu + 1
+        final int BOTTOM_IDX = Math.max((int) centralY - MAP_HEIGHT, 0) + 2 * MAP_HEIGHT + 1;
 //        System.out.println(RIGHT_IDX + " " + BOTTOM_IDX);
-        for (int j = centralY - MAP_HEIGHT; j < BOTTOM_IDX; j++) {
-            for (int i = centralX - MAP_WIDTH; i < RIGHT_IDX; i++) {
+        for (int j = (int) centralY - MAP_HEIGHT; j < BOTTOM_IDX; j++) {
+            for (int i = (int) centralX - MAP_WIDTH; i < RIGHT_IDX; i++) {
 //                System.out.println(i + " " + j);
 //                System.out.println(i - central_x - 3 + " " + (j - central_y - 3));
-                int baseX = Math.max(centralX - MAP_WIDTH, 0);
-                int baseY = Math.max(centralY - MAP_HEIGHT, 0);
+                int baseX = Math.max((int) centralX - MAP_WIDTH, 0);
+                int baseY = Math.max((int) centralY - MAP_HEIGHT, 0);
                 int canvasX = Math.min(i - baseX, map.getX_longitude());
                 int canvasY = Math.min(j - baseY, map.getY_lattitude());
-                if (i == centralX && j == centralY) {
+                if (MathUtils.isFloatEqual((float) i, centralX) && MathUtils.isFloatEqual((float) j, centralY)) {
                     gc.setFill(Color.RED);
                 } else if (i >= 0 && i < map.getX_longitude() && j >= 0 && j < map.getY_lattitude()) {
                     Tile tile = map.findTile(i, j);
