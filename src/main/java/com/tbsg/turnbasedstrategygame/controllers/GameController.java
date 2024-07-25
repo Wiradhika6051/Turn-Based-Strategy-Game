@@ -45,7 +45,7 @@ public class GameController implements Initializable {
     float centralY = 0;
 
     final int TILE_SIZE = 100;
-    final float MOVE_GRADIENT = 0.5f;
+    final float KEYBOARD_MOVE_GRADIENT = 1f;
     final int MAP_WIDTH = (int) Math.ceil(((GraphicsConst.windowWidth / TILE_SIZE) - 1) / 2);
     final int MAP_HEIGHT = (int) Math.ceil(((GraphicsConst.windowHeight / TILE_SIZE) - 1) / 2);
 
@@ -59,13 +59,13 @@ public class GameController implements Initializable {
         }
     }
 
-    private void drawCanvas() {
+    private void drawCanvas(float gradient) {
 //        System.out.println(MAP_WIDTH + " " + MAP_HEIGHT);
         final float RIGHT_IDX = Math.max(centralX - MAP_WIDTH, 0) + 2 * MAP_WIDTH + 1;//batas astas kudu + 1
         final float BOTTOM_IDX = Math.max(centralY - MAP_HEIGHT, 0) + 2 * MAP_HEIGHT + 1;
 //        System.out.println(RIGHT_IDX + " " + BOTTOM_IDX);
-        for (float j = centralY - MAP_HEIGHT; j < BOTTOM_IDX; j += MOVE_GRADIENT) {
-            for (float i = centralX - MAP_WIDTH; i < RIGHT_IDX; i += MOVE_GRADIENT) {
+        for (float j = centralY - MAP_HEIGHT; j < BOTTOM_IDX; j += gradient) {
+            for (float i = centralX - MAP_WIDTH; i < RIGHT_IDX; i += gradient) {
 //                System.out.println(i + " " + j);
 //                System.out.println(i - central_x - 3 + " " + (j - central_y - 3));
                 float baseX = Math.max(centralX - MAP_WIDTH, 0);
@@ -134,9 +134,9 @@ public class GameController implements Initializable {
             }
             System.out.println(map);
         } catch (URISyntaxException e) {
-            System.out.println(e);
+            System.err.println("Invalid Path!");
         } catch (FileNotFoundException e) {
-            System.out.println(e);
+            System.err.println("Map File not found!");
         }
     }
 
@@ -145,28 +145,28 @@ public class GameController implements Initializable {
         switch (keyId) {
             case KeyboardConst.KEY_NORTH:
                 if (centralY > 0) {
-                    centralY -= MOVE_GRADIENT;
+                    centralY -= KEYBOARD_MOVE_GRADIENT;
                 }
                 break;
             case KeyboardConst.KEY_SOUTH:
                 if (centralY < map.getY_lattitude() - 1) {
-                    centralY += MOVE_GRADIENT;
+                    centralY += KEYBOARD_MOVE_GRADIENT;
                 }
                 break;
             case KeyboardConst.KEY_EAST:
                 if (centralX < map.getX_longitude() - 1) {
-                    centralX += MOVE_GRADIENT;
+                    centralX += KEYBOARD_MOVE_GRADIENT;
                 }
                 break;
             case KeyboardConst.KEY_WEST:
                 if (centralX > 0) {
-                    centralX -= MOVE_GRADIENT;
+                    centralX -= KEYBOARD_MOVE_GRADIENT;
                 }
                 break;
             default:
                 return;
         }
-        drawCanvas();
+        drawCanvas(KEYBOARD_MOVE_GRADIENT);
     }
 
     @Override
@@ -179,7 +179,7 @@ public class GameController implements Initializable {
                     gc = game.getGraphicsContext2D();
                     generateMap();
                     setStartingPoint();
-                    drawCanvas();
+                    drawCanvas(KEYBOARD_MOVE_GRADIENT);
                     //init key listener
                     Scene scene = SceneManager.getSceneFromNode(game);
                     scene.setOnKeyPressed(this::onKeyPressed);
