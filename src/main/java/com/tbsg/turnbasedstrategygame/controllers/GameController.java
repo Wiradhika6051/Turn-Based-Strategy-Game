@@ -101,32 +101,31 @@ public class GameController implements Initializable {
             }
         }
         //render current point
-        gc.setFill(Color.RED);
+//        gc.setFill(Color.RED);
+//        float baseX = Math.max(centralX - MAP_WIDTH, 0);
+//        float baseY = Math.max(centralY - MAP_HEIGHT, 0);
+//        float canvasX = Math.min(centralX - baseX, map.getX_longitude());
+//        float canvasY = Math.min(centralY - baseY, map.getY_lattitude());
+//        gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        //render highlight
+        //render current position
         float baseX = Math.max(centralX - MAP_WIDTH, 0);
         float baseY = Math.max(centralY - MAP_HEIGHT, 0);
-        float canvasX = Math.min(centralX - baseX, map.getX_longitude());
-        float canvasY = Math.min(centralY - baseY, map.getY_lattitude());
-        gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        //render highlight
-
-        baseX = Math.max(centralX - MAP_WIDTH, 0);
-        baseY = Math.max(centralY - MAP_HEIGHT, 0);
-        canvasX = Math.min(highlight_x - baseX, map.getX_longitude());
-        canvasY = Math.min(highlight_y - baseY, map.getY_lattitude());
+        float canvasX = Math.min(highlight_x - baseX, map.getX_longitude());
+        float canvasY = Math.min(highlight_y - baseY, map.getY_lattitude());
         gc.setFill(Color.BLACK);
         gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        if (MathUtils.isFloatEqual(centralX, highlight_x) && MathUtils.isFloatEqual(centralY, highlight_y)) {
-            //render current point
-            Tile tile = map.findTile((int) highlight_x, (int) highlight_y);
-            gc.setFill(Color.RED);
-            gc.fillRect(canvasX * TILE_SIZE + BORDER_SIZE, canvasY * TILE_SIZE + BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE);
-        } else {
-            //render sel nya
-            Tile tile = map.findTile((int) highlight_x, (int) highlight_y);
-            gc.setFill(colors[tile.getTerrainId()]);
-            gc.fillRect(canvasX * TILE_SIZE + BORDER_SIZE, canvasY * TILE_SIZE + BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE);
+//        if (MathUtils.isFloatEqual(centralX, highlight_x) && MathUtils.isFloatEqual(centralY, highlight_y)) {
+//            //render current point
+//            gc.setFill(Color.RED);
+//            gc.fillRect(canvasX * TILE_SIZE + BORDER_SIZE, canvasY * TILE_SIZE + BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE);
+//        } else {
+//            //render sel nya
+        Tile tile = map.findTile((int) highlight_x, (int) highlight_y);
+        gc.setFill(colors[tile.getTerrainId()]);
+        gc.fillRect(canvasX * TILE_SIZE + BORDER_SIZE, canvasY * TILE_SIZE + BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE);
 
-        }
+//        }
     }
 
 
@@ -196,6 +195,8 @@ public class GameController implements Initializable {
             default:
                 return;
         }
+        highlight_x = centralX;
+        highlight_y = centralY;
         drawCanvas(KEYBOARD_MOVE_GRADIENT);
     }
 
