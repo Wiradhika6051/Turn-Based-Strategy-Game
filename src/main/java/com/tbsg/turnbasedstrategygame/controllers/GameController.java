@@ -70,7 +70,7 @@ public class GameController implements Initializable {
 
     private void drawCanvas(float gradient) {
 //        System.out.println(MAP_WIDTH + " " + MAP_HEIGHT);
-        final float RIGHT_IDX = Math.max(centralX - MAP_WIDTH, 0) + 2 * MAP_WIDTH + 1;//batas astas kudu + 1
+        final float RIGHT_IDX = Math.max(centralX - MAP_WIDTH, 0) + 2 * MAP_WIDTH + 1;//batas atas kudu + 1
         final float BOTTOM_IDX = Math.max(centralY - MAP_HEIGHT, 0) + 2 * MAP_HEIGHT + 1;
 //        System.out.println(RIGHT_IDX + " " + BOTTOM_IDX);
         for (float j = centralY - MAP_HEIGHT; j < BOTTOM_IDX; j += gradient) {
@@ -205,10 +205,22 @@ public class GameController implements Initializable {
 //        System.out.println(game.getLayoutX() + " " + game.getLayoutY());
         float x = (float) event.getX() / TILE_SIZE;
         float y = (float) event.getY() / TILE_SIZE;
-//        Terka posisi
-        Tile tile = map.findTile((int) x, (int) y);
-        System.out.println(tile);
-        drawCanvas(MOUSE_MOVE_GRADIENT);
+        float baseX = Math.max(centralX - MAP_WIDTH, 0);
+        float baseY = Math.max(centralY - MAP_HEIGHT, 0);
+//        float canvasX = Math.min(centralX - baseX, map.getX_longitude());
+//        float canvasY = Math.min(centralY - baseY, map.getY_latitude());
+        float screenX = baseX + x;
+        float screenY = baseY + y;
+        if (map.isCoordinateValid((int) screenX, (int) screenY)) {
+            centralX = screenX;
+            centralY = screenY;
+            //        Terka posisi
+//        Tile tile = map.findTile((int) x, (int) y);
+//        System.out.println(tile);
+
+            drawCanvas(MOUSE_MOVE_GRADIENT);
+        }
+
     }
 
     @Override
