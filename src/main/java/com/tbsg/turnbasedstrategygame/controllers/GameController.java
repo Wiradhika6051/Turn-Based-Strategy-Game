@@ -2,7 +2,6 @@ package com.tbsg.turnbasedstrategygame.controllers;
 
 import com.tbsg.turnbasedstrategygame.library.engine.GameManager;
 import com.tbsg.turnbasedstrategygame.library.engine.MapObject;
-import com.tbsg.turnbasedstrategygame.library.engine.MathUtils;
 import com.tbsg.turnbasedstrategygame.library.engine.Tile;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
@@ -54,8 +53,8 @@ public class GameController implements Initializable {
     final int MAP_WIDTH = (int) Math.ceil(((GraphicsConst.windowWidth / TILE_SIZE) - 1) / 2);
     final int MAP_HEIGHT = (int) Math.ceil(((GraphicsConst.windowHeight / TILE_SIZE) - 1) / 2);
 
-    float highlight_x = 0;
-    float highlight_y = 0;
+//    float highlight_x = 0;
+//    float highlight_y = 0;
 
     void setStartingPoint() {
         centralX = 0;
@@ -63,10 +62,10 @@ public class GameController implements Initializable {
         Random random = new Random();
         while (map.findTile((int) centralX, (int) centralY).getTerrainId() != 0) {
             centralX = Math.abs(random.nextInt()) % map.getX_longitude();
-            centralY = Math.abs(random.nextInt()) % map.getY_lattitude();
+            centralY = Math.abs(random.nextInt()) % map.getY_latitude();
         }
-        highlight_x = centralX;
-        highlight_y = centralY;
+//        highlight_x = centralX;
+//        highlight_y = centralY;
     }
 
     private void drawCanvas(float gradient) {
@@ -81,7 +80,7 @@ public class GameController implements Initializable {
                 float baseX = Math.max(centralX - MAP_WIDTH, 0);
                 float baseY = Math.max(centralY - MAP_HEIGHT, 0);
                 float canvasX = Math.min(i - baseX, map.getX_longitude());
-                float canvasY = Math.min(j - baseY, map.getY_lattitude());
+                float canvasY = Math.min(j - baseY, map.getY_latitude());
 //                if (MathUtils.isFloatEqual(i, centralX) && MathUtils.isFloatEqual(j, centralY)) {
 //                    System.out.println((int) canvasX + " " + (int) canvasY);
 //                    System.out.println((int) canvasX * TILE_SIZE + " " + (int) canvasY * TILE_SIZE);
@@ -102,17 +101,17 @@ public class GameController implements Initializable {
         }
         //render current point
 //        gc.setFill(Color.RED);
-//        float baseX = Math.max(centralX - MAP_WIDTH, 0);
-//        float baseY = Math.max(centralY - MAP_HEIGHT, 0);
-//        float canvasX = Math.min(centralX - baseX, map.getX_longitude());
-//        float canvasY = Math.min(centralY - baseY, map.getY_lattitude());
+        float baseX = Math.max(centralX - MAP_WIDTH, 0);
+        float baseY = Math.max(centralY - MAP_HEIGHT, 0);
+        float canvasX = Math.min(centralX - baseX, map.getX_longitude());
+        float canvasY = Math.min(centralY - baseY, map.getY_latitude());
 //        gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
         //render highlight
         //render current position
-        float baseX = Math.max(centralX - MAP_WIDTH, 0);
-        float baseY = Math.max(centralY - MAP_HEIGHT, 0);
-        float canvasX = Math.min(highlight_x - baseX, map.getX_longitude());
-        float canvasY = Math.min(highlight_y - baseY, map.getY_lattitude());
+//        float baseX = Math.max(centralX - MAP_WIDTH, 0);
+//        float baseY = Math.max(centralY - MAP_HEIGHT, 0);
+//        float canvasX = Math.min(highlight_x - baseX, map.getX_longitude());
+//        float canvasY = Math.min(highlight_y - baseY, map.getY_latitude());
         gc.setFill(Color.BLACK);
         gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 //        if (MathUtils.isFloatEqual(centralX, highlight_x) && MathUtils.isFloatEqual(centralY, highlight_y)) {
@@ -121,7 +120,7 @@ public class GameController implements Initializable {
 //            gc.fillRect(canvasX * TILE_SIZE + BORDER_SIZE, canvasY * TILE_SIZE + BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE);
 //        } else {
 //            //render sel nya
-        Tile tile = map.findTile((int) highlight_x, (int) highlight_y);
+        Tile tile = map.findTile((int) centralX, (int) centralY);
         gc.setFill(colors[tile.getTerrainId()]);
         gc.fillRect(canvasX * TILE_SIZE + BORDER_SIZE, canvasY * TILE_SIZE + BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE);
 
@@ -150,7 +149,7 @@ public class GameController implements Initializable {
                     height = Integer.parseInt(size[1]);
                     map = GameManager.getInstance().getMap();
                     map.setX_longitude(width);
-                    map.setY_lattitude(height);
+                    map.setY_latitude(height);
                 } else {
                     for (String tileId : row.split("")) {
                         Tile tile = new Tile(i, j, Integer.parseInt(tileId));
@@ -178,7 +177,7 @@ public class GameController implements Initializable {
                 }
                 break;
             case KeyboardConst.KEY_SOUTH:
-                if (centralY < map.getY_lattitude() - 1) {
+                if (centralY < map.getY_latitude() - 1) {
                     centralY += KEYBOARD_MOVE_GRADIENT;
                 }
                 break;
@@ -195,8 +194,8 @@ public class GameController implements Initializable {
             default:
                 return;
         }
-        highlight_x = centralX;
-        highlight_y = centralY;
+//        highlight_x = centralX;
+//        highlight_y = centralY;
         drawCanvas(KEYBOARD_MOVE_GRADIENT);
     }
 

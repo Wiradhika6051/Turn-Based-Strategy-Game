@@ -7,12 +7,12 @@ public class MapObject {
     List<Tile> tiles;
 
     int x_longitude;//x size
-    int y_lattitude;//y size
+    int y_latitude;//y size
 
     public MapObject() {
         this.tiles = new ArrayList<>();
         x_longitude = -1;
-        y_lattitude = -1;
+        y_latitude = -1;
     }
 
     public void addTile(Tile tile) {
@@ -37,7 +37,7 @@ public class MapObject {
     }
 
     public boolean isCoordinateValid(int x, int y) {
-        return x >= 0 && y >= 0 && x < x_longitude && y < y_lattitude;
+        return x >= 0 && y >= 0 && x < x_longitude && y < y_latitude;
     }
 
     @Override
@@ -63,11 +63,11 @@ public class MapObject {
         this.x_longitude = x_longitude;
     }
 
-    public int getY_lattitude() {
-        return y_lattitude;
+    public int getY_latitude() {
+        return y_latitude;
     }
 
-    public void setY_lattitude(int y_lattitude) {
-        this.y_lattitude = y_lattitude;
+    public void setY_latitude(int y_latitude) {
+        this.y_latitude = y_latitude;
     }
 }
