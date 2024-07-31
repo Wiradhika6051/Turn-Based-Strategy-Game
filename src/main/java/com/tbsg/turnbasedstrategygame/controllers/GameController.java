@@ -2,6 +2,7 @@ package com.tbsg.turnbasedstrategygame.controllers;
 
 import com.tbsg.turnbasedstrategygame.library.engine.GameManager;
 import com.tbsg.turnbasedstrategygame.library.engine.MapObject;
+import com.tbsg.turnbasedstrategygame.library.engine.MathUtils;
 import com.tbsg.turnbasedstrategygame.library.engine.Tile;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -46,8 +48,14 @@ public class GameController implements Initializable {
 
     final int TILE_SIZE = 100;
     final float KEYBOARD_MOVE_GRADIENT = 1f;
+    final float MOUSE_MOVE_GRADIENT = 1f;
+
+    final int BORDER_SIZE = 10;
     final int MAP_WIDTH = (int) Math.ceil(((GraphicsConst.windowWidth / TILE_SIZE) - 1) / 2);
     final int MAP_HEIGHT = (int) Math.ceil(((GraphicsConst.windowHeight / TILE_SIZE) - 1) / 2);
+
+    float highlight_x = 0;
+    float highlight_y = 0;
 
     void setStartingPoint() {
         centralX = 0;
@@ -57,6 +65,8 @@ public class GameController implements Initializable {
             centralX = Math.abs(random.nextInt()) % map.getX_longitude();
             centralY = Math.abs(random.nextInt()) % map.getY_lattitude();
         }
+        highlight_x = centralX;
+        highlight_y = centralY;
     }
 
     private void drawCanvas(float gradient) {
@@ -79,7 +89,7 @@ public class GameController implements Initializable {
 //                    gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 //                } else
 
-                if (i >= 0 && i < map.getX_longitude() && j >= 0 && j < map.getY_lattitude()) {
+                if (map.isCoordinateValid((int) i, (int) j)) {
                     Tile tile = map.findTile((int) i, (int) j);
                     gc.setFill(colors[tile.getTerrainId()]);
                     gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -97,6 +107,26 @@ public class GameController implements Initializable {
         float canvasX = Math.min(centralX - baseX, map.getX_longitude());
         float canvasY = Math.min(centralY - baseY, map.getY_lattitude());
         gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        //render highlight
+
+        baseX = Math.max(centralX - MAP_WIDTH, 0);
+        baseY = Math.max(centralY - MAP_HEIGHT, 0);
+        canvasX = Math.min(highlight_x - baseX, map.getX_longitude());
+        canvasY = Math.min(highlight_y - baseY, map.getY_lattitude());
+        gc.setFill(Color.BLACK);
+        gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        if (MathUtils.isFloatEqual(centralX, highlight_x) && MathUtils.isFloatEqual(centralY, highlight_y)) {
+            //render current point
+            Tile tile = map.findTile((int) highlight_x, (int) highlight_y);
+            gc.setFill(Color.RED);
+            gc.fillRect(canvasX * TILE_SIZE + BORDER_SIZE, canvasY * TILE_SIZE + BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE);
+        } else {
+            //render sel nya
+            Tile tile = map.findTile((int) highlight_x, (int) highlight_y);
+            gc.setFill(colors[tile.getTerrainId()]);
+            gc.fillRect(canvasX * TILE_SIZE + BORDER_SIZE, canvasY * TILE_SIZE + BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE);
+
+        }
     }
 
 
@@ -169,6 +199,18 @@ public class GameController implements Initializable {
         drawCanvas(KEYBOARD_MOVE_GRADIENT);
     }
 
+    public void onMouseMoved(MouseEvent event) {
+//        System.out.println("X:" + event.getX() + " " + event.getSceneX() + " " + event.getScreenX());
+//        System.out.println("Y:" + event.getY() + " " + event.getSceneY() + " " + event.getScreenY());
+//        System.out.println(game.getLayoutX() + " " + game.getLayoutY());
+        float x = (float) event.getX() / TILE_SIZE;
+        float y = (float) event.getY() / TILE_SIZE;
+//        Terka posisi
+        Tile tile = map.findTile((int) x, (int) y);
+        System.out.println(tile);
+        drawCanvas(MOUSE_MOVE_GRADIENT);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         game.sceneProperty().addListener((observable, oldScene, newScene) -> {
@@ -183,6 +225,7 @@ public class GameController implements Initializable {
                     //init key listener
                     Scene scene = SceneManager.getSceneFromNode(game);
                     scene.setOnKeyPressed(this::onKeyPressed);
+                    scene.setOnMouseMoved(this::onMouseMoved);
                 }
             }
         });
