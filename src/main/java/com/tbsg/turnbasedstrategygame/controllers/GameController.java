@@ -70,15 +70,19 @@ public class GameController implements Initializable {
 
     private void drawCanvas(float gradient) {
 //        System.out.println(MAP_WIDTH + " " + MAP_HEIGHT);
-        final float RIGHT_IDX = Math.max(centralX - MAP_WIDTH, 0) + 2 * MAP_WIDTH + 1;//batas atas kudu + 1
-        final float BOTTOM_IDX = Math.max(centralY - MAP_HEIGHT, 0) + 2 * MAP_HEIGHT + 1;
+//        final float RIGHT_IDX = Math.max(centralX - MAP_WIDTH, 0) + 2 * MAP_WIDTH + 1;//batas atas kudu + 1
+//        final float BOTTOM_IDX = Math.max(centralY - MAP_HEIGHT, 0) + 2 * MAP_HEIGHT + 1;
+        final float RIGHT_IDX = centralX - MAP_WIDTH + 2 * MAP_WIDTH + 1;//batas atas kudu + 1
+        final float BOTTOM_IDX = centralY - MAP_HEIGHT + 2 * MAP_HEIGHT + 1;
 //        System.out.println(RIGHT_IDX + " " + BOTTOM_IDX);
         for (float j = centralY - MAP_HEIGHT; j < BOTTOM_IDX; j += gradient) {
             for (float i = centralX - MAP_WIDTH; i < RIGHT_IDX; i += gradient) {
 //                System.out.println(i + " " + j);
 //                System.out.println(i - central_x - 3 + " " + (j - central_y - 3));
-                float baseX = Math.max(centralX - MAP_WIDTH, 0);
-                float baseY = Math.max(centralY - MAP_HEIGHT, 0);
+//                float baseX = Math.max(centralX - MAP_WIDTH, 0);
+//                float baseY = Math.max(centralY - MAP_HEIGHT, 0);
+                float baseX = centralX - MAP_WIDTH;
+                float baseY = centralY - MAP_HEIGHT;
                 float canvasX = Math.min(i - baseX, map.getX_longitude());
                 float canvasY = Math.min(j - baseY, map.getY_latitude());
 //                if (MathUtils.isFloatEqual(i, centralX) && MathUtils.isFloatEqual(j, centralY)) {
@@ -101,19 +105,21 @@ public class GameController implements Initializable {
         }
         //render current point
 //        gc.setFill(Color.RED);
-        float baseX = Math.max(centralX - MAP_WIDTH, 0);
-        float baseY = Math.max(centralY - MAP_HEIGHT, 0);
+//        float baseX = Math.max(centralX - MAP_WIDTH, 0);
+//        float baseY = Math.max(centralY - MAP_HEIGHT, 0);
+        float baseX = centralX - MAP_WIDTH;
+        float baseY = centralY - MAP_HEIGHT;
         float canvasX = Math.min(centralX - baseX, map.getX_longitude());
         float canvasY = Math.min(centralY - baseY, map.getY_latitude());
 //        gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
         //render highlight
         //render current position
+        gc.setFill(Color.BLACK);
+        gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 //        float baseX = Math.max(centralX - MAP_WIDTH, 0);
 //        float baseY = Math.max(centralY - MAP_HEIGHT, 0);
 //        float canvasX = Math.min(highlight_x - baseX, map.getX_longitude());
-//        float canvasY = Math.min(highlight_y - baseY, map.getY_latitude());
-        gc.setFill(Color.BLACK);
-        gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+//        float canvasY = Math.min(highlight_y - baseY, map.getY_latitude());=
 //        if (MathUtils.isFloatEqual(centralX, highlight_x) && MathUtils.isFloatEqual(centralY, highlight_y)) {
 //            //render current point
 //            gc.setFill(Color.RED);
@@ -205,8 +211,10 @@ public class GameController implements Initializable {
 //        System.out.println(game.getLayoutX() + " " + game.getLayoutY());
         float x = (float) event.getX() / TILE_SIZE;
         float y = (float) event.getY() / TILE_SIZE;
-        float baseX = Math.max(centralX - MAP_WIDTH, 0);
-        float baseY = Math.max(centralY - MAP_HEIGHT, 0);
+//        float baseX = Math.max(centralX - MAP_WIDTH, 0);
+//        float baseY = Math.max(centralY - MAP_HEIGHT, 0);
+        float baseX = centralX - MAP_WIDTH;
+        float baseY = centralY - MAP_HEIGHT;
 //        float canvasX = Math.min(centralX - baseX, map.getX_longitude());
 //        float canvasY = Math.min(centralY - baseY, map.getY_latitude());
         float screenX = baseX + x;
@@ -214,7 +222,7 @@ public class GameController implements Initializable {
         if (map.isCoordinateValid((int) screenX, (int) screenY)) {
             centralX = screenX;
             centralY = screenY;
-            //        Terka posisi
+            //        Cari tau posisi
 //        Tile tile = map.findTile((int) x, (int) y);
 //        System.out.println(tile);
 
