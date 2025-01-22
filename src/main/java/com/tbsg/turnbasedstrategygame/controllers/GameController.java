@@ -114,7 +114,7 @@ public class GameController implements Initializable {
 //        gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
         //render highlight
         //render current position
-        gc.setFill(Color.BLACK);
+        gc.setFill(Color.WHITE);
         gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 //        float baseX = Math.max(centralX - MAP_WIDTH, 0);
 //        float baseY = Math.max(centralY - MAP_HEIGHT, 0);
@@ -193,6 +193,7 @@ public class GameController implements Initializable {
                 }
                 break;
             case KeyboardConst.KEY_WEST:
+                System.out.println(centralX);
                 if (centralX > 0) {
                     centralX -= KEYBOARD_MOVE_GRADIENT;
                 }
