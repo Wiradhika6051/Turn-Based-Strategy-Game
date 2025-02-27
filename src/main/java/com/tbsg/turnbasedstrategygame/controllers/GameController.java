@@ -45,6 +45,9 @@ public class GameController implements Initializable {
     float centralX = 0;
     float centralY = 0;
 
+    float highlightX = 0;
+    float highlightY = 0;
+
     final int TILE_SIZE = 100;
     final float KEYBOARD_MOVE_GRADIENT = 1f;
     final float MOUSE_MOVE_GRADIENT = 1f;
@@ -107,14 +110,21 @@ public class GameController implements Initializable {
 //        gc.setFill(Color.RED);
 //        float baseX = Math.max(centralX - MAP_WIDTH, 0);
 //        float baseY = Math.max(centralY - MAP_HEIGHT, 0);
+//        float baseX = centralX - MAP_WIDTH;
+//        float baseY = centralY - MAP_HEIGHT;
+//        float canvasX = Math.min(centralX - baseX, map.getX_longitude());
+//        float canvasY = Math.min(centralY - baseY, map.getY_latitude());
         float baseX = centralX - MAP_WIDTH;
         float baseY = centralY - MAP_HEIGHT;
-        float canvasX = Math.min(centralX - baseX, map.getX_longitude());
-        float canvasY = Math.min(centralY - baseY, map.getY_latitude());
+        float canvasX = Math.min(highlightX - baseX, map.getX_longitude());
+        float canvasY = Math.min(highlightY - baseY, map.getY_latitude());
 //        gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
         //render highlight
         //render current position
+        System.out.println(canvasX + " " + canvasY);
+        System.out.println(highlightX + " " + highlightY);
         gc.setFill(Color.WHITE);
+
         gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 //        float baseX = Math.max(centralX - MAP_WIDTH, 0);
 //        float baseY = Math.max(centralY - MAP_HEIGHT, 0);
@@ -126,7 +136,7 @@ public class GameController implements Initializable {
 //            gc.fillRect(canvasX * TILE_SIZE + BORDER_SIZE, canvasY * TILE_SIZE + BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE);
 //        } else {
 //            //render sel nya
-        Tile tile = map.findTile((int) centralX, (int) centralY);
+        Tile tile = map.findTile((int) highlightX, (int) highlightY);
         gc.setFill(colors[tile.getTerrainId()]);
         gc.fillRect(canvasX * TILE_SIZE + BORDER_SIZE, canvasY * TILE_SIZE + BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE, TILE_SIZE - 2 * BORDER_SIZE);
 
@@ -201,8 +211,8 @@ public class GameController implements Initializable {
             default:
                 return;
         }
-//        highlight_x = centralX;
-//        highlight_y = centralY;
+        highlightX = centralX;
+        highlightY = centralY;
         drawCanvas(KEYBOARD_MOVE_GRADIENT);
     }
 
@@ -210,23 +220,21 @@ public class GameController implements Initializable {
 //        System.out.println("X:" + event.getX() + " " + event.getSceneX() + " " + event.getScreenX());
 //        System.out.println("Y:" + event.getY() + " " + event.getSceneY() + " " + event.getScreenY());
 //        System.out.println(game.getLayoutX() + " " + game.getLayoutY());
-        float x = (float) event.getX() / TILE_SIZE;
-        float y = (float) event.getY() / TILE_SIZE;
 //        float baseX = Math.max(centralX - MAP_WIDTH, 0);
 //        float baseY = Math.max(centralY - MAP_HEIGHT, 0);
-        float baseX = centralX - MAP_WIDTH;
-        float baseY = centralY - MAP_HEIGHT;
 //        float canvasX = Math.min(centralX - baseX, map.getX_longitude());
 //        float canvasY = Math.min(centralY - baseY, map.getY_latitude());
-        float screenX = baseX + x;
-        float screenY = baseY + y;
+        float x = (float) event.getX() / TILE_SIZE;
+        float y = (float) event.getY() / TILE_SIZE;
+        float baseX = centralX - MAP_WIDTH;
+        float baseY = centralY - MAP_HEIGHT;
+        float screenX = baseX + (float) Math.floor(x);
+        float screenY = baseY + (float) Math.floor(y);
         if (map.isCoordinateValid((int) screenX, (int) screenY)) {
-            centralX = screenX;
-            centralY = screenY;
+            highlightX = screenX;
+            highlightY = screenY;
             //        Cari tau posisi
 //        Tile tile = map.findTile((int) x, (int) y);
-//        System.out.println(tile);
-
             drawCanvas(MOUSE_MOVE_GRADIENT);
         }
 
