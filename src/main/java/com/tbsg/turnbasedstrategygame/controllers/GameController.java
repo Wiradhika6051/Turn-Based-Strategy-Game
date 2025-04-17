@@ -188,31 +188,31 @@ public class GameController implements Initializable {
         int keyId = event.getCode().getCode();
         switch (keyId) {
             case KeyboardConst.KEY_NORTH:
-                if (centralY > 0) {
-                    centralY -= KEYBOARD_MOVE_GRADIENT;
+                if (highlightY > 0) {
+                    highlightY -= KEYBOARD_MOVE_GRADIENT;
                 }
                 break;
             case KeyboardConst.KEY_SOUTH:
-                if (centralY < map.getY_latitude() - 1) {
-                    centralY += KEYBOARD_MOVE_GRADIENT;
+                if (highlightY < map.getY_latitude() - 1) {
+                    highlightY += KEYBOARD_MOVE_GRADIENT;
                 }
                 break;
             case KeyboardConst.KEY_EAST:
-                if (centralX < map.getX_longitude() - 1) {
-                    centralX += KEYBOARD_MOVE_GRADIENT;
+                if (highlightX < map.getX_longitude() - 1) {
+                    highlightX += KEYBOARD_MOVE_GRADIENT;
                 }
                 break;
             case KeyboardConst.KEY_WEST:
                 System.out.println(centralX);
-                if (centralX > 0) {
-                    centralX -= KEYBOARD_MOVE_GRADIENT;
+                if (highlightX > 0) {
+                    highlightX -= KEYBOARD_MOVE_GRADIENT;
                 }
                 break;
             default:
                 return;
         }
-        highlightX = centralX;
-        highlightY = centralY;
+//        highlightX = centralX;
+//        highlightY = centralY;
         drawCanvas(KEYBOARD_MOVE_GRADIENT);
     }
 
