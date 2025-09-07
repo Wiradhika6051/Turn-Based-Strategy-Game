@@ -1,5 +1,11 @@
 package com.tbsg.turnbasedstrategygame.controllers;
 
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Random;
+import java.util.ResourceBundle;
+import java.util.Scanner;
+
 import com.tbsg.turnbasedstrategygame.library.engine.GameManager;
 import com.tbsg.turnbasedstrategygame.library.engine.MapObject;
 import com.tbsg.turnbasedstrategygame.library.engine.Tile;
@@ -7,6 +13,7 @@ import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
 import com.tbsg.turnbasedstrategygame.library.io.KeyboardConst;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -18,15 +25,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Random;
-import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class GameController implements Initializable {
 
@@ -145,21 +143,25 @@ public class GameController implements Initializable {
 
 
     public void generateMap() {
-        try {
-            URI mapPath = getClass().getResource(GraphicsConst.MAP_FOLDER + "default.txt").toURI();
-            File f = new File(mapPath);
-            Scanner scanner = new Scanner(f);
+    try (InputStream inputStream = getClass().getResourceAsStream(GraphicsConst.MAP_FOLDER + "default.txt")) {
+        if (inputStream == null) {
+            System.err.println("Map File not found!");
+            return;
+        }
+
+        try (Scanner scanner = new Scanner(inputStream)) {
             int i = 0;
             int j = 0;
             int width = -1;
             int height = -1;
+
             while (scanner.hasNextLine()) {
                 String row = scanner.nextLine();
                 if (row.length() == 0) {
                     continue;
                 }
                 if (width < 0 && height < 0) {
-                    // baca ukuran
+                    // read dimensions
                     String[] size = row.split(" ");
                     width = Integer.parseInt(size[0]);
                     height = Integer.parseInt(size[1]);
@@ -177,11 +179,10 @@ public class GameController implements Initializable {
                 }
             }
             System.out.println(map);
-        } catch (URISyntaxException e) {
-            System.err.println("Invalid Path!");
-        } catch (FileNotFoundException e) {
-            System.err.println("Map File not found!");
         }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
     }
 
     public void onKeyPressed(KeyEvent event) {
