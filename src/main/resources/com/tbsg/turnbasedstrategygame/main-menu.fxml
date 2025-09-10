@@ -20,7 +20,7 @@
             <Font name="System Bold" size="30.0"/>
         </font>
     </Label>
-    <Button fx:id="newGame" text="New Game" onAction="#startNewGame"/>
+    <Button fx:id="newGame" text="New Game+" onAction="#startNewGame"/>
     <Button fx:id="continueGame" text="Continue" disable="true"/>
     <Button fx:id="setting" text="Setting" onAction="#openSettings"/>
     <Button fx:id="credits" text="Credits" onAction="#seeCredit"/>
