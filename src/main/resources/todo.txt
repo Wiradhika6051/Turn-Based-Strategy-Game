@@ -6,3 +6,7 @@
 - kasus kalau tile nya null
 - refactor kode biar rapih di GameController
 - fix bug controller not working when zoom out of game and then zoom in
+
+
+urgent:
+- fix config not saved on change
