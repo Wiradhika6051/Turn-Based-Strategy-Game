@@ -3,6 +3,7 @@ package com.tbsg.turnbasedstrategygame.controllers;
 import com.tbsg.turnbasedstrategygame.TurnBasedStrategyGame;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,6 +25,8 @@ import org.testfx.matcher.base.NodeMatchers;
 
 import static org.junit.Assert.*;
 
+import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
+
 public class CreditScreenControllerTest extends ApplicationTest {
     CreditScreenController controller;
     Stage stage;
@@ -33,7 +37,7 @@ public class CreditScreenControllerTest extends ApplicationTest {
         this.stage = stage;
         stage.setTitle("Turn Based Strategy Game");
         Scene scene = new Scene(fxmlLoader.load(), 640, 480);
-        stage.setScene(scene);
+        StageManager.setScene(scene);
         stage.show();
         //load
         fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("main-menu.fxml"));
@@ -42,7 +46,7 @@ public class CreditScreenControllerTest extends ApplicationTest {
         fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("credit-screen.fxml"));
         scene = new Scene(fxmlLoader.load(), 640, 480);
         controller = fxmlLoader.getController();
-        stage.setScene(scene);
+        StageManager.setScene(scene);
     }
 
     @Before

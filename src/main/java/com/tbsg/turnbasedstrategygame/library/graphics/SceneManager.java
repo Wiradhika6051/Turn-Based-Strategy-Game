@@ -1,5 +1,7 @@
 package com.tbsg.turnbasedstrategygame.library.graphics;
 
+import java.io.IOException;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
@@ -9,13 +11,18 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.tbsg.turnbasedstrategygame.TurnBasedStrategyGame;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+
 public class SceneManager {
+
     static Map<String, Scene> sceneMap;
 
     //    public SceneManager(){
 //        sceneMap = new HashMap<>();
 //    }
-
     private SceneManager() {
     }
 
@@ -49,5 +56,19 @@ public class SceneManager {
             return null;
         }
         return node.getScene();
+    }
+
+    public static Map<String, Scene> getAllScenes() {
+        return sceneMap;
+    }
+
+    public static void reloadScene(String name, double width, double height) throws IOException {
+        // Get original FXML file path from your mapping (you can store it somewhere)
+        String fxmlPath = name.toLowerCase().replace('_', '-') + ".fxml";
+        FXMLLoader loader = new FXMLLoader(TurnBasedStrategyGame.class.getResource(fxmlPath));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, width, height);
+        scene.setUserData(loader.getController());
+        addScene(name, scene);
     }
 }

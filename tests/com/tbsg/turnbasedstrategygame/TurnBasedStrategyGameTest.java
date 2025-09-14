@@ -43,7 +43,7 @@ public class TurnBasedStrategyGameTest extends ApplicationTest {
         //set scene
         Scene scene = SceneManager.getScene("LOADING_SCREEN");
         System.out.println(scene);
-        stage.setScene(scene);
+        StageManager.setScene(scene);
         stage.show();
     }
 

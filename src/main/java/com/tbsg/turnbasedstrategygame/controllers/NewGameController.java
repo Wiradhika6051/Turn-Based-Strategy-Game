@@ -1,11 +1,16 @@
 package com.tbsg.turnbasedstrategygame.controllers;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import com.tbsg.turnbasedstrategygame.library.engine.Civilization;
 import com.tbsg.turnbasedstrategygame.library.engine.GameManager;
 import com.tbsg.turnbasedstrategygame.library.engine.TurnManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
+import com.tbsg.turnbasedstrategygame.library.graphics.RefreshableScene;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -18,10 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class NewGameController implements Initializable {
+public class NewGameController implements Initializable,RefreshableScene {
     @FXML
     VBox root;
     @FXML
@@ -69,7 +71,7 @@ public class NewGameController implements Initializable {
     @FXML
     protected void backToMenu() {
         Stage stage = (Stage) root.getScene().getWindow();
-        stage.setScene(SceneManager.getScene("MAIN_MENU"));
+        StageManager.setScene(SceneManager.getScene("MAIN_MENU"));
     }
 
     @FXML
@@ -96,7 +98,11 @@ public class NewGameController implements Initializable {
             turnManager.addCivilization(player);
             // Start Game
             Stage stage = (Stage) root.getScene().getWindow();
-            stage.setScene(SceneManager.getScene("GAME"));
+            StageManager.setScene(SceneManager.getScene("GAME"));
         }
+    }
+    @Override
+    public void refreshLayout(){
+        updateWidth(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
     }
 }

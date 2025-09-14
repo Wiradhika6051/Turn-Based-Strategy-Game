@@ -2,12 +2,14 @@ package com.tbsg.turnbasedstrategygame.controllers;
 
 import com.tbsg.turnbasedstrategygame.TurnBasedStrategyGame;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +19,8 @@ import java.io.IOException;
 
 import static org.junit.Assert.*;
 
+import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
+
 public class LoadingScreenControllerTest extends ApplicationTest {
     LoadingScreenController controller;
 
@@ -25,7 +29,7 @@ public class LoadingScreenControllerTest extends ApplicationTest {
         stage.setTitle("Turn Based Strategy Game");
         Scene scene = new Scene(fxmlLoader.load(), 640, 480);
         controller = fxmlLoader.getController();
-        stage.setScene(scene);
+        StageManager.setScene(scene);
         stage.show();
     }
 

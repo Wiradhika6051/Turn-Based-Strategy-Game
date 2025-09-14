@@ -10,6 +10,7 @@ import com.tbsg.turnbasedstrategygame.library.engine.GameManager;
 import com.tbsg.turnbasedstrategygame.library.engine.MapObject;
 import com.tbsg.turnbasedstrategygame.library.engine.Tile;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
+import com.tbsg.turnbasedstrategygame.library.graphics.RefreshableScene;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
 import com.tbsg.turnbasedstrategygame.library.io.KeyboardConst;
@@ -26,7 +27,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class GameController implements Initializable {
+public class GameController implements Initializable,RefreshableScene {
 
     @FXML
     private Canvas game;
@@ -119,8 +120,8 @@ public class GameController implements Initializable {
 //        gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
         //render highlight
         //render current position
-        System.out.println(canvasX + " " + canvasY);
-        System.out.println(highlightX + " " + highlightY);
+        // System.out.println(canvasX + " " + canvasY);
+        // System.out.println(highlightX + " " + highlightY);
         gc.setFill(Color.WHITE);
 
         gc.fillRect(canvasX * TILE_SIZE, canvasY * TILE_SIZE, TILE_SIZE, TILE_SIZE);
@@ -178,7 +179,7 @@ public class GameController implements Initializable {
                     j++;
                 }
             }
-            System.out.println(map);
+            // System.out.println(map);
         }
     } catch (Exception e) {
         e.printStackTrace();
@@ -204,7 +205,7 @@ public class GameController implements Initializable {
                 }
                 break;
             case KeyboardConst.KEY_WEST:
-                System.out.println(centralX);
+                // System.out.println(centralX);
                 if (highlightX > 0) {
                     highlightX -= KEYBOARD_MOVE_GRADIENT;
                 }
@@ -259,6 +260,14 @@ public class GameController implements Initializable {
                 }
             }
         });
+        updateLayout();
+    }
+    @Override
+    public void refreshLayout() {
+        updateLayout();
+    }
+
+    void updateLayout() {
         //set const
         double width = GraphicsConst.windowWidth;
         double height = GraphicsConst.windowHeight;

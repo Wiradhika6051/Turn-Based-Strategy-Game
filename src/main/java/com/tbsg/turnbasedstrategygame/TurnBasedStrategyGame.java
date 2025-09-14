@@ -1,19 +1,28 @@
 package com.tbsg.turnbasedstrategygame;
 
+import java.io.IOException;
+
 import com.tbsg.turnbasedstrategygame.controllers.LoadingScreenController;
 import com.tbsg.turnbasedstrategygame.library.audio.BacksoundPlayer;
-import com.tbsg.turnbasedstrategygame.library.engine.*;
-import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
+import com.tbsg.turnbasedstrategygame.library.engine.ConfigManager;
+import com.tbsg.turnbasedstrategygame.library.engine.GameManager;
+import com.tbsg.turnbasedstrategygame.library.engine.MapObject;
+import com.tbsg.turnbasedstrategygame.library.engine.ProgressBarManager;
+import com.tbsg.turnbasedstrategygame.library.engine.TurnManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
+import com.tbsg.turnbasedstrategygame.library.graphics.RefreshableScene;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
+import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.Region;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class TurnBasedStrategyGame extends Application {
+
     //    SceneManager sceneManager;
     LoadingScreenController controller;
 
@@ -26,9 +35,6 @@ public class TurnBasedStrategyGame extends Application {
     //file fxml yanh dimuat di loading screen
     String[] fxml_files = {"main-menu", "credit-screen", "settings", "new-game", "game"};
     final String BACKSOUND_PATH = "forest-with-small-river-birds-and-nature-field-recording-6735.mp3";
-
-    int WIDTH = 640;
-    int HEIGHT = 480;
 
     @Override
     public void start(Stage stage) {
@@ -43,8 +49,25 @@ public class TurnBasedStrategyGame extends Application {
         }
         initProgessBarManager();
         stage.setTitle("Turn Based Strategy Game");
-//        stage.setFullScreen(true);
+        stage.sizeToScene();
         stage.setResizable(false);
+        // System.out.println("Width: " + GraphicsConst.windowWidth + " Height: " + GraphicsConst.windowHeight);
+//        stage.setFullScreen(true);
+        stage.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null && newScene.getRoot() instanceof Region region) {
+                // System.out.println("Resizing scene root to W=" + GraphicsConst.windowWidth + " H=" + GraphicsConst.windowHeight);
+                region.resize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
+                region.setPrefSize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
+                region.setMinSize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
+                region.setMaxSize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
+                region.autosize();
+                region.applyCss();
+                region.layout();
+                if (newScene.getUserData() instanceof RefreshableScene refreshable) {
+                    refreshable.refreshLayout();
+                }
+            }
+        });
         //remove window button
 //        stage.initStyle(StageStyle.UNDECORATED);
         //register stage
@@ -52,13 +75,15 @@ public class TurnBasedStrategyGame extends Application {
 
         Scene scene = SceneManager.getScene("LOADING_SCREEN");
         resizeLoadingScreen();
-        stage.setScene(scene);
 
+        StageManager.setScene(scene);
+        // stage.setWidth(GraphicsConst.windowWidth);
+        // stage.setHeight(GraphicsConst.windowHeight);
 
-////        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+        ////        PauseTransition pause = new PauseTransition(Duration.seconds(2));
 ////        pause.setOnFinished(event ->{
 ////            System.out.println("halo");
-////            stage.setScene(scene2);
+////            stage.setaScene(scene2);
 ////        });
 ////
         stage.show();
@@ -77,7 +102,7 @@ public class TurnBasedStrategyGame extends Application {
             e.printStackTrace();
             return;
         }
-        stage.setScene(SceneManager.getScene("MAIN_MENU"));
+        StageManager.setScene(SceneManager.getScene("MAIN_MENU"));
     }
 
     void initProgessBarManager() {
@@ -93,7 +118,9 @@ public class TurnBasedStrategyGame extends Application {
         //load fxml
         for (String filename : fxml_files) {
             fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource(filename + ".fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), GraphicsConst.windowWidth, GraphicsConst.windowHeight);
+            // Scene scene = new Scene(fxmlLoader.load(), GraphicsConst.windowWidth, GraphicsConst.windowHeight);
+            Scene scene = new Scene(fxmlLoader.load());
+            scene.setUserData(fxmlLoader.getController());
             SceneManager.addScene(filename.toUpperCase().replace('-', '_'), scene);
             pb_manager.forwardProgress("LOADING_FXML");
             // add changeListener
@@ -105,6 +132,10 @@ public class TurnBasedStrategyGame extends Application {
     }
 
     void loadConfig() {
+        // Load scaling
+        Screen screen = Screen.getPrimary();
+        GraphicsConst.scaleX = screen.getOutputScaleX();
+        GraphicsConst.scaleY = screen.getOutputScaleY();
         //load config
         ConfigManager.setInstance(filePath);
 //        pb_manager.forwardProgress("LOADING_CONFIG");

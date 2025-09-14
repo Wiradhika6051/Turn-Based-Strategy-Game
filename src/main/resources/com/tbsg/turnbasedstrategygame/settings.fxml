@@ -45,6 +45,7 @@
                         <items>
                             <MenuItem text="1920x1080" onAction="#handleResolutionChange"/>
                             <MenuItem text="1600x900" onAction="#handleResolutionChange"/>
+                            <MenuItem text="1440x900" onAction="#handleResolutionChange"/>
                             <MenuItem text="1280x720" onAction="#handleResolutionChange"/>
                             <MenuItem text="1024x768" onAction="#handleResolutionChange"/>
                         </items>

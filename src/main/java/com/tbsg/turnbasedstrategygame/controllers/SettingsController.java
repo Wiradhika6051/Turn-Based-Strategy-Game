@@ -1,15 +1,23 @@
 package com.tbsg.turnbasedstrategygame.controllers;
 
+import java.net.URL;
+import java.util.Map;
+import java.util.ResourceBundle;
+
 import com.tbsg.turnbasedstrategygame.library.audio.AudioPlayer;
 import com.tbsg.turnbasedstrategygame.library.audio.BacksoundPlayer;
 import com.tbsg.turnbasedstrategygame.library.engine.ConfigManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
+import com.tbsg.turnbasedstrategygame.library.graphics.RefreshableScene;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
@@ -19,10 +27,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+public class SettingsController implements Initializable, RefreshableScene {
 
-public class SettingsController implements Initializable {
     @FXML
     VBox list;
 
@@ -116,17 +122,46 @@ public class SettingsController implements Initializable {
         ConfigManager.getInstance().save();
         // Pindah ke Main Menu
         Stage stage = (Stage) root.getScene().getWindow();
-        stage.setScene(SceneManager.getScene("MAIN_MENU"));
+        Scene mainMenuScene = SceneManager.getScene("MAIN_MENU");
+        StageManager.setScene(mainMenuScene);
+        // Ensure the scene size matches the stage
+        // mainMenuScene.getRoot().resize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
+        // Refresh layout if controller implements RefreshableScene
+        // Platform.runLater(() -> {
+        //     resizeAllScenes(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
+        // });
+    }
+
+    void resizeAllScenes(double width, double height) {
+        Map<String, Scene> sceneMap = SceneManager.getAllScenes();
+        if (sceneMap != null) {
+            for (Scene scene : sceneMap.values()) {
+                // Resize root node
+                if (scene.getRoot() instanceof Region region) {
+                    // System.out.println("Resizing scene root to W=" + width + " H=" + height);
+                    region.resize(width, height);
+                    region.setPrefSize(width, height);
+                    region.setMinSize(width, height);
+                    region.setMaxSize(width, height);
+                    region.autosize();
+                    region.applyCss();
+                    region.layout();
+                }
+
+                // Refresh controller if it implements RefreshableScene
+                Object controller = scene.getUserData();
+                if (controller instanceof RefreshableScene refreshable) {
+                    refreshable.refreshLayout();
+                }
+            }
+        }
     }
 
     @FXML
     protected void changeMasterVolume() {
-        System.out.println(masterVolumeSlider.getValue());
         //change master volume
         AudioPlayer masterAudioPlayer = BacksoundPlayer.getInstance();
-        System.out.println(masterVolumeSlider.getValue());
         masterAudioPlayer.changeVolume(masterVolumeSlider.getValue());
-        System.out.println(masterAudioPlayer.getVolume());
         //simpan ke config
         ConfigManager.getInstance().set("audio.music.master", Double.toString(masterAudioPlayer.getVolume()));
     }
@@ -136,16 +171,37 @@ public class SettingsController implements Initializable {
         String selectedResolutions = ((MenuItem) event.getSource()).getText();
         resolutionDropdown.setText(selectedResolutions);
         String[] resolutionConfig = selectedResolutions.split("x");
-        //update width and height
-        StageManager.getInstance().setWidth(Integer.parseInt(resolutionConfig[0]));
-        StageManager.getInstance().setHeight(Integer.parseInt(resolutionConfig[1]));
-        updateWidth(Integer.parseInt(resolutionConfig[0]), Integer.parseInt(resolutionConfig[1]));
+        int newWidth = Integer.parseInt(resolutionConfig[0]);
+        int newHeight = Integer.parseInt(resolutionConfig[1]);
         //simpan ke config
         ConfigManager.getInstance().set("graphics.screen.resolution", selectedResolutions);
+        //update width and height
+        StageManager.getInstance().setWidth(newWidth);
+        StageManager.getInstance().setHeight(newHeight);
+        // Update global constants
+        GraphicsConst.windowWidth = newWidth;
+        GraphicsConst.windowHeight = newHeight;
+        updateWidth(newWidth, newHeight);
+        // Refresh all scene
+        Map<String, Scene> sceneMap = SceneManager.getAllScenes();
+        if (sceneMap != null) {
+            for (Scene scene : sceneMap.values()) {
+                // Refresh controller if it implements RefreshableScene
+                Object controller = scene.getUserData();
+                if (controller instanceof RefreshableScene refreshable) {
+                    refreshable.refreshLayout(); // let the controller resize its own root
+                }
+            }
+        }
     }
 
     @FXML
     protected void handleScalingChange(ActionEvent event) {
 
+    }
+
+    @Override
+    public void refreshLayout() {
+        updateWidth(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
     }
 }

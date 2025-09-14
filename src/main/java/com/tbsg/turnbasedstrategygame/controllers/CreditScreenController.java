@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
+import com.tbsg.turnbasedstrategygame.library.graphics.RefreshableScene;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
 
@@ -16,9 +17,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
 
-public class CreditScreenController implements Initializable {
+public class CreditScreenController implements Initializable,RefreshableScene {
     @FXML
     VBox list;
 
@@ -76,6 +76,7 @@ public class CreditScreenController implements Initializable {
         if (height != 0) {
             GraphicsConst.windowHeight = height;
         }
+        // System.out.println("Credit Screen Update Width: " + GraphicsConst.windowWidth + " Height: " + GraphicsConst.windowHeight);
         //set size root
         if (root != null) {
             root.setPrefWidth(GraphicsConst.windowWidth);
@@ -95,7 +96,12 @@ public class CreditScreenController implements Initializable {
 
     @FXML
     protected void backToMenu() {
-        Stage stage = (Stage) root.getScene().getWindow();
-        stage.setScene(SceneManager.getScene("MAIN_MENU"));
+        StageManager.setScene(SceneManager.getScene("MAIN_MENU"));
+    }
+
+    @Override
+    public void refreshLayout() {
+        // System.out.println("Credit Screen Refresh Layout");
+        updateWidth(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
     }
 }
