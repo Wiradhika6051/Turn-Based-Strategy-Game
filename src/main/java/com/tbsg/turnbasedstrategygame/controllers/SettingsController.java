@@ -12,7 +12,6 @@ import com.tbsg.turnbasedstrategygame.library.graphics.RefreshableScene;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -124,37 +123,6 @@ public class SettingsController implements Initializable, RefreshableScene {
         Stage stage = (Stage) root.getScene().getWindow();
         Scene mainMenuScene = SceneManager.getScene("MAIN_MENU");
         StageManager.setScene(mainMenuScene);
-        // Ensure the scene size matches the stage
-        // mainMenuScene.getRoot().resize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
-        // Refresh layout if controller implements RefreshableScene
-        // Platform.runLater(() -> {
-        //     resizeAllScenes(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
-        // });
-    }
-
-    void resizeAllScenes(double width, double height) {
-        Map<String, Scene> sceneMap = SceneManager.getAllScenes();
-        if (sceneMap != null) {
-            for (Scene scene : sceneMap.values()) {
-                // Resize root node
-                if (scene.getRoot() instanceof Region region) {
-                    // System.out.println("Resizing scene root to W=" + width + " H=" + height);
-                    region.resize(width, height);
-                    region.setPrefSize(width, height);
-                    region.setMinSize(width, height);
-                    region.setMaxSize(width, height);
-                    region.autosize();
-                    region.applyCss();
-                    region.layout();
-                }
-
-                // Refresh controller if it implements RefreshableScene
-                Object controller = scene.getUserData();
-                if (controller instanceof RefreshableScene refreshable) {
-                    refreshable.refreshLayout();
-                }
-            }
-        }
     }
 
     @FXML

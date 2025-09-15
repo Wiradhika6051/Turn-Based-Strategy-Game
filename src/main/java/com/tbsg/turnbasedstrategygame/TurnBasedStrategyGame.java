@@ -55,16 +55,24 @@ public class TurnBasedStrategyGame extends Application {
 //        stage.setFullScreen(true);
         stage.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null && newScene.getRoot() instanceof Region region) {
-                // System.out.println("Resizing scene root to W=" + GraphicsConst.windowWidth + " H=" + GraphicsConst.windowHeight);
-                region.resize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
-                region.setPrefSize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
-                region.setMinSize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
-                region.setMaxSize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
-                region.autosize();
-                region.applyCss();
-                region.layout();
-                if (newScene.getUserData() instanceof RefreshableScene refreshable) {
-                    refreshable.refreshLayout();
+                // Cek apakah ada size mismatch
+                boolean needsResize
+                        = region.getWidth() != GraphicsConst.windowWidth
+                        || region.getHeight() != GraphicsConst.windowHeight;
+                System.out.println("Is need resize? "+needsResize);
+                if (needsResize) {
+                    
+                    // System.out.println("Resizing scene root to W=" + GraphicsConst.windowWidth + " H=" + GraphicsConst.windowHeight);
+                    region.resize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
+                    region.setPrefSize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
+                    region.setMinSize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
+                    region.setMaxSize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
+                    region.autosize();
+                    region.applyCss();
+                    region.layout();
+                    if (newScene.getUserData() instanceof RefreshableScene refreshable) {
+                        refreshable.refreshLayout();
+                    }
                 }
             }
         });
@@ -77,15 +85,6 @@ public class TurnBasedStrategyGame extends Application {
         resizeLoadingScreen();
 
         StageManager.setScene(scene);
-        // stage.setWidth(GraphicsConst.windowWidth);
-        // stage.setHeight(GraphicsConst.windowHeight);
-
-        ////        PauseTransition pause = new PauseTransition(Duration.seconds(2));
-////        pause.setOnFinished(event ->{
-////            System.out.println("halo");
-////            stage.setaScene(scene2);
-////        });
-////
         stage.show();
         //mulai main backsound
         BacksoundPlayer.getInstance().play(BACKSOUND_PATH);
