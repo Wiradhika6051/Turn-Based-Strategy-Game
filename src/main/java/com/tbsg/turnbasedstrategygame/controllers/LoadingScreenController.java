@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 public class LoadingScreenController implements Initializable, IProgressBarHandler,RefreshableScene {
 
     @FXML
-    ProgressBar progressBar;
+    public ProgressBar progressBar;
 
     @FXML
     VBox root;
@@ -31,12 +31,10 @@ public class LoadingScreenController implements Initializable, IProgressBarHandl
     }
 
     public void updateWidth() {
-//        System.out.println("Width: " + width);
-//        GraphicsConst.windowWidth = width;
-//                windowWidth = newValue.getWidth();
-
         double progressBarWidth = StageManager.calculateWidth(0.8);
         progressBar.setPrefWidth(progressBarWidth);
+        double progressBarHeight = StageManager.calculateHeight(0.05);
+        progressBar.setPrefHeight(progressBarHeight);
     }
 
     @Override

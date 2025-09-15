@@ -14,12 +14,14 @@ import com.tbsg.turnbasedstrategygame.library.graphics.RefreshableScene;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class TurnBasedStrategyGame extends Application {
 
@@ -39,6 +41,8 @@ public class TurnBasedStrategyGame extends Application {
     @Override
     public void start(Stage stage) {
 //        sceneManager = new SceneManager();
+        //register stage
+        StageManager.setInstance(stage);
         //mulai
         //init progress bar manager
         try {
@@ -51,18 +55,13 @@ public class TurnBasedStrategyGame extends Application {
         stage.setTitle("Turn Based Strategy Game");
         stage.sizeToScene();
         stage.setResizable(false);
-        // System.out.println("Width: " + GraphicsConst.windowWidth + " Height: " + GraphicsConst.windowHeight);
-//        stage.setFullScreen(true);
         stage.sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null && newScene.getRoot() instanceof Region region) {
                 // Cek apakah ada size mismatch
                 boolean needsResize
                         = region.getWidth() != GraphicsConst.windowWidth
                         || region.getHeight() != GraphicsConst.windowHeight;
-                System.out.println("Is need resize? "+needsResize);
                 if (needsResize) {
-                    
-                    // System.out.println("Resizing scene root to W=" + GraphicsConst.windowWidth + " H=" + GraphicsConst.windowHeight);
                     region.resize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
                     region.setPrefSize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
                     region.setMinSize(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
@@ -78,8 +77,6 @@ public class TurnBasedStrategyGame extends Application {
         });
         //remove window button
 //        stage.initStyle(StageStyle.UNDECORATED);
-        //register stage
-        StageManager.setInstance(stage);
 
         Scene scene = SceneManager.getScene("LOADING_SCREEN");
         resizeLoadingScreen();
@@ -101,7 +98,12 @@ public class TurnBasedStrategyGame extends Application {
             e.printStackTrace();
             return;
         }
-        StageManager.setScene(SceneManager.getScene("MAIN_MENU"));
+        // Wait 2s before switch
+        PauseTransition delay = new PauseTransition(Duration.seconds(1));
+        delay.setOnFinished(e -> {
+            StageManager.setScene(SceneManager.getScene("MAIN_MENU"));
+        });
+        delay.play();
     }
 
     void initProgessBarManager() {
@@ -110,7 +112,8 @@ public class TurnBasedStrategyGame extends Application {
 //        pb_manager.addProgressTask("LOADING_CONFIG", 2);
         pb_manager.addProgressTask("SETTING_SOUND", 1);
         pb_manager.addProgressTask("INIT_GAME", 1);
-
+        // Add progress for loading loading screen fxml
+        pb_manager.forwardProgress("LOADING_FXML");
     }
 
     void startProgressBarManager() throws IOException {
