@@ -9,6 +9,7 @@ import com.tbsg.turnbasedstrategygame.library.engine.GameManager;
 import com.tbsg.turnbasedstrategygame.library.engine.MapObject;
 import com.tbsg.turnbasedstrategygame.library.engine.ProgressBarManager;
 import com.tbsg.turnbasedstrategygame.library.engine.TurnManager;
+import com.tbsg.turnbasedstrategygame.library.graphics.AnimationConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.RefreshableScene;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
@@ -99,7 +100,7 @@ public class TurnBasedStrategyGame extends Application {
             return;
         }
         // Wait 2s before switch
-        PauseTransition delay = new PauseTransition(Duration.seconds(1));
+        PauseTransition delay = new PauseTransition(Duration.millis((pb_manager.getTotalProgress()+1)*AnimationConst.animationDelay));
         delay.setOnFinished(e -> {
             StageManager.setScene(SceneManager.getScene("MAIN_MENU"));
         });
@@ -108,10 +109,10 @@ public class TurnBasedStrategyGame extends Application {
 
     void initProgessBarManager() {
         pb_manager = new ProgressBarManager(controller);
-        pb_manager.addProgressTask("LOADING_FXML", fxml_files.length + 1);
+        pb_manager.addProgressTask("LOADING_FXML","Loading Scene...", fxml_files.length + 1);
 //        pb_manager.addProgressTask("LOADING_CONFIG", 2);
-        pb_manager.addProgressTask("SETTING_SOUND", 1);
-        pb_manager.addProgressTask("INIT_GAME", 1);
+        pb_manager.addProgressTask("SETTING_SOUND","Configuring Sound...", 1);
+        pb_manager.addProgressTask("INIT_GAME","Initializing Game...", 1);
         // Add progress for loading loading screen fxml
         pb_manager.forwardProgress("LOADING_FXML");
     }

@@ -11,4 +11,5 @@
       fx:id="root"
       fx:controller="com.tbsg.turnbasedstrategygame.controllers.LoadingScreenController">
     <ProgressBar fx:id="progressBar" progress="0.0"/>
+    <Label fx:id="progressLabel" text="" />
 </VBox>
