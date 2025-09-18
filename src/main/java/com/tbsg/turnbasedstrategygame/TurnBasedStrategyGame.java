@@ -109,12 +109,14 @@ public class TurnBasedStrategyGame extends Application {
 
     void initProgessBarManager() {
         pb_manager = new ProgressBarManager(controller);
-        pb_manager.addProgressTask("LOADING_FXML","Loading Scene...", fxml_files.length + 1);
+        pb_manager.addProgressTask("LOADING_FXML","Loading Scene...", fxml_files.length);
 //        pb_manager.addProgressTask("LOADING_CONFIG", 2);
         pb_manager.addProgressTask("SETTING_SOUND","Configuring Sound...", 1);
         pb_manager.addProgressTask("INIT_GAME","Initializing Game...", 1);
         // Add progress for loading loading screen fxml
-        pb_manager.forwardProgress("LOADING_FXML");
+        // pb_manager.forwardProgress("LOADING_FXML");
+        pb_manager.addProgressTask("INIT_LOADING", "Start Loading...", 1);
+        pb_manager.forwardProgress("INIT_LOADING");
     }
 
     void startProgressBarManager() throws IOException {
