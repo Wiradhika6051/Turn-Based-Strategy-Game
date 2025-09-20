@@ -70,6 +70,10 @@ public class NewGameController implements Initializable,RefreshableScene {
 
     @FXML
     protected void backToMenu() {
+        // Reset civ name
+        civNameInput.setText("");
+        civNamewarning.setText("");
+        // Change scene
         Stage stage = (Stage) root.getScene().getWindow();
         StageManager.setScene(SceneManager.getScene("MAIN_MENU"));
     }
