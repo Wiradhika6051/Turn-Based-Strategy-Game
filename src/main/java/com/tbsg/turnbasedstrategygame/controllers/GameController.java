@@ -27,7 +27,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class GameController implements Initializable,RefreshableScene {
+public class GameController implements Initializable, RefreshableScene {
 
     @FXML
     private Canvas game;
@@ -57,7 +57,6 @@ public class GameController implements Initializable,RefreshableScene {
 
 //    float highlight_x = 0;
 //    float highlight_y = 0;
-
     void setStartingPoint() {
         centralX = 0;
         centralY = 0;
@@ -142,77 +141,112 @@ public class GameController implements Initializable,RefreshableScene {
 //        }
     }
 
-
     public void generateMap() {
-    try (InputStream inputStream = getClass().getResourceAsStream(GraphicsConst.MAP_FOLDER + "default.txt")) {
-        if (inputStream == null) {
-            System.err.println("Map File not found!");
-            return;
-        }
-
-        try (Scanner scanner = new Scanner(inputStream)) {
-            int i = 0;
-            int j = 0;
-            int width = -1;
-            int height = -1;
-
-            while (scanner.hasNextLine()) {
-                String row = scanner.nextLine();
-                if (row.length() == 0) {
-                    continue;
-                }
-                if (width < 0 && height < 0) {
-                    // read dimensions
-                    String[] size = row.split(" ");
-                    width = Integer.parseInt(size[0]);
-                    height = Integer.parseInt(size[1]);
-                    map = GameManager.getInstance().getMap();
-                    map.setX_longitude(width);
-                    map.setY_latitude(height);
-                } else {
-                    for (String tileId : row.split("")) {
-                        Tile tile = new Tile(i, j, Integer.parseInt(tileId));
-                        map.addTile(tile);
-                        i++;
-                    }
-                    i = 0;
-                    j++;
-                }
+        try (InputStream inputStream = getClass().getResourceAsStream(GraphicsConst.MAP_FOLDER + "default.txt")) {
+            if (inputStream == null) {
+                System.err.println("Map File not found!");
+                return;
             }
-            // System.out.println(map);
+
+            try (Scanner scanner = new Scanner(inputStream)) {
+                int i = 0;
+                int j = 0;
+                int width = -1;
+                int height = -1;
+
+                while (scanner.hasNextLine()) {
+                    String row = scanner.nextLine();
+                    if (row.length() == 0) {
+                        continue;
+                    }
+                    if (width < 0 && height < 0) {
+                        // read dimensions
+                        String[] size = row.split(" ");
+                        width = Integer.parseInt(size[0]);
+                        height = Integer.parseInt(size[1]);
+                        map = GameManager.getInstance().getMap();
+                        map.setX_longitude(width);
+                        map.setY_latitude(height);
+                    } else {
+                        for (String tileId : row.split("")) {
+                            Tile tile = new Tile(i, j, Integer.parseInt(tileId));
+                            map.addTile(tile);
+                            i++;
+                        }
+                        i = 0;
+                        j++;
+                    }
+                }
+                // System.out.println(map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
     }
 
     public void onKeyPressed(KeyEvent event) {
         int keyId = event.getCode().getCode();
+        System.out.println("Limit x: "+String.valueOf(centralX - MAP_WIDTH)+" -> "+String.valueOf(centralX + MAP_WIDTH));
+        System.out.println("Limit y: "+String.valueOf(centralY - MAP_HEIGHT)+" -> "+String.valueOf(centralY + MAP_HEIGHT));
         switch (keyId) {
-            case KeyboardConst.KEY_NORTH:
-                if (highlightY > 0) {
-                    highlightY -= KEYBOARD_MOVE_GRADIENT;
+            case KeyboardConst.KEY_NORTH -> {
+                if (highlightY > 0 || centralY > 0) {
+                    // cek apakah masih di dalam bound, kalau diluar itu, geser centralY
+                    if (highlightY > centralY - MAP_HEIGHT && highlightY > 0) {
+                        highlightY -= KEYBOARD_MOVE_GRADIENT;
+                    } else if (centralY > 0) {
+                        centralY -= KEYBOARD_MOVE_GRADIENT;
+                        if(highlightY > centralY - MAP_HEIGHT  && highlightY > 0){
+                            highlightY -= KEYBOARD_MOVE_GRADIENT;
+                        }
+                    }
                 }
-                break;
-            case KeyboardConst.KEY_SOUTH:
-                if (highlightY < map.getY_latitude() - 1) {
-                    highlightY += KEYBOARD_MOVE_GRADIENT;
+            }
+            case KeyboardConst.KEY_SOUTH -> {
+                if (highlightY < map.getY_latitude() - 1 || centralY < map.getY_latitude() - 1) {
+                    // cek apakah masih di dalam bound, kalau diluar itu, geser centralY
+                    if (highlightY < centralY + MAP_HEIGHT && highlightY < map.getY_latitude() - 1) {
+                        highlightY += KEYBOARD_MOVE_GRADIENT;
+                    } else if (centralY < map.getY_latitude() - 1) {
+                        centralY += KEYBOARD_MOVE_GRADIENT;
+                        if(highlightY < centralY + MAP_HEIGHT && highlightY < map.getY_latitude() - 1){
+                            highlightY += KEYBOARD_MOVE_GRADIENT;
+                        }
+                    }
                 }
-                break;
-            case KeyboardConst.KEY_EAST:
-                if (highlightX < map.getX_longitude() - 1) {
-                    highlightX += KEYBOARD_MOVE_GRADIENT;
+            }
+            case KeyboardConst.KEY_EAST -> {
+                if (highlightX < map.getX_longitude() - 1 || centralX < map.getX_longitude() - 1) {
+                    // cek apakah masih di dalam bound, kalau diluar itu, geser centralY
+                    if (highlightX < centralX + MAP_WIDTH && highlightX < map.getX_longitude() -1 ) {
+                        highlightX += KEYBOARD_MOVE_GRADIENT;
+                    } else if (centralX < map.getX_longitude() - 1) {
+                        centralX += KEYBOARD_MOVE_GRADIENT;
+                        if(highlightX < centralX + MAP_WIDTH && highlightX < map.getX_longitude() -1){
+                            highlightX += KEYBOARD_MOVE_GRADIENT;
+                        }
+                    }
                 }
-                break;
-            case KeyboardConst.KEY_WEST:
+            }
+            case KeyboardConst.KEY_WEST -> {
                 // System.out.println(centralX);
-                if (highlightX > 0) {
-                    highlightX -= KEYBOARD_MOVE_GRADIENT;
+                if (highlightX > 0 || centralX > 0) {
+                    // cek apakah masih di dalam bound, kalau diluar itu, geser centralY
+                    if (highlightX > centralX - MAP_WIDTH && highlightX > 0) {
+                        highlightX -= KEYBOARD_MOVE_GRADIENT;
+                    } else if (centralX > 0) {
+                        centralX -= KEYBOARD_MOVE_GRADIENT;
+                        if(highlightX > centralX - MAP_WIDTH && highlightX > 0){
+                            highlightX -= KEYBOARD_MOVE_GRADIENT;
+                        }
+                    }
                 }
-                break;
-            default:
+            }
+            default -> {
                 return;
+            }
         }
+        System.out.println("central(X,Y): "+centralX+" "+centralY+" , highlight(X,Y): " + highlightX + " "+highlightY);
 //        highlightX = centralX;
 //        highlightY = centralY;
         drawCanvas(KEYBOARD_MOVE_GRADIENT);
@@ -262,6 +296,7 @@ public class GameController implements Initializable,RefreshableScene {
         });
         updateLayout();
     }
+
     @Override
     public void refreshLayout() {
         updateLayout();
