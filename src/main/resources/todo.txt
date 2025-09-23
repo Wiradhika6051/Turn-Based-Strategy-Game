@@ -7,5 +7,4 @@
 - refactor kode biar rapih di GameController
 - fix bug controller not working when zoom out of game and then zoom in
 
-- handle resolution change for the game
-- down button in some resolution dont work normally and go one tile below befor normal
+- down button in some resolution dont work normally and go one tile below befor normal (TODO: make the keyboar move just change central X, to move inside the frame, use mouse)

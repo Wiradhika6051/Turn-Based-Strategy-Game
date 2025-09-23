@@ -52,8 +52,8 @@ public class GameController implements Initializable, RefreshableScene {
     final float MOUSE_MOVE_GRADIENT = 1f;
 
     final int BORDER_SIZE = 10;
-    final int MAP_WIDTH = (int) Math.ceil(((GraphicsConst.windowWidth / TILE_SIZE) - 1) / 2);
-    final int MAP_HEIGHT = (int) Math.ceil(((GraphicsConst.windowHeight / TILE_SIZE) - 1) / 2);
+    int MAP_WIDTH;
+    int MAP_HEIGHT;
 
 //    float highlight_x = 0;
 //    float highlight_y = 0;
@@ -65,8 +65,8 @@ public class GameController implements Initializable, RefreshableScene {
             centralX = Math.abs(random.nextInt()) % map.getX_longitude();
             centralY = Math.abs(random.nextInt()) % map.getY_latitude();
         }
-//        highlight_x = centralX;
-//        highlight_y = centralY;
+       highlightX = centralX;
+       highlightY = centralY;
     }
 
     private void drawCanvas(float gradient) {
@@ -186,8 +186,8 @@ public class GameController implements Initializable, RefreshableScene {
 
     public void onKeyPressed(KeyEvent event) {
         int keyId = event.getCode().getCode();
-        System.out.println("Limit x: "+String.valueOf(centralX - MAP_WIDTH)+" -> "+String.valueOf(centralX + MAP_WIDTH));
-        System.out.println("Limit y: "+String.valueOf(centralY - MAP_HEIGHT)+" -> "+String.valueOf(centralY + MAP_HEIGHT));
+        System.out.println("Limit x: " + String.valueOf(centralX - MAP_WIDTH) + " -> " + String.valueOf(centralX + MAP_WIDTH));
+        System.out.println("Limit y: " + String.valueOf(centralY - MAP_HEIGHT) + " -> " + String.valueOf(centralY + MAP_HEIGHT));
         switch (keyId) {
             case KeyboardConst.KEY_NORTH -> {
                 if (highlightY > 0 || centralY > 0) {
@@ -196,7 +196,7 @@ public class GameController implements Initializable, RefreshableScene {
                         highlightY -= KEYBOARD_MOVE_GRADIENT;
                     } else if (centralY > 0) {
                         centralY -= KEYBOARD_MOVE_GRADIENT;
-                        if(highlightY > centralY - MAP_HEIGHT  && highlightY > 0){
+                        if (highlightY > centralY - MAP_HEIGHT && highlightY > 0) {
                             highlightY -= KEYBOARD_MOVE_GRADIENT;
                         }
                     }
@@ -209,7 +209,7 @@ public class GameController implements Initializable, RefreshableScene {
                         highlightY += KEYBOARD_MOVE_GRADIENT;
                     } else if (centralY < map.getY_latitude() - 1) {
                         centralY += KEYBOARD_MOVE_GRADIENT;
-                        if(highlightY < centralY + MAP_HEIGHT && highlightY < map.getY_latitude() - 1){
+                        if (highlightY < centralY + MAP_HEIGHT && highlightY < map.getY_latitude() - 1) {
                             highlightY += KEYBOARD_MOVE_GRADIENT;
                         }
                     }
@@ -218,11 +218,11 @@ public class GameController implements Initializable, RefreshableScene {
             case KeyboardConst.KEY_EAST -> {
                 if (highlightX < map.getX_longitude() - 1 || centralX < map.getX_longitude() - 1) {
                     // cek apakah masih di dalam bound, kalau diluar itu, geser centralY
-                    if (highlightX < centralX + MAP_WIDTH && highlightX < map.getX_longitude() -1 ) {
+                    if (highlightX < centralX + MAP_WIDTH && highlightX < map.getX_longitude() - 1) {
                         highlightX += KEYBOARD_MOVE_GRADIENT;
                     } else if (centralX < map.getX_longitude() - 1) {
                         centralX += KEYBOARD_MOVE_GRADIENT;
-                        if(highlightX < centralX + MAP_WIDTH && highlightX < map.getX_longitude() -1){
+                        if (highlightX < centralX + MAP_WIDTH && highlightX < map.getX_longitude() - 1) {
                             highlightX += KEYBOARD_MOVE_GRADIENT;
                         }
                     }
@@ -236,7 +236,7 @@ public class GameController implements Initializable, RefreshableScene {
                         highlightX -= KEYBOARD_MOVE_GRADIENT;
                     } else if (centralX > 0) {
                         centralX -= KEYBOARD_MOVE_GRADIENT;
-                        if(highlightX > centralX - MAP_WIDTH && highlightX > 0){
+                        if (highlightX > centralX - MAP_WIDTH && highlightX > 0) {
                             highlightX -= KEYBOARD_MOVE_GRADIENT;
                         }
                     }
@@ -246,7 +246,7 @@ public class GameController implements Initializable, RefreshableScene {
                 return;
             }
         }
-        System.out.println("central(X,Y): "+centralX+" "+centralY+" , highlight(X,Y): " + highlightX + " "+highlightY);
+        System.out.println("central(X,Y): " + centralX + " " + centralY + " , highlight(X,Y): " + highlightX + " " + highlightY);
 //        highlightX = centralX;
 //        highlightY = centralY;
         drawCanvas(KEYBOARD_MOVE_GRADIENT);
@@ -312,6 +312,8 @@ public class GameController implements Initializable, RefreshableScene {
         if (height != 0) {
             GraphicsConst.windowHeight = height;
         }
+        MAP_WIDTH = (int) Math.ceil(((GraphicsConst.windowWidth / TILE_SIZE) - 1) / 2);
+        MAP_HEIGHT = (int) Math.ceil(((GraphicsConst.windowHeight / TILE_SIZE) - 1) / 2);
         //set size root
         if (root != null) {
             root.setPrefWidth(GraphicsConst.windowWidth);
