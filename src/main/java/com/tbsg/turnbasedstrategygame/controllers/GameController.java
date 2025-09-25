@@ -51,10 +51,14 @@ public class GameController implements Initializable, RefreshableScene {
     double cameraOffsetX = 0; // canvas tile
     double cameraOffsetY = 0; // canvas tile
 
+    private double mouseScrollX = 0;
+    private double mouseScrollY = 0;
+
     final int TILE_SIZE = 100;
     final double KEYBOARD_MOVE_GRADIENT = 0.1;
-    final double MOUSE_MOVE_GRADIENT = .2f;
+    final double MOUSE_MOVE_GRADIENT = 0.1;
     final int BORDER_MARGIN = 50;
+    final double EDGE_SCROLL_THRESHOLD = 30; // px distance from edge
 
     final int BORDER_SIZE = 10;
     int MAP_WIDTH;
@@ -174,6 +178,10 @@ public class GameController implements Initializable, RefreshableScene {
         // Render highlight
         int x = (int) highlightX;
         int y = (int) highlightY;
+        if(!map.isCoordinateValid(x, y)){
+            // dont render highlight if invalid
+            return;
+        }
         int dx = x - (int) centralX;
         int dy = y - (int) centralY;
         // convert to pixels
@@ -522,6 +530,47 @@ public class GameController implements Initializable, RefreshableScene {
     }
 
     public void onMouseMoved(MouseEvent event) {
+        double mouseX = event.getX();
+        double mouseY = event.getY();
+
+        // 1. Move highlight to hovered tile
+        int tileX = (int) ((mouseX - GraphicsConst.windowWidth / 2.0) / TILE_SIZE + centralX);
+        int tileY = (int) ((mouseY - GraphicsConst.windowHeight / 2.0) / TILE_SIZE + centralY);
+        highlightX = tileX;
+        highlightY = tileY;
+
+        // 2. Handle edge scrolling
+        mouseScrollX = 0;
+        mouseScrollY = 0;
+
+        // Left edge
+        if (mouseX < EDGE_SCROLL_THRESHOLD) {
+            double factor = 1.0 - (mouseX / EDGE_SCROLL_THRESHOLD); // semakin ke kiri semakin cepet scrollnya
+            mouseScrollX = -MOUSE_MOVE_GRADIENT * factor;
+        } // Right edge
+        else if (mouseX > GraphicsConst.windowWidth - EDGE_SCROLL_THRESHOLD) {
+            double factor = 1.0 - (mouseX - (GraphicsConst.windowWidth - EDGE_SCROLL_THRESHOLD)) / EDGE_SCROLL_THRESHOLD;
+            mouseScrollX = MOUSE_MOVE_GRADIENT * factor;
+        }
+        // Upper edge
+        if (mouseY < EDGE_SCROLL_THRESHOLD) {
+            double factor = 1.0 - (mouseY / EDGE_SCROLL_THRESHOLD);
+            mouseScrollY = -MOUSE_MOVE_GRADIENT * factor;
+        } // Low edge
+        else if (mouseY > GraphicsConst.windowHeight - EDGE_SCROLL_THRESHOLD) {
+            double factor = 1.0 - (mouseY - (GraphicsConst.windowHeight - EDGE_SCROLL_THRESHOLD)) / EDGE_SCROLL_THRESHOLD;
+            mouseScrollY = MOUSE_MOVE_GRADIENT * factor;
+        }
+        // // Apply scroll
+        // centralX += scrollX;
+        // centralY += scrollY;
+
+        // // Clamp inside map
+        // centralX = Math.max(0, Math.min(centralX, map.getX_longitude() - 1));
+        // centralY = Math.max(0, Math.min(centralY, map.getY_latitude() - 1));
+    }
+
+    public void old_onMouseMoved(MouseEvent event) {
         double tileX = (double) event.getX() / TILE_SIZE;
         double tileY = (double) event.getY() / TILE_SIZE;
         double baseX = centralX - MAP_WIDTH;
@@ -619,7 +668,9 @@ public class GameController implements Initializable, RefreshableScene {
         if (moveRight) {
             centralX += KEYBOARD_MOVE_GRADIENT;
         }
-
+        // Mouse edge scrolling
+        centralX += mouseScrollX;
+        centralY += mouseScrollY;
         // Clamp camera inside map bounds
         if (centralX < 0) {
             centralX = 0;
