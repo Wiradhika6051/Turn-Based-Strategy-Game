@@ -14,8 +14,8 @@ if "%~1"=="skip" (
 )
 
 rem Run app and capture all output
-.\target\tbsg-app\bin\tbsg > crashlog.txt 2>&1
-
+@REM .\target\tbsg-app\bin\tbsg > crashlog.txt 2>&1
+.\target\tbsg-app\bin\tbsg
 echo.
 echo Application exited. See crashlog.txt for details.
 pause

@@ -1,6 +1,4 @@
 - fix clunkyness mindahin map pakei mouse
-- able to switch between mouse and keyboard movement
-- buat biar seminimal mungkin gray tile muncul kalau di pojok
 - testing Scene AManger, StageManager, Tile, MapObject,City,Civilization,TurnManager,Unit, GAmeManager
 - move civ to GameManager
 - kasus kalau tile nya null
