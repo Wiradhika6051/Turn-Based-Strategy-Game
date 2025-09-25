@@ -54,6 +54,9 @@ public class GameController implements Initializable, RefreshableScene {
     private double mouseScrollX = 0;
     private double mouseScrollY = 0;
 
+    private double lastMouseX = -1;
+    private double lastMouseY = -1;
+
     final int TILE_SIZE = 100;
     final double KEYBOARD_MOVE_GRADIENT = 0.1;
     final double MOUSE_MOVE_GRADIENT = 0.1;
@@ -135,20 +138,20 @@ public class GameController implements Initializable, RefreshableScene {
     private void drawCanvas() {
 
         int rows = map.getY_latitude(); // how many tiles fit vertically
-        int cols = map.getY_latitude();  // how many tiles fit horizontally
+        int cols = map.getX_longitude();  // how many tiles fit horizontally
 
         double centerScreenX = GraphicsConst.windowWidth / 2.0;
         double centerScreenY = GraphicsConst.windowHeight / 2.0;
         System.out.println(String.format("row,cosl: %d %d", rows, cols));
 
         gc.setFill(Color.BLUE);
-        for (int y = (int) centralY - MAP_HEIGHT; y <= (int) centralY + MAP_HEIGHT; y++) {
-            for (int x = (int) centralX - MAP_WIDTH; x <= (int) centralX + MAP_WIDTH; x++) {
+        for (int y = (int) centralY - MAP_HEIGHT - 1; y <= (int) centralY + MAP_HEIGHT + 1; y++) {
+            for (int x = (int) centralX - MAP_WIDTH - 1; x <= (int) centralX + MAP_WIDTH + 1; x++) {
                 // Compute tile position in pixels
                 // double px = x * TILE_SIZE + offsetX;
                 // double py = y * TILE_SIZE + offsetY;
-                int dx = x - (int) centralX;
-                int dy = y - (int) centralY;
+                double dx = x - centralX;
+                double dy = y - centralY;
 
                 // convert to pixels
                 double px = centerScreenX + dx * TILE_SIZE;
@@ -162,7 +165,7 @@ public class GameController implements Initializable, RefreshableScene {
                 }
 
                 if (map.isCoordinateValid(x, y)) {
-                    Tile tile = map.findTile((int) x, (int) y);
+                    Tile tile = map.findTile(x, y);
                     gc.setFill(colors[tile.getTerrainId()]);
                 } else {
                     gc.setFill(Color.GREY);
@@ -178,12 +181,12 @@ public class GameController implements Initializable, RefreshableScene {
         // Render highlight
         int x = (int) highlightX;
         int y = (int) highlightY;
-        if(!map.isCoordinateValid(x, y)){
+        if (!map.isCoordinateValid(x, y)) {
             // dont render highlight if invalid
             return;
         }
-        int dx = x - (int) centralX;
-        int dy = y - (int) centralY;
+        double dx = highlightX - centralX;
+        double dy = highlightY - centralY;
         // convert to pixels
         double px = centerScreenX + dx * TILE_SIZE;
         double py = centerScreenY + dy * TILE_SIZE;
@@ -530,12 +533,13 @@ public class GameController implements Initializable, RefreshableScene {
     }
 
     public void onMouseMoved(MouseEvent event) {
-        double mouseX = event.getX();
-        double mouseY = event.getY();
+        lastMouseX = event.getX();
+        lastMouseY = event.getY();
 
         // 1. Move highlight to hovered tile
-        int tileX = (int) ((mouseX - GraphicsConst.windowWidth / 2.0) / TILE_SIZE + centralX);
-        int tileY = (int) ((mouseY - GraphicsConst.windowHeight / 2.0) / TILE_SIZE + centralY);
+        double adjustedY = lastMouseY - root.getPadding().getTop();
+        int tileX = (int) Math.floor((lastMouseX - GraphicsConst.windowWidth / 2.0) / TILE_SIZE + (int) centralX);
+        int tileY = (int) Math.floor((adjustedY - GraphicsConst.windowHeight / 2.0) / TILE_SIZE + (int) centralY);
         highlightX = tileX;
         highlightY = tileY;
 
@@ -544,21 +548,21 @@ public class GameController implements Initializable, RefreshableScene {
         mouseScrollY = 0;
 
         // Left edge
-        if (mouseX < EDGE_SCROLL_THRESHOLD) {
-            double factor = 1.0 - (mouseX / EDGE_SCROLL_THRESHOLD); // semakin ke kiri semakin cepet scrollnya
+        if (lastMouseX < EDGE_SCROLL_THRESHOLD) {
+            double factor = 1.0 - (lastMouseX / EDGE_SCROLL_THRESHOLD); // semakin ke kiri semakin cepet scrollnya
             mouseScrollX = -MOUSE_MOVE_GRADIENT * factor;
         } // Right edge
-        else if (mouseX > GraphicsConst.windowWidth - EDGE_SCROLL_THRESHOLD) {
-            double factor = 1.0 - (mouseX - (GraphicsConst.windowWidth - EDGE_SCROLL_THRESHOLD)) / EDGE_SCROLL_THRESHOLD;
+        else if (lastMouseX > GraphicsConst.windowWidth - EDGE_SCROLL_THRESHOLD) {
+            double factor = 1.0 - (lastMouseX - (GraphicsConst.windowWidth - EDGE_SCROLL_THRESHOLD)) / EDGE_SCROLL_THRESHOLD;
             mouseScrollX = MOUSE_MOVE_GRADIENT * factor;
         }
         // Upper edge
-        if (mouseY < EDGE_SCROLL_THRESHOLD) {
-            double factor = 1.0 - (mouseY / EDGE_SCROLL_THRESHOLD);
+        if (lastMouseY < EDGE_SCROLL_THRESHOLD) {
+            double factor = 1.0 - (lastMouseY / EDGE_SCROLL_THRESHOLD);
             mouseScrollY = -MOUSE_MOVE_GRADIENT * factor;
         } // Low edge
-        else if (mouseY > GraphicsConst.windowHeight - EDGE_SCROLL_THRESHOLD) {
-            double factor = 1.0 - (mouseY - (GraphicsConst.windowHeight - EDGE_SCROLL_THRESHOLD)) / EDGE_SCROLL_THRESHOLD;
+        else if (lastMouseY > GraphicsConst.windowHeight - EDGE_SCROLL_THRESHOLD) {
+            double factor = 1.0 - (lastMouseY - (GraphicsConst.windowHeight - EDGE_SCROLL_THRESHOLD)) / EDGE_SCROLL_THRESHOLD;
             mouseScrollY = MOUSE_MOVE_GRADIENT * factor;
         }
         // // Apply scroll
@@ -669,8 +673,29 @@ public class GameController implements Initializable, RefreshableScene {
             centralX += KEYBOARD_MOVE_GRADIENT;
         }
         // Mouse edge scrolling
-        centralX += mouseScrollX;
-        centralY += mouseScrollY;
+        if (lastMouseX >= 0 && lastMouseY >= 0) {
+            mouseScrollX = 0;
+            mouseScrollY = 0;
+
+            if (lastMouseX < EDGE_SCROLL_THRESHOLD) {
+                double factor = 1.0 - (lastMouseX / EDGE_SCROLL_THRESHOLD);
+                mouseScrollX = -MOUSE_MOVE_GRADIENT * factor;
+            } else if (lastMouseX > GraphicsConst.windowWidth - EDGE_SCROLL_THRESHOLD) {
+                double factor = (lastMouseX - (GraphicsConst.windowWidth - EDGE_SCROLL_THRESHOLD)) / EDGE_SCROLL_THRESHOLD;
+                mouseScrollX = MOUSE_MOVE_GRADIENT * factor;
+            }
+
+            if (lastMouseY < EDGE_SCROLL_THRESHOLD) {
+                double factor = 1.0 - (lastMouseY / EDGE_SCROLL_THRESHOLD);
+                mouseScrollY = -MOUSE_MOVE_GRADIENT * factor;
+            } else if (lastMouseY > GraphicsConst.windowHeight - EDGE_SCROLL_THRESHOLD) {
+                double factor = (lastMouseY - (GraphicsConst.windowHeight - EDGE_SCROLL_THRESHOLD)) / EDGE_SCROLL_THRESHOLD;
+                mouseScrollY = MOUSE_MOVE_GRADIENT * factor;
+            }
+
+            centralX += mouseScrollX;
+            centralY += mouseScrollY;
+        }
         // Clamp camera inside map bounds
         if (centralX < 0) {
             centralX = 0;
