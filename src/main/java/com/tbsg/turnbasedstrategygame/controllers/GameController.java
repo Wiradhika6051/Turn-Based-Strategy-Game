@@ -538,8 +538,8 @@ public class GameController implements Initializable, RefreshableScene {
 
         // 1. Move highlight to hovered tile
         double adjustedY = lastMouseY - root.getPadding().getTop();
-        int tileX = (int) Math.floor((lastMouseX - GraphicsConst.windowWidth / 2.0) / TILE_SIZE + (int) centralX);
-        int tileY = (int) Math.floor((adjustedY - GraphicsConst.windowHeight / 2.0) / TILE_SIZE + (int) centralY);
+        int tileX = (int) Math.floor((lastMouseX - GraphicsConst.windowWidth / 2.0) / TILE_SIZE +  centralX);
+        int tileY = (int) Math.floor((adjustedY - GraphicsConst.windowHeight / 2.0) / TILE_SIZE +  centralY);
         highlightX = tileX;
         highlightY = tileY;
 

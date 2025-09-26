@@ -1,8 +1,5 @@
-- fix clunkyness mindahin map pakei mouse
 - testing Scene AManger, StageManager, Tile, MapObject,City,Civilization,TurnManager,Unit, GAmeManager
 - move civ to GameManager
 - kasus kalau tile nya null
 - refactor kode biar rapih di GameController
 - fix bug controller not working when zoom out of game and then zoom in
-- keyboard camera movement still in the end integer based
-- down button in some resolution dont work normally and go one tile below befor normal (TODO: make the keyboar move just change central X, to move inside the frame, use mouse)
