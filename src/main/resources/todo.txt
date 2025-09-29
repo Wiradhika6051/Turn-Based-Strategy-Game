@@ -1,5 +1,6 @@
 - testing Scene AManger, StageManager, Tile, MapObject,City,Civilization,TurnManager,Unit, GAmeManager
 - move civ to GameManager
-- kasus kalau tile nya null
 - refactor kode biar rapih di GameController
-- fix bug controller not working when zoom out of game and then zoom in
+
+- feat: add tile loading system from png
+- handle coast
