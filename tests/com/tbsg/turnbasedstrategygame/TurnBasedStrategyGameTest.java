@@ -54,7 +54,7 @@ public class TurnBasedStrategyGameTest extends ApplicationTest {
 
     void startProgressBarManager() throws IOException {
         //load fxml
-        fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("hello-view.fxml"));
+        fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("loading-screen.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 640, 480);
         SceneManager.addScene("TEST", scene);
         pb_manager.forwardProgress("LOADING_FXML");
