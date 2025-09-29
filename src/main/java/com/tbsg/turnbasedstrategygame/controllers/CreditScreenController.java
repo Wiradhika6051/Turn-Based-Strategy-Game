@@ -41,18 +41,7 @@ public class CreditScreenController implements Initializable,RefreshableScene {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //update size back button
-//        root.boundsInParentProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue != null) {
-//                updateWidth(newValue.getWidth(), newValue.getHeight());
-//            }
-//        });
         updateWidth(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
-//        backButton.boundsInParentProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue != null) {
-//                updateWidth(newValue.getWidth(), newValue.getHeight());
-//            }
-//        });
 
         //tambahin credit
         for (int i = 0; i < creditList.length; i++) {
@@ -61,9 +50,9 @@ public class CreditScreenController implements Initializable,RefreshableScene {
             //styling
             creditsCategory.setFont(Font.font("System Bold", FontWeight.BOLD, 15.0));
             list.getChildren().add(creditsCategory);
-            for (int j = 0; j < credits[i].length; j++) {
+            for (String credit : credits[i]) {
                 //tambahin nama
-                list.getChildren().addAll(new Label(credits[i][j]));
+                list.getChildren().addAll(new Label(credit));
             }
         }
     }
@@ -76,7 +65,6 @@ public class CreditScreenController implements Initializable,RefreshableScene {
         if (height != 0) {
             GraphicsConst.windowHeight = height;
         }
-        // System.out.println("Credit Screen Update Width: " + GraphicsConst.windowWidth + " Height: " + GraphicsConst.windowHeight);
         //set size root
         if (root != null) {
             root.setPrefWidth(GraphicsConst.windowWidth);
@@ -101,7 +89,6 @@ public class CreditScreenController implements Initializable,RefreshableScene {
 
     @Override
     public void refreshLayout() {
-        // System.out.println("Credit Screen Refresh Layout");
         updateWidth(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
     }
 }
