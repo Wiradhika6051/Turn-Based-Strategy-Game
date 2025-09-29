@@ -48,11 +48,11 @@ public class GameController implements Initializable, RefreshableScene {
     double highlightX = 0; // IDX TILE
     double highlightY = 0; // IDX TILE
 
-    private double mouseScrollX = 0;
-    private double mouseScrollY = 0;
+    double mouseScrollX = 0;
+    double mouseScrollY = 0;
 
-    private double lastMouseX = -1;
-    private double lastMouseY = -1;
+    double lastMouseX = -1;
+    double lastMouseY = -1;
 
     final int TILE_SIZE = 100;
     final double KEYBOARD_MOVE_GRADIENT = 0.1;
@@ -63,11 +63,11 @@ public class GameController implements Initializable, RefreshableScene {
     int MAP_WIDTH;
     int MAP_HEIGHT;
 
-    private boolean moveUp = false;
-    private boolean moveDown = false;
-    private boolean moveLeft = false;
-    private boolean moveRight = false;
-    private AnimationTimer gameLoop;
+    boolean moveUp = false;
+    boolean moveDown = false;
+    boolean moveLeft = false;
+    boolean moveRight = false;
+    AnimationTimer gameLoop;
 
     void setStartingPoint() {
         centralX = 0;
@@ -82,13 +82,8 @@ public class GameController implements Initializable, RefreshableScene {
     }
 
     void drawCanvas() {
-
-        int rows = map.getY_latitude(); // how many tiles fit vertically
-        int cols = map.getX_longitude();  // how many tiles fit horizontally
-
         double centerScreenX = GraphicsConst.windowWidth / 2.0;
         double centerScreenY = GraphicsConst.windowHeight / 2.0;
-        System.out.println(String.format("row,cosl: %d %d", rows, cols));
 
         gc.setFill(Color.BLUE);
         for (int y = (int) centralY - MAP_HEIGHT - 1; y <= (int) centralY + MAP_HEIGHT + 1; y++) {
@@ -160,6 +155,7 @@ public class GameController implements Initializable, RefreshableScene {
         );
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     public void generateMap() {
         try (InputStream inputStream = getClass().getResourceAsStream(GraphicsConst.MAP_FOLDER + "default.txt")) {
             if (inputStream == null) {

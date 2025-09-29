@@ -24,13 +24,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class SettingsController implements Initializable, RefreshableScene {
-
-    @FXML
-    VBox list;
-
     @FXML
     HBox resolutionTab;
 
@@ -58,21 +53,11 @@ public class SettingsController implements Initializable, RefreshableScene {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //update size back button
-//        root.boundsInParentProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue != null) {
         updateWidth(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
         //set master volume slider initial value
         masterVolumeSlider.setValue(BacksoundPlayer.getInstance().getVolume());
         //set default resolution
         resolutionDropdown.setText(ConfigManager.getInstance().get("graphics.screen.resolution"));
-//            }
-//        });
-
-//        masterVolumeSlider.boundsInParentProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue != null) {
-//                masterVolumeSlider.setValue(BacksoundPlayer.getInstance().getVolume());
-//            }
-//        });
     }
 
     void updateWidth(double width, double height) {
@@ -89,10 +74,6 @@ public class SettingsController implements Initializable, RefreshableScene {
             root.setPrefWidth(GraphicsConst.windowWidth);
             root.setPrefHeight(GraphicsConst.windowHeight);
             root.setPadding(new Insets(StageManager.calculateHeight(0.013), 0, 0, 0));
-            //set root font
-//            root.setStyle(String.format("-fx-font-size: %dpx;", (int) (10)));
-//            StageManager.getInstance().setWidth(GraphicsConst.windowWidth);
-//            StageManager.getInstance().setHeight(GraphicsConst.windowHeight);
         }
         //set size komponen
         if (backButton != null) {
@@ -102,7 +83,6 @@ public class SettingsController implements Initializable, RefreshableScene {
 
         if (resolutionTab != null) {
             resolutionTab.setPrefWidth(StageManager.calculateWidth(0.5));
-//            resolutionTab.setPrefHeight(StageManager.calculateHeight(1.0));
         }
         if (resolutionMargin != null) {
             resolutionMargin.setPrefWidth(StageManager.calculateWidth(0.1));
@@ -120,7 +100,6 @@ public class SettingsController implements Initializable, RefreshableScene {
         // Simpan konfigurasi
         ConfigManager.getInstance().save();
         // Pindah ke Main Menu
-        Stage stage = (Stage) root.getScene().getWindow();
         Scene mainMenuScene = SceneManager.getScene("MAIN_MENU");
         StageManager.setScene(mainMenuScene);
     }

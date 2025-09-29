@@ -51,11 +51,6 @@ public class MainMenuController implements Initializable, RefreshableScene {
         setting.setPrefWidth(StageManager.calculateWidth(0.5));
         credits.setPrefWidth(StageManager.calculateWidth(0.5));
         quit.setPrefWidth(StageManager.calculateWidth(0.5));
-        Stage stage = StageManager.getInstance();
-        // System.out.println("Stage W=" + stage.getWidth() + " H=" + stage.getHeight());
-        // System.out.println("Scene W=" + stage.getScene().getWidth() + " H=" + stage.getScene().getHeight());
-        // System.out.println("Root W=" + root.getWidth() + " H=" + root.getHeight());
-        //play backsound
     }
 
     @FXML
@@ -68,19 +63,16 @@ public class MainMenuController implements Initializable, RefreshableScene {
 
     @FXML
     protected void seeCredit() {
-        Stage stage = (Stage) credits.getScene().getWindow();
         StageManager.setScene(SceneManager.getScene("CREDIT_SCREEN"));
     }
 
     @FXML
     protected void openSettings() {
-        Stage stage = (Stage) setting.getScene().getWindow();
         StageManager.setScene(SceneManager.getScene("SETTINGS"));
     }
 
     @FXML
     protected void startNewGame() {
-        Stage stage = (Stage) setting.getScene().getWindow();
         StageManager.setScene(SceneManager.getScene("NEW_GAME"));
     }
 

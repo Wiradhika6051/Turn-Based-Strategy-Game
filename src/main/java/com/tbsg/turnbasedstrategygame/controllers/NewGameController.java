@@ -14,14 +14,12 @@ import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 public class NewGameController implements Initializable,RefreshableScene {
     @FXML
@@ -31,10 +29,7 @@ public class NewGameController implements Initializable,RefreshableScene {
     @FXML
     TextField civNameInput;
     @FXML
-    Button startButton;
-    @FXML
     Label civNamewarning;
-
     @FXML
     Region civNameMargin;
 
@@ -74,7 +69,6 @@ public class NewGameController implements Initializable,RefreshableScene {
         civNameInput.setText("");
         civNamewarning.setText("");
         // Change scene
-        Stage stage = (Stage) root.getScene().getWindow();
         StageManager.setScene(SceneManager.getScene("MAIN_MENU"));
     }
 
@@ -101,7 +95,6 @@ public class NewGameController implements Initializable,RefreshableScene {
             Civilization player = new Civilization(0, civilization_name);
             turnManager.addCivilization(player);
             // Start Game
-            Stage stage = (Stage) root.getScene().getWindow();
             StageManager.setScene(SceneManager.getScene("GAME"));
         }
     }
