@@ -28,16 +28,17 @@ public class ConfigManager {
         return ConfigManager.instance;
     }
 
-    void loadConfig(String path) {
+    @SuppressWarnings("CallToPrintStackTrace")
+    final void loadConfig(String path) {
         try {
             this.path = path;
             File configFile = new File(path);
-            Scanner configReader = new Scanner(configFile);
-            while (configReader.hasNextLine()) {
-                String[] config = configReader.nextLine().split("=");
-                configs.put(config[0], config[1]);
+            try (Scanner configReader = new Scanner(configFile)) {
+                while (configReader.hasNextLine()) {
+                    String[] config = configReader.nextLine().split("=");
+                    configs.put(config[0], config[1]);
+                }
             }
-            configReader.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -51,14 +52,15 @@ public class ConfigManager {
         configs.put(key, value);
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     public void save() {
         try {
-            FileWriter configWriter = new FileWriter(path);
-            for (Map.Entry<String, String> config : configs.entrySet()) {
-                String configFormat = config.getKey() + "=" + config.getValue() + "\n";
-                configWriter.write(configFormat);
+            try (FileWriter configWriter = new FileWriter(path)) {
+                for (Map.Entry<String, String> config : configs.entrySet()) {
+                    String configFormat = config.getKey() + "=" + config.getValue() + "\n";
+                    configWriter.write(configFormat);
+                }
             }
-            configWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

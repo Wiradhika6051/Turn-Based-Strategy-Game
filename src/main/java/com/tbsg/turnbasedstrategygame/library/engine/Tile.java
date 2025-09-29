@@ -37,7 +37,7 @@ public class Tile {
 
     @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("<x=");
         buffer.append(x);
         buffer.append(",y=");

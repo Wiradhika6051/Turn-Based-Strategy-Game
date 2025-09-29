@@ -27,8 +27,6 @@ public class StageManager {
             return 0.0;
         }
         //only support single screen
-//        return scale * (GraphicsConst.screenWidth / GraphicsConst.windowWidth) * GraphicsConst.screenWidth;
-//        return scale * (StageManager.getInstance().getWidth() / GraphicsConst.windowWidth) * StageManager.getInstance().getWidth();
         return factor * GraphicsConst.windowWidth;
 
     }
@@ -50,8 +48,8 @@ public class StageManager {
             return null;
         }
         Window window = scene.getWindow();
-        if (window instanceof Stage) {
-            return (Stage) window;
+        if (window instanceof Stage stage) {
+            return stage;
         }
         return null;
     }

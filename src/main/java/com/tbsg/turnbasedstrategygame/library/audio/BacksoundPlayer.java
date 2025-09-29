@@ -1,14 +1,14 @@
 package com.tbsg.turnbasedstrategygame.library.audio;
 
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
-
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 public class BacksoundPlayer extends AudioPlayer {
 
@@ -25,13 +25,12 @@ public class BacksoundPlayer extends AudioPlayer {
         sound = null;
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     public void addSound(String path) {
-        Media sound = null;
+        sound = null;
         try {
             sound = new Media(getClass().getResource(AudioConst.AUDIO_FOLDER + path).toURI().toString());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
+        } catch (URISyntaxException | NullPointerException e) {
             e.printStackTrace();
         }
         if (sound != null) {
@@ -44,7 +43,7 @@ public class BacksoundPlayer extends AudioPlayer {
     @Override
     public void play(String path) {
         Integer index = soundIndex.get(path);
-        if (index == null && soundIndex.size() > 0) {
+        if (index == null && !soundIndex.isEmpty()) {
             index = 0;
         }
         //dapetin sound
@@ -60,11 +59,8 @@ public class BacksoundPlayer extends AudioPlayer {
             mediaPlayer = new MediaPlayer(sound);
             //autoplay
 
-            mediaPlayer.setOnEndOfMedia(new Runnable() {
-                @Override
-                public void run() {
-                    mediaPlayer.seek(Duration.ZERO);
-                }
+            mediaPlayer.setOnEndOfMedia(() -> {
+                mediaPlayer.seek(Duration.ZERO);
             });
             mediaPlayer.play();
         }

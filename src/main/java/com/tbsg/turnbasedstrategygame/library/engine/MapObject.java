@@ -42,7 +42,7 @@ public class MapObject {
 
     @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("[");
         for (Tile tile : tiles) {
             buffer.append(tile.toString());

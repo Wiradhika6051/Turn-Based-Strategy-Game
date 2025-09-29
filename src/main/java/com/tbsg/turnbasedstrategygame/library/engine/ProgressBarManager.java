@@ -3,11 +3,9 @@ package com.tbsg.turnbasedstrategygame.library.engine;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.tbsg.turnbasedstrategygame.controllers.LoadingScreenController;
 import com.tbsg.turnbasedstrategygame.library.graphics.AnimationConst;
 
 import javafx.animation.PauseTransition;
-import javafx.animation.SequentialTransition;
 import javafx.util.Duration;
 
 public class ProgressBarManager {
@@ -15,14 +13,12 @@ public class ProgressBarManager {
     Map<String, LoadingTask> progress;
     int totalProgress;
     int currentProgress;
-    // PauseTransition pause;
-    SequentialTransition queue = new SequentialTransition();
     double queuedDelay;
 
     IProgressBarHandler handler;
 
     public ProgressBarManager(IProgressBarHandler handler) {
-        progress = new HashMap<String, LoadingTask>();
+        progress = new HashMap<>();
         totalProgress = 0;
         currentProgress = 0;
         queuedDelay = 0;
@@ -49,16 +45,7 @@ public class ProgressBarManager {
                 // progress.put(task, taskProgress - 1);
                 queuedDelay += 1;
                 //update progressbar
-                // 1 pause to rule them all, kalau gak ada buat baru, kalau ada stop dulu
-                // if (pause != null) {
-                //     pause.stop();
-                // }
-                // delay task selama 1 detik, untuk memberikan ilusi progress
-                // DoubleProperty animatedValue = new SimpleDoubleProperty(((LoadingScreenController) handler).progressBar.getProgress());
                 double progressValue = (double) currentProgress / totalProgress;
-
-                // Update label right away
-                // ((LoadingScreenController) handler).progressLabel.setText(task);
 
                 // "Sleep" for 1s, then call setProgress
                 PauseTransition pause = new PauseTransition(Duration.millis(queuedDelay * AnimationConst.animationDelay));

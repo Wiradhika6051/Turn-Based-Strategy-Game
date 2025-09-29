@@ -9,8 +9,4 @@ public class GraphicsConst {
     public static double scaleY = 1;
 
     public static String MAP_FOLDER = "/com/tbsg/turnbasedstrategygame/map/";
-
-//    public static double screenWidth = Screen.getPrimary().getBounds().getWidth();
-//
-//    public static double screenHeight = Screen.getPrimary().getBounds().getHeight();
 }
