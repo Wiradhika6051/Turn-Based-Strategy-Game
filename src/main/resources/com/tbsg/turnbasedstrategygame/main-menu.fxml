@@ -25,7 +25,4 @@
     <Button fx:id="setting" text="Setting" onAction="#openSettings"/>
     <Button fx:id="credits" text="Credits" onAction="#seeCredit"/>
     <Button fx:id="quit" text="Quit" onAction="#exitGame"/>
-    <!--    <stylesheets>-->
-    <!--        <URL value="@stylesheet/main-menu.css"/>-->
-    <!--    </stylesheets>-->
 </VBox>

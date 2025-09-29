@@ -13,8 +13,6 @@
 <VBox alignment="TOP_CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
       fx:id="root"
       fx:controller="com.tbsg.turnbasedstrategygame.controllers.CreditScreenController">
-    <!--      styleClass="credit-screen-root"-->
-    <!--    styleClass="credit-screen-root"-->
     <HBox alignment="TOP_LEFT">
         <Button HBox.hgrow="NEVER" onMouseClicked="#backToMenu" fx:id="buttonBack">
             <graphic>
@@ -33,17 +31,11 @@
         </Label>
         <Region HBox.hgrow="ALWAYS"/>
     </HBox>
-    <!--    <Pane HBox.hgrow="ALWAYS"/>-->
     <Separator fx:id="separator"/>
-    <!--    <Pane HBox.hgrow="ALWAYS"/>-->
-    <!--    </HBox>-->
     <HBox>
         <Region fx:id="padding"/>
         <Region HBox.hgrow="ALWAYS"/>
         <VBox fx:id="list" alignment="TOP_CENTER"/>
         <Region HBox.hgrow="ALWAYS"/>
     </HBox>
-    <!--    <stylesheets>-->
-    <!--        <URL value="@stylesheet/credit-screen.css"/>-->
-    <!--    </stylesheets>-->
 </VBox>

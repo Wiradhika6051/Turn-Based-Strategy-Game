@@ -1,6 +1,7 @@
 - testing Scene AManger, StageManager, Tile, MapObject,City,Civilization,TurnManager,Unit, GAmeManager
 - move civ to GameManager
 - refactor kode biar rapih di GameController
+- BUG: change resolution make the mouse move not working
 
 - feat: add tile loading system from png
 - handle coast
