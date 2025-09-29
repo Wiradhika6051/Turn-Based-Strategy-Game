@@ -25,8 +25,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class TurnBasedStrategyGame extends Application {
-
-    //    SceneManager sceneManager;
     LoadingScreenController controller;
 
     FXMLLoader fxmlLoader;
@@ -35,13 +33,13 @@ public class TurnBasedStrategyGame extends Application {
     //file path ke config
     static String filePath = System.getProperty("user.dir") + "/src/main/resources/com/tbsg/turnbasedstrategygame/setting.conf";
 
-    //file fxml yanh dimuat di loading screen
+    //file fxml yang dimuat di loading screen
     String[] fxml_files = {"main-menu", "credit-screen", "settings", "new-game", "game"};
     final String BACKSOUND_PATH = "forest-with-small-river-birds-and-nature-field-recording-6735.mp3";
 
     @Override
+    @SuppressWarnings("CallToPrintStackTrace")
     public void start(Stage stage) {
-//        sceneManager = new SceneManager();
         //register stage
         StageManager.setInstance(stage);
         //mulai
@@ -76,8 +74,6 @@ public class TurnBasedStrategyGame extends Application {
                 }
             }
         });
-        //remove window button
-//        stage.initStyle(StageStyle.UNDECORATED);
 
         Scene scene = SceneManager.getScene("LOADING_SCREEN");
         resizeLoadingScreen();
@@ -110,11 +106,9 @@ public class TurnBasedStrategyGame extends Application {
     void initProgessBarManager() {
         pb_manager = new ProgressBarManager(controller);
         pb_manager.addProgressTask("LOADING_FXML","Loading Scene...", fxml_files.length);
-//        pb_manager.addProgressTask("LOADING_CONFIG", 2);
         pb_manager.addProgressTask("SETTING_SOUND","Configuring Sound...", 1);
         pb_manager.addProgressTask("INIT_GAME","Initializing Game...", 1);
         // Add progress for loading loading screen fxml
-        // pb_manager.forwardProgress("LOADING_FXML");
         pb_manager.addProgressTask("INIT_LOADING", "Start Loading...", 1);
         pb_manager.forwardProgress("INIT_LOADING");
     }
@@ -123,16 +117,10 @@ public class TurnBasedStrategyGame extends Application {
         //load fxml
         for (String filename : fxml_files) {
             fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource(filename + ".fxml"));
-            // Scene scene = new Scene(fxmlLoader.load(), GraphicsConst.windowWidth, GraphicsConst.windowHeight);
             Scene scene = new Scene(fxmlLoader.load());
             scene.setUserData(fxmlLoader.getController());
             SceneManager.addScene(filename.toUpperCase().replace('-', '_'), scene);
             pb_manager.forwardProgress("LOADING_FXML");
-            // add changeListener
-//            if (filename == "game") {
-//                GameController gameController = fxmlLoader.getController();
-//                SceneManager.addSceneChangeListener(stage, scene, gameController::generateMap);
-//            }
         }
     }
 
@@ -143,7 +131,6 @@ public class TurnBasedStrategyGame extends Application {
         GraphicsConst.scaleY = screen.getOutputScaleY();
         //load config
         ConfigManager.setInstance(filePath);
-//        pb_manager.forwardProgress("LOADING_CONFIG");
         //update screen size
         String[] resolutions = ConfigManager.getInstance().get("graphics.screen.resolution").split("x");
         GraphicsConst.windowWidth = Integer.parseInt(resolutions[0]);
@@ -152,7 +139,6 @@ public class TurnBasedStrategyGame extends Application {
 
     void initScene() throws IOException {
         fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("loading-screen.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load(), WIDTH, HEIGHT);
         Scene scene = new Scene(fxmlLoader.load(), GraphicsConst.windowWidth, GraphicsConst.windowHeight);
         controller = fxmlLoader.getController();
         SceneManager.addScene("LOADING_SCREEN", scene);
