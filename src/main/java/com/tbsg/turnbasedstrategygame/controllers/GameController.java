@@ -4,15 +4,15 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
-import com.tbsg.turnbasedstrategygame.library.graphics.MapRenderer;
+import com.tbsg.turnbasedstrategygame.library.graphics.MapManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.RefreshableScene;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
 
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -29,7 +29,7 @@ public class GameController implements Initializable, RefreshableScene {
     @FXML
     BorderPane root;
 
-    MapRenderer mapRenderer;
+    MapManager mapManager;
 
     final int TILE_SIZE = 100;
 
@@ -40,22 +40,28 @@ public class GameController implements Initializable, RefreshableScene {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        mapRenderer = new MapRenderer(gc, root.getPadding().getTop(), MAP_WIDTH, MAP_HEIGHT);
+        // game.widthProperty().bind(root.widthProperty());
+        // game.heightProperty().bind(root.heightProperty());
+        mapManager = new MapManager(game, root.getPadding().getTop(), MAP_WIDTH, MAP_HEIGHT);
+        // game.widthProperty().bind(root.widthProperty());
+        // game.heightProperty().bind(root.heightProperty());
         game.sceneProperty().addListener((observable, oldScene, newScene) -> {
             if (newScene != null) {
                 //add onChange listener
                 Stage stage = StageManager.getStageFromWindow(game);
                 if (stage != null) {
                     gc = game.getGraphicsContext2D();
-                    mapRenderer.updateGC(gc);
-                    mapRenderer.generateMap();
-                    mapRenderer.setStartingPoint();
-                    mapRenderer.drawCanvas();
+                    mapManager.updateGC(gc);
+                    mapManager.generateMap();
+                    mapManager.setStartingPoint();
+                    mapManager.drawCanvas();
                     //init key listener
                     Scene scene = SceneManager.getSceneFromNode(game);
-                    scene.setOnKeyPressed(mapRenderer::onKeyPressed);
-                    scene.setOnKeyReleased(mapRenderer::onKeyReleased);
-                    scene.setOnMouseMoved(mapRenderer::onMouseMoved);
+                    // scene.setPrefWidth(GraphicsConst.windowWidth);
+                    // scene.setPrefHeight(GraphicsConst.windowHeight);
+                    scene.setOnKeyPressed(mapManager::onKeyPressed);
+                    scene.setOnKeyReleased(mapManager::onKeyReleased);
+                    scene.setOnMouseMoved(mapManager::onMouseMoved);
                     // start game loop
                     startGameLoop();
                 }
@@ -74,8 +80,8 @@ public class GameController implements Initializable, RefreshableScene {
             gameLoop = new AnimationTimer() {
                 @Override
                 public void handle(long now) {
-                    mapRenderer.updateCamera();  // move offset smoothly
-                    mapRenderer.drawCanvas();    // redraw world
+                    mapManager.updateCamera();  // move offset smoothly
+                    mapManager.drawCanvas();    // redraw world
                 }
             };
         }
@@ -94,20 +100,31 @@ public class GameController implements Initializable, RefreshableScene {
         }
         MAP_WIDTH = (int) Math.ceil(GraphicsConst.windowWidth / (2.0 * TILE_SIZE)) + 1;
         MAP_HEIGHT = (int) Math.ceil(GraphicsConst.windowHeight / (2.0 * TILE_SIZE)) + 1;
-        mapRenderer.updateMapSize(MAP_WIDTH, MAP_HEIGHT);
+        
+        mapManager.updateMapSize(MAP_WIDTH, MAP_HEIGHT);
+        mapManager.updateEdgeThreshold(0.1*GraphicsConst.windowHeight);
         //set size root
         if (root != null) {
             root.setPrefWidth(GraphicsConst.windowWidth);
             root.setPrefHeight(GraphicsConst.windowHeight);
             //set padding root
-            root.setPadding(new Insets(StageManager.calculateHeight(0.013), 0, 0, 0));
-            if (mapRenderer != null) {
-                mapRenderer.updatePadding(root.getPadding().getTop());
+            if (mapManager != null) {
+                mapManager.updatePadding(root.getPadding().getTop());
             }
         }
         if (game != null) {
-            game.setWidth(StageManager.calculateWidth(1.0));
-            game.setHeight(StageManager.calculateHeight(1.0));
+            // Force a proper layout pass
+            Platform.runLater(() -> {
+                if (game.getParent() != null) {
+                    game.setWidth(GraphicsConst.windowWidth);
+                    game.setHeight(GraphicsConst.windowHeight);
+                    // System.out.println("Canvas size: " + game.getWidth() + " x " + game.getHeight());
+                    // System.out.println("Bounds in parent: " + game.getBoundsInParent());
+                    // System.out.println("Bounds in local: " + game.getBoundsInLocal());
+                    // System.out.println("Root padding: " + root.getPadding());
+                    // System.err.println(String.format(" Padding %f", root.getPadding()));
+                }
+            });
         }
     }
 

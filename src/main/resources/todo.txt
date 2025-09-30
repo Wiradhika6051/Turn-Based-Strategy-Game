@@ -1,5 +1,10 @@
 - testing SceneManger, StageManager, Tile, MapObject,City,Civilization,TurnManager,Unit, GAmeManager
-- BUG: change resolution make the mouse move not working
 
 - feat: add tile loading system from png
 - handle coast
+
+TODO:
+- if the screen fit the curren scree, become full screen
+
+caveat:
+1. its working at the cost of upper scroll slower (since it havent reach 0.00)

@@ -9,14 +9,18 @@ import com.tbsg.turnbasedstrategygame.library.engine.MapObject;
 import com.tbsg.turnbasedstrategygame.library.engine.Tile;
 import com.tbsg.turnbasedstrategygame.library.io.KeyboardConst;
 
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-public class MapRenderer {
+public class MapManager {
+
     GraphicsContext gc;
     MapObject map;
+    Canvas canvas;
 
     Color[] colors = {Color.GREEN, Color.BLUE};
 
@@ -40,7 +44,7 @@ public class MapRenderer {
     final int TILE_SIZE = 100;
     final double KEYBOARD_MOVE_GRADIENT = 0.1;
     final double MOUSE_MOVE_GRADIENT = 0.1;
-    final double EDGE_SCROLL_THRESHOLD = 30; // px distance from edge
+    double EDGE_SCROLL_THRESHOLD = 30; // px distance from edge
     final int BORDER_SIZE = 10;
 
     boolean moveUp = false;
@@ -48,8 +52,9 @@ public class MapRenderer {
     boolean moveLeft = false;
     boolean moveRight = false;
 
-    public MapRenderer(GraphicsContext gc,double topPadding, int MAP_WIDTH, int MAP_HEIGHT) {
-        this.gc = gc;
+    public MapManager(Canvas canvas, double topPadding, int MAP_WIDTH, int MAP_HEIGHT) {
+        this.canvas = canvas;
+        this.gc = canvas.getGraphicsContext2D();
         this.centralX = 0;
         this.centralY = 0;
         this.highlightX = 0;
@@ -63,16 +68,21 @@ public class MapRenderer {
         this.topPadding = topPadding;
     }
 
-    public void updateGC(GraphicsContext gc){
+    public void updateGC(GraphicsContext gc) {
         this.gc = gc;
     }
 
-    public void updateMapSize(int MAP_WIDTH,int MAP_HEIGHT){
+    public void updateMapSize(int MAP_WIDTH, int MAP_HEIGHT) {
         this.MAP_WIDTH = MAP_WIDTH;
         this.MAP_HEIGHT = MAP_HEIGHT;
     }
 
-    public void updatePadding(double topPadding){
+    public void updateEdgeThreshold(double threshold) {
+        // EDGE_SCROLL_THRESHOLD = threshold;
+        EDGE_SCROLL_THRESHOLD = 30;
+    }
+
+    public void updatePadding(double topPadding) {
         this.topPadding = topPadding;
     }
 
@@ -245,38 +255,19 @@ public class MapRenderer {
     }
 
     public void onMouseMoved(MouseEvent event) {
+        // Point2D local = canvas.sceneToLocal(event.getSceneX(), event.getSceneY());
         lastMouseX = event.getX();
         lastMouseY = event.getY();
-
+        Scene scene = SceneManager.getSceneFromNode(canvas);
+        System.out.println(String.format("%f %f %f %f %f %f %f",lastMouseX,lastMouseY,event.getY(),event.getSceneY(),event.getScreenY(),scene.getWidth(),scene.getHeight()));
         // 1. Move highlight to hovered tile
         double adjustedY = lastMouseY - topPadding;
-        int tileX = (int) Math.floor((lastMouseX - GraphicsConst.windowWidth / 2.0) / TILE_SIZE + centralX);
-        int tileY = (int) Math.floor((adjustedY - GraphicsConst.windowHeight / 2.0) / TILE_SIZE + centralY);
+        // System.out.println(gc.getCanvas().getHeight());
+        int tileX = (int) Math.floor((lastMouseX - gc.getCanvas().getWidth() / 2.0) / TILE_SIZE + centralX);
+        int tileY = (int) Math.floor((adjustedY - gc.getCanvas().getHeight() / 2.0) / TILE_SIZE + centralY);
+        // System.err.println(String.format("%f %f %f %f %f %f %f",EDGE_SCROLL_THRESHOLD, adjustedY, gc.getCanvas().getWidth(), gc.getCanvas().getHeight(), lastMouseX,lastMouseY,topPadding));
         highlightX = tileX;
         highlightY = tileY;
-
-        // 2. Handle edge scrolling
-        mouseScrollX = 0;
-        mouseScrollY = 0;
-
-        // Left edge
-        if (lastMouseX < EDGE_SCROLL_THRESHOLD) {
-            double factor = 1.0 - (lastMouseX / EDGE_SCROLL_THRESHOLD); // semakin ke kiri semakin cepet scrollnya
-            mouseScrollX = -MOUSE_MOVE_GRADIENT * factor;
-        } // Right edge
-        else if (lastMouseX > GraphicsConst.windowWidth - EDGE_SCROLL_THRESHOLD) {
-            double factor = 1.0 - (lastMouseX - (GraphicsConst.windowWidth - EDGE_SCROLL_THRESHOLD)) / EDGE_SCROLL_THRESHOLD;
-            mouseScrollX = MOUSE_MOVE_GRADIENT * factor;
-        }
-        // Upper edge
-        if (lastMouseY < EDGE_SCROLL_THRESHOLD) {
-            double factor = 1.0 - (lastMouseY / EDGE_SCROLL_THRESHOLD);
-            mouseScrollY = -MOUSE_MOVE_GRADIENT * factor;
-        } // Low edge
-        else if (lastMouseY > GraphicsConst.windowHeight - EDGE_SCROLL_THRESHOLD) {
-            double factor = 1.0 - (lastMouseY - (GraphicsConst.windowHeight - EDGE_SCROLL_THRESHOLD)) / EDGE_SCROLL_THRESHOLD;
-            mouseScrollY = MOUSE_MOVE_GRADIENT * factor;
-        }
     }
 
     public void updateCamera() {
@@ -293,29 +284,30 @@ public class MapRenderer {
             centralX += KEYBOARD_MOVE_GRADIENT;
         }
         // Mouse edge scrolling
+        mouseScrollX = 0;
+        mouseScrollY = 0;
         if (lastMouseX >= 0 && lastMouseY >= 0) {
-            mouseScrollX = 0;
-            mouseScrollY = 0;
-
             if (lastMouseX < EDGE_SCROLL_THRESHOLD) {
+                // Left edge
                 double factor = 1.0 - (lastMouseX / EDGE_SCROLL_THRESHOLD);
                 mouseScrollX = -MOUSE_MOVE_GRADIENT * factor;
-            } else if (lastMouseX > GraphicsConst.windowWidth - EDGE_SCROLL_THRESHOLD) {
-                double factor = (lastMouseX - (GraphicsConst.windowWidth - EDGE_SCROLL_THRESHOLD)) / EDGE_SCROLL_THRESHOLD;
+            } else if (lastMouseX > gc.getCanvas().getWidth() - EDGE_SCROLL_THRESHOLD) {
+                // Right edge
+                double factor = 1.0 - (gc.getCanvas().getWidth() - lastMouseX) / EDGE_SCROLL_THRESHOLD;
                 mouseScrollX = MOUSE_MOVE_GRADIENT * factor;
             }
 
             if (lastMouseY < EDGE_SCROLL_THRESHOLD) {
+                // Top edge
                 double factor = 1.0 - (lastMouseY / EDGE_SCROLL_THRESHOLD);
                 mouseScrollY = -MOUSE_MOVE_GRADIENT * factor;
-            } else if (lastMouseY > GraphicsConst.windowHeight - EDGE_SCROLL_THRESHOLD) {
-                double factor = (lastMouseY - (GraphicsConst.windowHeight - EDGE_SCROLL_THRESHOLD)) / EDGE_SCROLL_THRESHOLD;
+            } else if (lastMouseY > gc.getCanvas().getHeight() - EDGE_SCROLL_THRESHOLD) {
+                double factor = 1.0 - (gc.getCanvas().getHeight() + topPadding - lastMouseY) / EDGE_SCROLL_THRESHOLD;
                 mouseScrollY = MOUSE_MOVE_GRADIENT * factor;
             }
-
-            centralX += mouseScrollX;
-            centralY += mouseScrollY;
         }
+        centralX += mouseScrollX;
+        centralY += mouseScrollY;
         // Clamp camera inside map bounds
         if (centralX < 0) {
             centralX = 0;

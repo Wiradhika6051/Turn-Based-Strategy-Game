@@ -12,6 +12,7 @@ import com.tbsg.turnbasedstrategygame.library.graphics.RefreshableScene;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,8 +25,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class SettingsController implements Initializable, RefreshableScene {
+
     @FXML
     HBox resolutionTab;
 
@@ -123,23 +126,37 @@ public class SettingsController implements Initializable, RefreshableScene {
         //simpan ke config
         ConfigManager.getInstance().set("graphics.screen.resolution", selectedResolutions);
         //update width and height
-        StageManager.getInstance().setWidth(newWidth);
-        StageManager.getInstance().setHeight(newHeight);
+        // StageManager.getInstance().setWidth(newWidth);
+        // StageManager.getInstance().setHeight(newHeight);
         // Update global constants
         GraphicsConst.windowWidth = newWidth;
         GraphicsConst.windowHeight = newHeight;
         updateWidth(newWidth, newHeight);
+
+        Stage stage = StageManager.getInstance();
+        Scene currentScene = stage.getScene();
+        double overheadW = stage.getWidth() - currentScene.getWidth();
+        double overheadH = stage.getHeight() - currentScene.getHeight();
+        // set stage size
+        stage.setWidth(newWidth + overheadW);
+        stage.setHeight(newHeight + overheadH);
         // Refresh all scene
-        Map<String, Scene> sceneMap = SceneManager.getAllScenes();
-        if (sceneMap != null) {
-            for (Scene scene : sceneMap.values()) {
-                // Refresh controller if it implements RefreshableScene
-                Object controller = scene.getUserData();
-                if (controller instanceof RefreshableScene refreshable) {
-                    refreshable.refreshLayout(); // let the controller resize its own root
+        Platform.runLater(() -> {
+            Map<String, Scene> sceneMap = SceneManager.getAllScenes();
+            if (sceneMap != null) {
+                for (Scene scene : sceneMap.values()) {
+                    // Refresh controller if it implements RefreshableScene
+                    Object controller = scene.getUserData();
+                    // Resize scene
+                    scene.getRoot().resize(newWidth, newHeight);
+                    scene.getRoot().requestLayout();
+                    if (controller instanceof RefreshableScene refreshable) {
+                        refreshable.refreshLayout(); // let the controller resize its own root
+                    }
                 }
             }
-        }
+        });
+
     }
 
     @FXML
