@@ -5,6 +5,7 @@
 
 TODO:
 - if the screen fit the curren scree, become full screen
+- cleanup the code related to map
 
 caveat:
 1. its working at the cost of upper scroll slower (since it havent reach 0.00)
