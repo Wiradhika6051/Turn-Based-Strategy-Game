@@ -1,6 +1,11 @@
 package com.tbsg.turnbasedstrategygame;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.tbsg.turnbasedstrategygame.controllers.LoadingScreenController;
 import com.tbsg.turnbasedstrategygame.library.audio.BacksoundPlayer;
@@ -14,17 +19,20 @@ import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.RefreshableScene;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
+import com.tbsg.turnbasedstrategygame.library.graphics.TileTextureManager;
 
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class TurnBasedStrategyGame extends Application {
+
     LoadingScreenController controller;
 
     FXMLLoader fxmlLoader;
@@ -37,6 +45,8 @@ public class TurnBasedStrategyGame extends Application {
     String[] fxml_files = {"main-menu", "credit-screen", "settings", "new-game", "game"};
     final String BACKSOUND_PATH = "forest-with-small-river-birds-and-nature-field-recording-6735.mp3";
 
+    List<String> tilesFilename = new ArrayList<>();
+
     @Override
     @SuppressWarnings("CallToPrintStackTrace")
     public void start(Stage stage) {
@@ -47,6 +57,8 @@ public class TurnBasedStrategyGame extends Application {
         try {
             loadConfig();
             initScene();
+            // get list of tiles
+            searchTexturesData();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -96,7 +108,7 @@ public class TurnBasedStrategyGame extends Application {
             return;
         }
         // Wait 2s before switch
-        PauseTransition delay = new PauseTransition(Duration.millis((pb_manager.getTotalProgress()+1)*AnimationConst.animationDelay));
+        PauseTransition delay = new PauseTransition(Duration.millis((pb_manager.getTotalProgress() + 1) * AnimationConst.animationDelay));
         delay.setOnFinished(e -> {
             StageManager.setScene(SceneManager.getScene("MAIN_MENU"));
         });
@@ -105,12 +117,23 @@ public class TurnBasedStrategyGame extends Application {
 
     void initProgessBarManager() {
         pb_manager = new ProgressBarManager(controller);
-        pb_manager.addProgressTask("LOADING_FXML","Loading Scene...", fxml_files.length);
-        pb_manager.addProgressTask("SETTING_SOUND","Configuring Sound...", 1);
-        pb_manager.addProgressTask("INIT_GAME","Initializing Game...", 1);
+        pb_manager.addProgressTask("LOADING_FXML", "Loading Scene...", fxml_files.length);
+        pb_manager.addProgressTask("SETTING_SOUND", "Configuring Sound...", 1);
+        pb_manager.addProgressTask("INIT_GAME", "Initializing Game...", 1);
         // Add progress for loading loading screen fxml
         pb_manager.addProgressTask("INIT_LOADING", "Start Loading...", 1);
+        // Add progress for loading tiles data
+        pb_manager.addProgressTask("LOAD_TILES", "Loading Tile Textures...", tilesFilename.size());
         pb_manager.forwardProgress("INIT_LOADING");
+    }
+
+    void searchTexturesData() throws IOException {
+        // tile textures
+        InputStream listStream = getClass().getResourceAsStream(GraphicsConst.TILE_TEXTURES_FOLDER + "tiles-list.txt");
+        System.out.println(listStream);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(listStream))) {
+            tilesFilename = reader.lines().toList();
+        }
     }
 
     void startProgressBarManager() throws IOException {
@@ -121,6 +144,21 @@ public class TurnBasedStrategyGame extends Application {
             scene.setUserData(fxmlLoader.getController());
             SceneManager.addScene(filename.toUpperCase().replace('-', '_'), scene);
             pb_manager.forwardProgress("LOADING_FXML");
+        }
+        // load tiles
+        for (String filename : tilesFilename) {
+            try {
+                // get id
+                String basename = filename.substring(0, filename.lastIndexOf("."));
+                Integer terrainId = Integer.valueOf(basename.split("_", 2)[0]);
+                // load texture
+                Image texture = new Image(getClass().getResourceAsStream(GraphicsConst.TILE_TEXTURES_FOLDER + filename));
+                TileTextureManager.getInstance().addTileTexture(terrainId, texture);
+                pb_manager.forwardProgress("LOAD_TILES");
+            } catch (NumberFormatException e) {
+                System.err.println("Error loading tile texture: " + filename);
+            }
+
         }
     }
 

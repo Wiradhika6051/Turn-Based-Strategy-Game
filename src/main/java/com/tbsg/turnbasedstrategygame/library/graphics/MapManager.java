@@ -12,6 +12,7 @@ import com.tbsg.turnbasedstrategygame.library.io.KeyboardConst;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -143,7 +144,7 @@ public class MapManager {
         double centerScreenX = GraphicsConst.windowWidth / 2.0;
         double centerScreenY = GraphicsConst.windowHeight / 2.0;
 
-        gc.setFill(Color.BLUE);
+        // gc.setFill(Color.BLUE);
         for (int y = (int) centralY - MAP_HEIGHT - 1; y <= (int) centralY + MAP_HEIGHT + 1; y++) {
             for (int x = (int) centralX - MAP_WIDTH - 1; x <= (int) centralX + MAP_WIDTH + 1; x++) {
                 // Compute tile position in pixels
@@ -163,16 +164,17 @@ public class MapManager {
 
                 if (map.isCoordinateValid(x, y)) {
                     Tile tile = map.findTile(x, y);
-                    gc.setFill(colors[tile.getTerrainId()]);
+                    Image texture = TileTextureManager.getInstance().getTileTexture(tile.getTerrainId());
+                    gc.drawImage(texture, px, py, TILE_SIZE, TILE_SIZE);
                 } else {
                     gc.setFill(Color.GREY);
+                    gc.fillRect(
+                            px, // pixel X
+                            py, // pixel Y
+                            TILE_SIZE, // width in pixels
+                            TILE_SIZE // height in pixels
+                    );
                 }
-                gc.fillRect(
-                        px, // pixel X
-                        py, // pixel Y
-                        TILE_SIZE, // width in pixels
-                        TILE_SIZE // height in pixels
-                );
             }
         }
         // Render highlight
@@ -194,23 +196,44 @@ public class MapManager {
         if (py + TILE_SIZE < 0 || py > GraphicsConst.windowHeight) {
             return;
         }
-        // fill border
-        gc.setFill(Color.WHITE);
-
-        gc.fillRect(px, py, TILE_SIZE, TILE_SIZE);
         // fill isi
         if (map.isCoordinateValid(x, y)) {
-            Tile tile = map.findTile((int) x, (int) y);
-            gc.setFill(colors[tile.getTerrainId()]);
+            Tile tile = map.findTile(x, y);
+            Image texture = TileTextureManager.getInstance().getTileTexture(tile.getTerrainId());
+            // gc.drawImage(texture, px + BORDER_SIZE, // pixel X
+            //         py + BORDER_SIZE, // pixel Y
+            //         TILE_SIZE - 2 * BORDER_SIZE, // width in pixels
+            //         TILE_SIZE - 2 * BORDER_SIZE // height in pixels
+            // );
+            gc.drawImage(texture, px, // pixel X
+                    py, // pixel Y
+                    TILE_SIZE, // width in pixels
+                    TILE_SIZE // height in pixels
+            );
         } else {
             gc.setFill(Color.GREY);
+            // gc.fillRect(
+            //         px + BORDER_SIZE, // pixel X
+            //         py + BORDER_SIZE, // pixel Y
+            //         TILE_SIZE - 2 * BORDER_SIZE, // width in pixels
+            //         TILE_SIZE - 2 * BORDER_SIZE // height in pixels
+            // );
+            gc.fillRect(px, py, TILE_SIZE, TILE_SIZE);
         }
-        gc.fillRect(
-                px + BORDER_SIZE, // pixel X
-                py + BORDER_SIZE, // pixel Y
-                TILE_SIZE - 2 * BORDER_SIZE, // width in pixels
-                TILE_SIZE - 2 * BORDER_SIZE // height in pixels
-        );
+        // fill border
+        gc.setFill(Color.WHITE);
+        // gc.setLineWidth(BORDER_SIZE);
+        // // gc.fillRect(px, py, TILE_SIZE, TILE_SIZE);
+        // gc.strokeRect(px + BORDER_SIZE / 2.0, py + BORDER_SIZE / 2.0, TILE_SIZE - BORDER_SIZE, TILE_SIZE - BORDER_SIZE);
+        // gc.setImageSmoothing(true);
+        // top border
+        gc.fillRect(px, py, TILE_SIZE, BORDER_SIZE);
+        // right border
+        gc.fillRect(px + TILE_SIZE - BORDER_SIZE, py, BORDER_SIZE, TILE_SIZE);
+        // bottom border
+        gc.fillRect(px, py + TILE_SIZE - BORDER_SIZE, TILE_SIZE, BORDER_SIZE);
+        // left border
+        gc.fillRect(px, py, BORDER_SIZE, TILE_SIZE);
     }
 
     public void onKeyPressed(KeyEvent event) {
@@ -259,7 +282,7 @@ public class MapManager {
         lastMouseX = event.getX();
         lastMouseY = event.getY();
         Scene scene = SceneManager.getSceneFromNode(canvas);
-        System.out.println(String.format("%f %f %f %f %f %f %f",lastMouseX,lastMouseY,event.getY(),event.getSceneY(),event.getScreenY(),scene.getWidth(),scene.getHeight()));
+        System.out.println(String.format("%f %f %f %f %f %f %f", lastMouseX, lastMouseY, event.getY(), event.getSceneY(), event.getScreenY(), scene.getWidth(), scene.getHeight()));
         // 1. Move highlight to hovered tile
         double adjustedY = lastMouseY - topPadding;
         // System.out.println(gc.getCanvas().getHeight());

@@ -9,4 +9,5 @@ public class GraphicsConst {
     public static double scaleY = 1;
 
     public static String MAP_FOLDER = "/com/tbsg/turnbasedstrategygame/map/";
+    public static String TILE_TEXTURES_FOLDER = "/com/tbsg/turnbasedstrategygame/textures/tiles/";
 }

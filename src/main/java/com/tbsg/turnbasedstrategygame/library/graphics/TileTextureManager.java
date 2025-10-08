@@ -9,9 +9,18 @@ public class TileTextureManager {
     Map<Integer, Image> tileTextureMap;
     Image defaultTileTexture;
 
-    public TileTextureManager(){
+    private static TileTextureManager instance = null;
+
+    private TileTextureManager(){
         this.tileTextureMap = new HashMap<>();
-        this.defaultTileTexture = new Image(getClass().getResourceAsStream("@textures/tiles/default.png"));
+        this.defaultTileTexture = new Image(getClass().getResourceAsStream(GraphicsConst.TILE_TEXTURES_FOLDER + "default.png"));
+    }
+
+    public static TileTextureManager getInstance(){
+        if(instance==null){
+            instance = new TileTextureManager();
+        }
+        return instance;
     }
 
     public Image getTileTexture(int terrainId){
