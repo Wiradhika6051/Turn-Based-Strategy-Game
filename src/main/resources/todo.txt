@@ -1,7 +1,7 @@
 - testing SceneManger, StageManager, Tile, MapObject,City,Civilization,TurnManager,Unit, GAmeManager
 
-- feat: add tile loading system from png
-- handle coast
+
+- move tile definition to JSON
 
 TODO:
 - if the screen fit the curren scree, become full screen

@@ -130,7 +130,6 @@ public class TurnBasedStrategyGame extends Application {
     void searchTexturesData() throws IOException {
         // tile textures
         InputStream listStream = getClass().getResourceAsStream(GraphicsConst.TILE_TEXTURES_FOLDER + "tiles-list.txt");
-        System.out.println(listStream);
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(listStream))) {
             tilesFilename = reader.lines().toList();
         }

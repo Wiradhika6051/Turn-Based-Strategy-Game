@@ -23,8 +23,6 @@ public class MapManager {
     MapObject map;
     Canvas canvas;
 
-    Color[] colors = {Color.GREEN, Color.BLUE};
-
     double centralX; // IDX TILE
     double centralY; // IDX TILE
 
@@ -125,6 +123,9 @@ public class MapManager {
                     }
                 }
             }
+            // generate coast map
+            // System.out.println(map);
+            map.initializeCoastMap();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -166,6 +167,12 @@ public class MapManager {
                     Tile tile = map.findTile(x, y);
                     Image texture = TileTextureManager.getInstance().getTileTexture(tile.getTerrainId());
                     gc.drawImage(texture, px, py, TILE_SIZE, TILE_SIZE);
+                    // render coast
+                    // color: #F0DCA0
+                    if (tile.getTerrainId() == 0) {
+                        renderCoast(tile, px, py);
+                    }
+
                 } else {
                     gc.setFill(Color.GREY);
                     gc.fillRect(
@@ -200,11 +207,6 @@ public class MapManager {
         if (map.isCoordinateValid(x, y)) {
             Tile tile = map.findTile(x, y);
             Image texture = TileTextureManager.getInstance().getTileTexture(tile.getTerrainId());
-            // gc.drawImage(texture, px + BORDER_SIZE, // pixel X
-            //         py + BORDER_SIZE, // pixel Y
-            //         TILE_SIZE - 2 * BORDER_SIZE, // width in pixels
-            //         TILE_SIZE - 2 * BORDER_SIZE // height in pixels
-            // );
             gc.drawImage(texture, px, // pixel X
                     py, // pixel Y
                     TILE_SIZE, // width in pixels
@@ -212,20 +214,10 @@ public class MapManager {
             );
         } else {
             gc.setFill(Color.GREY);
-            // gc.fillRect(
-            //         px + BORDER_SIZE, // pixel X
-            //         py + BORDER_SIZE, // pixel Y
-            //         TILE_SIZE - 2 * BORDER_SIZE, // width in pixels
-            //         TILE_SIZE - 2 * BORDER_SIZE // height in pixels
-            // );
             gc.fillRect(px, py, TILE_SIZE, TILE_SIZE);
         }
         // fill border
         gc.setFill(Color.WHITE);
-        // gc.setLineWidth(BORDER_SIZE);
-        // // gc.fillRect(px, py, TILE_SIZE, TILE_SIZE);
-        // gc.strokeRect(px + BORDER_SIZE / 2.0, py + BORDER_SIZE / 2.0, TILE_SIZE - BORDER_SIZE, TILE_SIZE - BORDER_SIZE);
-        // gc.setImageSmoothing(true);
         // top border
         gc.fillRect(px, py, TILE_SIZE, BORDER_SIZE);
         // right border
@@ -234,6 +226,43 @@ public class MapManager {
         gc.fillRect(px, py + TILE_SIZE - BORDER_SIZE, TILE_SIZE, BORDER_SIZE);
         // left border
         gc.fillRect(px, py, BORDER_SIZE, TILE_SIZE);
+    }
+
+    void renderCoast(Tile tile, double px, double py) {
+        gc.setFill(Color.web("#F0DCA0"));
+        byte coastMap = tile.getCoastMap();
+        // render north
+        if ((coastMap & GraphicsConst.NORTH_COAST) != 0) {
+            gc.fillRect(px, py, TILE_SIZE, BORDER_SIZE);
+        }
+        // render east
+        if ((coastMap & GraphicsConst.EAST_COAST) != 0) {
+            gc.fillRect(px + TILE_SIZE - BORDER_SIZE, py, BORDER_SIZE, TILE_SIZE);
+        }
+        // render south
+        if ((coastMap & GraphicsConst.SOUTH_COAST) != 0) {
+            gc.fillRect(px, py + TILE_SIZE - BORDER_SIZE, TILE_SIZE, BORDER_SIZE);
+        }
+        // render west
+        if ((coastMap & GraphicsConst.WEST_COAST) != 0) {
+            gc.fillRect(px, py, BORDER_SIZE, TILE_SIZE);
+        }
+        // render NE
+        if ((coastMap & GraphicsConst.NORTH_EAST_MASK)==0 && (coastMap & GraphicsConst.NORTH_EAST_COAST) != 0) {
+            gc.fillRect(px + TILE_SIZE - BORDER_SIZE, py, BORDER_SIZE, BORDER_SIZE);
+        }
+        // render SE
+        if ((coastMap & GraphicsConst.SOUTH_EAST_MASK)==0 && (coastMap & GraphicsConst.SOUTH_EAST_COAST) != 0) {
+            gc.fillRect(px + TILE_SIZE - BORDER_SIZE, py + TILE_SIZE - BORDER_SIZE, BORDER_SIZE, BORDER_SIZE);
+        }
+        // render SW
+        if ((coastMap & GraphicsConst.SOUTH_WEST_MASK)==0 && (coastMap & GraphicsConst.SOUTH_WEST_COAST) != 0) {
+            gc.fillRect(px, py + TILE_SIZE - BORDER_SIZE, BORDER_SIZE, BORDER_SIZE);
+        }
+        // render NW
+        if ((coastMap & GraphicsConst.NORTH_WEST_MASK)==0 && (coastMap & GraphicsConst.NORTH_WEST_COAST) != 0) {
+            gc.fillRect(px, py, BORDER_SIZE, BORDER_SIZE);
+        }
     }
 
     public void onKeyPressed(KeyEvent event) {
@@ -282,7 +311,7 @@ public class MapManager {
         lastMouseX = event.getX();
         lastMouseY = event.getY();
         Scene scene = SceneManager.getSceneFromNode(canvas);
-        System.out.println(String.format("%f %f %f %f %f %f %f", lastMouseX, lastMouseY, event.getY(), event.getSceneY(), event.getScreenY(), scene.getWidth(), scene.getHeight()));
+        // System.out.println(String.format("%f %f %f %f %f %f %f", lastMouseX, lastMouseY, event.getY(), event.getSceneY(), event.getScreenY(), scene.getWidth(), scene.getHeight()));
         // 1. Move highlight to hovered tile
         double adjustedY = lastMouseY - topPadding;
         // System.out.println(gc.getCanvas().getHeight());

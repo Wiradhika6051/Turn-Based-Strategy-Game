@@ -4,11 +4,13 @@ public class Tile {
     int x;
     int y;
     int terrainId;
+    byte coastMap; // a byte is 8 bit, bit 1-4 in order for north, east, south west. bit 5-8 in order for NE, SE, SW, NW
 
     public Tile(int x, int y, int terrainId) {
         this.x = x;
         this.y = y;
         this.terrainId = terrainId;
+        this.coastMap = 0x0;
     }
 
     public int getX() {
@@ -33,6 +35,14 @@ public class Tile {
 
     public void setTerrainId(int terrainId) {
         this.terrainId = terrainId;
+    }
+
+    public void setCoastMap(byte coastMap) {
+        this.coastMap = coastMap;
+    }
+
+    public byte getCoastMap() {
+        return coastMap;
     }
 
     @Override
