@@ -1,0 +1,14 @@
+[
+    {
+        "id":0,
+        "name":"Land",
+        "texturePath":"land.png",
+        "isLand":true
+    },
+    {
+        "id":1,
+        "name":"Water",
+        "texturePath":"water.png",
+        "isLand":false
+    }
+]

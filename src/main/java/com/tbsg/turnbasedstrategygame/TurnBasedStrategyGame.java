@@ -1,31 +1,32 @@
 package com.tbsg.turnbasedstrategygame;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.lang.reflect.Type;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tbsg.turnbasedstrategygame.controllers.LoadingScreenController;
 import com.tbsg.turnbasedstrategygame.library.audio.BacksoundPlayer;
 import com.tbsg.turnbasedstrategygame.library.engine.ConfigManager;
+import com.tbsg.turnbasedstrategygame.library.engine.EngineConst;
 import com.tbsg.turnbasedstrategygame.library.engine.GameManager;
 import com.tbsg.turnbasedstrategygame.library.engine.MapObject;
 import com.tbsg.turnbasedstrategygame.library.engine.ProgressBarManager;
+import com.tbsg.turnbasedstrategygame.library.engine.Terrain;
 import com.tbsg.turnbasedstrategygame.library.engine.TurnManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.AnimationConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.RefreshableScene;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
-import com.tbsg.turnbasedstrategygame.library.graphics.TileTextureManager;
+import com.tbsg.turnbasedstrategygame.library.graphics.TerrainManager;
 
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -45,7 +46,7 @@ public class TurnBasedStrategyGame extends Application {
     String[] fxml_files = {"main-menu", "credit-screen", "settings", "new-game", "game"};
     final String BACKSOUND_PATH = "forest-with-small-river-birds-and-nature-field-recording-6735.mp3";
 
-    List<String> tilesFilename = new ArrayList<>();
+    List<Terrain> terrains;
 
     @Override
     @SuppressWarnings("CallToPrintStackTrace")
@@ -123,16 +124,16 @@ public class TurnBasedStrategyGame extends Application {
         // Add progress for loading loading screen fxml
         pb_manager.addProgressTask("INIT_LOADING", "Start Loading...", 1);
         // Add progress for loading tiles data
-        pb_manager.addProgressTask("LOAD_TILES", "Loading Tile Textures...", tilesFilename.size());
+        pb_manager.addProgressTask("LOAD_TERRAINS", "Loading Terrains...", terrains.size());
         pb_manager.forwardProgress("INIT_LOADING");
     }
 
     void searchTexturesData() throws IOException {
         // tile textures
-        InputStream listStream = getClass().getResourceAsStream(GraphicsConst.TILE_TEXTURES_FOLDER + "tiles-list.txt");
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(listStream))) {
-            tilesFilename = reader.lines().toList();
-        }
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<Terrain>>(){}.getType();
+        InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream(EngineConst.DATAS_FOLDER + "terrains.json"));
+        terrains = gson.fromJson(reader, listType);
     }
 
     void startProgressBarManager() throws IOException {
@@ -145,17 +146,18 @@ public class TurnBasedStrategyGame extends Application {
             pb_manager.forwardProgress("LOADING_FXML");
         }
         // load tiles
-        for (String filename : tilesFilename) {
+        for (Terrain terrain:terrains) {
             try {
                 // get id
-                String basename = filename.substring(0, filename.lastIndexOf("."));
-                Integer terrainId = Integer.valueOf(basename.split("_", 2)[0]);
-                // load texture
-                Image texture = new Image(getClass().getResourceAsStream(GraphicsConst.TILE_TEXTURES_FOLDER + filename));
-                TileTextureManager.getInstance().addTileTexture(terrainId, texture);
-                pb_manager.forwardProgress("LOAD_TILES");
-            } catch (NumberFormatException e) {
-                System.err.println("Error loading tile texture: " + filename);
+                // String basename = filename.substring(0, filename.lastIndexOf("."));
+                // Integer terrainId = Integer.valueOf(basename.split("_", 2)[0]);
+                // // load texture
+                // Image texture = new Image(getClass().getResourceAsStream(GraphicsConst.TERRAIN_FOLDER + filename));
+                terrain.loadTexture();
+                TerrainManager.getInstance().addTerrain(terrain.getId(), terrain);
+                pb_manager.forwardProgress("LOAD_TERRAINS");
+            } catch (NullPointerException e) {
+                System.err.println("Error loading terrain: " + terrain.getName());
             }
 
         }

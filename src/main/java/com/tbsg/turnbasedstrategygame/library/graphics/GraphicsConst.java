@@ -9,7 +9,7 @@ public class GraphicsConst {
     public static double scaleY = 1;
 
     public static String MAP_FOLDER = "/com/tbsg/turnbasedstrategygame/map/";
-    public static String TILE_TEXTURES_FOLDER = "/com/tbsg/turnbasedstrategygame/textures/tiles/";
+    public static String TERRAIN_FOLDER = "/com/tbsg/turnbasedstrategygame/textures/terrains/";
 
     public static byte NORTH_COAST = 0b0000001;
     public static byte EAST_COAST  = 0b0000010;

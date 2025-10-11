@@ -1,7 +1,4 @@
-- testing SceneManger, StageManager, Tile, MapObject,City,Civilization,TurnManager,Unit, GAmeManager
-
-
-- move tile definition to JSON
+- add testing SceneManger, StageManager, Tile, MapObject,City,Civilization,TurnManager,Unit, GAmeManager
 
 TODO:
 - if the screen fit the curren scree, become full screen
@@ -10,3 +7,4 @@ TODO:
 
 caveat:
 1. its working at the cost of upper scroll slower (since it havent reach 0.00)
+2. sometime there is mini gap between coast, but after 3-4 reload of the program its disappear

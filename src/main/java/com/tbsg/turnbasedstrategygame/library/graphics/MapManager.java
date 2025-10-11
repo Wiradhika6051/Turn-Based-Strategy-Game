@@ -165,7 +165,7 @@ public class MapManager {
 
                 if (map.isCoordinateValid(x, y)) {
                     Tile tile = map.findTile(x, y);
-                    Image texture = TileTextureManager.getInstance().getTileTexture(tile.getTerrainId());
+                    Image texture = TerrainManager.getInstance().getTerrain(tile.getTerrainId()).getTexture();
                     gc.drawImage(texture, px, py, TILE_SIZE, TILE_SIZE);
                     // render coast
                     // color: #F0DCA0
@@ -206,7 +206,7 @@ public class MapManager {
         // fill isi
         if (map.isCoordinateValid(x, y)) {
             Tile tile = map.findTile(x, y);
-            Image texture = TileTextureManager.getInstance().getTileTexture(tile.getTerrainId());
+            Image texture = TerrainManager.getInstance().getTerrain(tile.getTerrainId()).getTexture();
             gc.drawImage(texture, px, // pixel X
                     py, // pixel Y
                     TILE_SIZE, // width in pixels
