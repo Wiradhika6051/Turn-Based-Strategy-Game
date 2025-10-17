@@ -7,13 +7,13 @@ import java.util.Scanner;
 import com.tbsg.turnbasedstrategygame.library.engine.GameManager;
 import com.tbsg.turnbasedstrategygame.library.engine.MapObject;
 import com.tbsg.turnbasedstrategygame.library.engine.Tile;
+import com.tbsg.turnbasedstrategygame.library.io.Keyboard;
 import com.tbsg.turnbasedstrategygame.library.io.KeyboardConst;
 
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
@@ -124,7 +124,6 @@ public class MapManager {
                 }
             }
             // generate coast map
-            // System.out.println(map);
             map.initializeCoastMap();
         } catch (Exception e) {
             e.printStackTrace();
@@ -264,48 +263,48 @@ public class MapManager {
             gc.fillRect(px, py, BORDER_SIZE, BORDER_SIZE);
         }
     }
+//TODO
+    // public void onKeyPressed(KeyEvent event) {
+    //     int keyId = event.getCode().getCode();
+    //     switch (keyId) {
+    //         case KeyboardConst.KEY_NORTH -> {
+    //             moveUp = true;
+    //         }
+    //         case KeyboardConst.KEY_SOUTH -> {
+    //             moveDown = true;
+    //         }
+    //         case KeyboardConst.KEY_WEST -> {
+    //             moveLeft = true;
+    //         }
+    //         case KeyboardConst.KEY_EAST -> {
+    //             moveRight = true;
+    //         }
+    //         default -> {
+    //         }
+    //     }
+    // }
+//TODO
+    // public void onKeyReleased(KeyEvent event) {
+    //     int keyId = event.getCode().getCode();
+    //     switch (keyId) {
+    //         case KeyboardConst.KEY_NORTH -> {
+    //             moveUp = false;
+    //         }
+    //         case KeyboardConst.KEY_SOUTH -> {
+    //             moveDown = false;
+    //         }
+    //         case KeyboardConst.KEY_WEST -> {
+    //             moveLeft = false;
+    //         }
+    //         case KeyboardConst.KEY_EAST -> {
+    //             moveRight = false;
+    //         }
 
-    public void onKeyPressed(KeyEvent event) {
-        int keyId = event.getCode().getCode();
-        switch (keyId) {
-            case KeyboardConst.KEY_NORTH -> {
-                moveUp = true;
-            }
-            case KeyboardConst.KEY_SOUTH -> {
-                moveDown = true;
-            }
-            case KeyboardConst.KEY_WEST -> {
-                moveLeft = true;
-            }
-            case KeyboardConst.KEY_EAST -> {
-                moveRight = true;
-            }
-            default -> {
-            }
-        }
-    }
-
-    public void onKeyReleased(KeyEvent event) {
-        int keyId = event.getCode().getCode();
-        switch (keyId) {
-            case KeyboardConst.KEY_NORTH -> {
-                moveUp = false;
-            }
-            case KeyboardConst.KEY_SOUTH -> {
-                moveDown = false;
-            }
-            case KeyboardConst.KEY_WEST -> {
-                moveLeft = false;
-            }
-            case KeyboardConst.KEY_EAST -> {
-                moveRight = false;
-            }
-
-            default -> {
-            }
-        }
-    }
-
+    //         default -> {
+    //         }
+    //     }
+    // }
+//TODO
     public void onMouseMoved(MouseEvent event) {
         // Point2D local = canvas.sceneToLocal(event.getSceneX(), event.getSceneY());
         lastMouseX = event.getX();
@@ -323,16 +322,28 @@ public class MapManager {
     }
 
     public void updateCamera() {
-        if (moveUp) {
+        // if (moveUp) {
+        //     centralY -= KEYBOARD_MOVE_GRADIENT;
+        // }
+        // if (moveDown) {
+        //     centralY += KEYBOARD_MOVE_GRADIENT;
+        // }
+        // if (moveLeft) {
+        //     centralX -= KEYBOARD_MOVE_GRADIENT;
+        // }
+        // if (moveRight) {
+        //     centralX += KEYBOARD_MOVE_GRADIENT;
+        // }
+        if (Keyboard.getInstance().getKeyStatus(KeyboardConst.KEY_NORTH)) {
             centralY -= KEYBOARD_MOVE_GRADIENT;
         }
-        if (moveDown) {
+        if (Keyboard.getInstance().getKeyStatus(KeyboardConst.KEY_SOUTH)) {
             centralY += KEYBOARD_MOVE_GRADIENT;
         }
-        if (moveLeft) {
+        if (Keyboard.getInstance().getKeyStatus(KeyboardConst.KEY_WEST)) {
             centralX -= KEYBOARD_MOVE_GRADIENT;
         }
-        if (moveRight) {
+        if (Keyboard.getInstance().getKeyStatus(KeyboardConst.KEY_EAST)) {
             centralX += KEYBOARD_MOVE_GRADIENT;
         }
         // Mouse edge scrolling

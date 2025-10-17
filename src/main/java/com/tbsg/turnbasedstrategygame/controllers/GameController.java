@@ -8,6 +8,7 @@ import com.tbsg.turnbasedstrategygame.library.graphics.MapManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.RefreshableScene;
 import com.tbsg.turnbasedstrategygame.library.graphics.SceneManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.StageManager;
+import com.tbsg.turnbasedstrategygame.library.io.Keyboard;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
@@ -59,8 +60,11 @@ public class GameController implements Initializable, RefreshableScene {
                     Scene scene = SceneManager.getSceneFromNode(game);
                     // scene.setPrefWidth(GraphicsConst.windowWidth);
                     // scene.setPrefHeight(GraphicsConst.windowHeight);
-                    scene.setOnKeyPressed(mapManager::onKeyPressed);
-                    scene.setOnKeyReleased(mapManager::onKeyReleased);
+
+                    // scene.setOnKeyPressed(mapManager::onKeyPressed);
+                    scene.setOnKeyPressed(Keyboard.getInstance()::onKeyPressed);
+                    // scene.setOnKeyReleased(mapManager::onKeyReleased);
+                    scene.setOnKeyReleased(Keyboard.getInstance()::onKeyReleased);
                     scene.setOnMouseMoved(mapManager::onMouseMoved);
                     // start game loop
                     startGameLoop();
