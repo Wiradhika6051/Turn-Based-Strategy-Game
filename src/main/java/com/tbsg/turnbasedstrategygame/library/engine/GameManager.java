@@ -7,14 +7,14 @@ public class GameManager {
 
     static GameManager instance;
 
-    private GameManager(TurnManager turnManager, MapObject map) {
+    private GameManager(TurnManager turnManager) {
         this.turnManager = turnManager;
-        this.map = map;
+        // this.map = map;
     }
 
-    public static void initGameManager(TurnManager turnManager, MapObject mapObject) {
+    public static void initGameManager(TurnManager turnManager) {
         if (instance == null) {
-            instance = new GameManager(turnManager, mapObject);
+            instance = new GameManager(turnManager);
         }
     }
 
@@ -31,6 +31,10 @@ public class GameManager {
 
     public MapObject getMap() {
         return map;
+    }
+
+    public void setMap(MapObject map){
+        this.map = map;
     }
 
 }

@@ -12,7 +12,6 @@ import com.tbsg.turnbasedstrategygame.library.audio.BacksoundPlayer;
 import com.tbsg.turnbasedstrategygame.library.engine.ConfigManager;
 import com.tbsg.turnbasedstrategygame.library.engine.EngineConst;
 import com.tbsg.turnbasedstrategygame.library.engine.GameManager;
-import com.tbsg.turnbasedstrategygame.library.engine.MapObject;
 import com.tbsg.turnbasedstrategygame.library.engine.ProgressBarManager;
 import com.tbsg.turnbasedstrategygame.library.engine.Terrain;
 import com.tbsg.turnbasedstrategygame.library.engine.TurnManager;
@@ -99,7 +98,7 @@ public class TurnBasedStrategyGame extends Application {
         BacksoundPlayer.getInstance().changeVolume(Double.parseDouble(ConfigManager.getInstance().get("audio.music.master")));
         pb_manager.forwardProgress("SETTING_SOUND");
         //init game
-        GameManager.initGameManager(TurnManager.getInstance(), new MapObject());
+        GameManager.initGameManager(TurnManager.getInstance());
         pb_manager.forwardProgress("INIT_GAME");
         //mulai
         try {

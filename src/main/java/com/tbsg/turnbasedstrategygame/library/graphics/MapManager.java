@@ -1,8 +1,6 @@
 package com.tbsg.turnbasedstrategygame.library.graphics;
 
-import java.io.InputStream;
 import java.util.Random;
-import java.util.Scanner;
 
 import com.tbsg.turnbasedstrategygame.library.engine.GameManager;
 import com.tbsg.turnbasedstrategygame.library.engine.MapObject;
@@ -52,6 +50,7 @@ public class MapManager {
         this.mouseScrollX = 0;
         this.mouseScrollY = 0;
         this.topPadding = topPadding;
+        this.map = GameManager.getInstance().getMap();
         // initialize mouse callback
         Mouse.getInstance().setCallback(this::handleMouseMoved);
     }
@@ -64,7 +63,6 @@ public class MapManager {
         this.MAP_WIDTH = MAP_WIDTH;
         this.MAP_HEIGHT = MAP_HEIGHT;
     }
-
     public void updateEdgeThreshold(double threshold) {
         EDGE_SCROLL_THRESHOLD = threshold;
         // EDGE_SCROLL_THRESHOLD = 30;
@@ -74,50 +72,50 @@ public class MapManager {
         this.topPadding = topPadding;
     }
 
-    @SuppressWarnings("CallToPrintStackTrace")
-    public void generateMap() {
-        try (InputStream inputStream = getClass().getResourceAsStream(GraphicsConst.MAP_FOLDER + "default.txt")) {
-            if (inputStream == null) {
-                System.err.println("Map File not found!");
-                return;
-            }
+    // @SuppressWarnings("CallToPrintStackTrace")
+    // public void generateMap() {
+    //     try (InputStream inputStream = getClass().getResourceAsStream(GraphicsConst.MAP_FOLDER + "default.txt")) {
+    //         if (inputStream == null) {
+    //             System.err.println("Map File not found!");
+    //             return;
+    //         }
 
-            try (Scanner scanner = new Scanner(inputStream)) {
-                int i = 0;
-                int j = 0;
-                int width = -1;
-                int height = -1;
+    //         try (Scanner scanner = new Scanner(inputStream)) {
+    //             int i = 0;
+    //             int j = 0;
+    //             int width = -1;
+    //             int height = -1;
 
-                while (scanner.hasNextLine()) {
-                    String row = scanner.nextLine();
-                    if (row.length() == 0) {
-                        continue;
-                    }
-                    if (width < 0 && height < 0) {
-                        // read dimensions
-                        String[] size = row.split(" ");
-                        width = Integer.parseInt(size[0]);
-                        height = Integer.parseInt(size[1]);
-                        map = GameManager.getInstance().getMap();
-                        map.setX_longitude(width);
-                        map.setY_latitude(height);
-                    } else {
-                        for (String tileId : row.split("")) {
-                            Tile tile = new Tile(i, j, Integer.parseInt(tileId));
-                            map.addTile(tile);
-                            i++;
-                        }
-                        i = 0;
-                        j++;
-                    }
-                }
-            }
-            // generate coast map
-            map.initializeCoastMap();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    //             while (scanner.hasNextLine()) {
+    //                 String row = scanner.nextLine();
+    //                 if (row.length() == 0) {
+    //                     continue;
+    //                 }
+    //                 if (width < 0 && height < 0) {
+    //                     // read dimensions
+    //                     String[] size = row.split(" ");
+    //                     width = Integer.parseInt(size[0]);
+    //                     height = Integer.parseInt(size[1]);
+    //                     map = GameManager.getInstance().getMap();
+    //                     map.setX_longitude(width);
+    //                     map.setY_latitude(height);
+    //                 } else {
+    //                     for (String tileId : row.split("")) {
+    //                         Tile tile = new Tile(i, j, Integer.parseInt(tileId));
+    //                         map.addTile(tile);
+    //                         i++;
+    //                     }
+    //                     i = 0;
+    //                     j++;
+    //                 }
+    //             }
+    //         }
+    //         // generate coast map
+    //         map.initializeCoastMap();
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     public void setStartingPoint() {
         Random random = new Random();

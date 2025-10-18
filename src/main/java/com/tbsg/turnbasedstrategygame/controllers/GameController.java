@@ -3,6 +3,9 @@ package com.tbsg.turnbasedstrategygame.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.tbsg.turnbasedstrategygame.library.engine.GameManager;
+import com.tbsg.turnbasedstrategygame.library.engine.MapGenerator;
+import com.tbsg.turnbasedstrategygame.library.engine.StaticMapGenerator;
 import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 import com.tbsg.turnbasedstrategygame.library.graphics.MapManager;
 import com.tbsg.turnbasedstrategygame.library.graphics.RefreshableScene;
@@ -44,6 +47,8 @@ public class GameController implements Initializable, RefreshableScene {
     public void initialize(URL location, ResourceBundle resources) {
         // game.widthProperty().bind(root.widthProperty());
         // game.heightProperty().bind(root.heightProperty());
+        MapGenerator generator = new StaticMapGenerator("default.txt");
+        GameManager.getInstance().setMap(generator.generate());
         mapManager = new MapManager(game, root.getPadding().getTop(), MAP_WIDTH, MAP_HEIGHT);
         // game.widthProperty().bind(root.widthProperty());
         // game.heightProperty().bind(root.heightProperty());
@@ -54,7 +59,7 @@ public class GameController implements Initializable, RefreshableScene {
                 if (stage != null) {
                     gc = game.getGraphicsContext2D();
                     mapManager.updateGC(gc);
-                    mapManager.generateMap();
+                    // mapManager.generateMap();
                     mapManager.setStartingPoint();
                     mapManager.drawCanvas();
                     //init key listener
