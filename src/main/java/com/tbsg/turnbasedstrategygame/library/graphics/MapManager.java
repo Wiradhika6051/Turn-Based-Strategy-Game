@@ -9,12 +9,11 @@ import com.tbsg.turnbasedstrategygame.library.engine.MapObject;
 import com.tbsg.turnbasedstrategygame.library.engine.Tile;
 import com.tbsg.turnbasedstrategygame.library.io.Keyboard;
 import com.tbsg.turnbasedstrategygame.library.io.KeyboardConst;
+import com.tbsg.turnbasedstrategygame.library.io.Mouse;
 
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 public class MapManager {
@@ -37,9 +36,6 @@ public class MapManager {
     double mouseScrollX; // in px
     double mouseScrollY; // in px
 
-    double lastMouseX;
-    double lastMouseY;
-
     final int TILE_SIZE = 100;
     final double KEYBOARD_MOVE_GRADIENT = 0.1;
     final double MOUSE_MOVE_GRADIENT = 0.1;
@@ -60,11 +56,11 @@ public class MapManager {
         this.highlightY = 0;
         this.MAP_WIDTH = MAP_WIDTH;
         this.MAP_HEIGHT = MAP_HEIGHT;
-        this.lastMouseX = -1;
-        this.lastMouseY = -1;
         this.mouseScrollX = 0;
         this.mouseScrollY = 0;
         this.topPadding = topPadding;
+        // initialize mouse callback
+        Mouse.getInstance().setCallback(this::handleMouseMoved);
     }
 
     public void updateGC(GraphicsContext gc) {
@@ -305,18 +301,12 @@ public class MapManager {
     //     }
     // }
 //TODO
-    public void onMouseMoved(MouseEvent event) {
-        // Point2D local = canvas.sceneToLocal(event.getSceneX(), event.getSceneY());
-        lastMouseX = event.getX();
-        lastMouseY = event.getY();
-        Scene scene = SceneManager.getSceneFromNode(canvas);
-        // System.out.println(String.format("%f %f %f %f %f %f %f", lastMouseX, lastMouseY, event.getY(), event.getSceneY(), event.getScreenY(), scene.getWidth(), scene.getHeight()));
+    public void handleMouseMoved(double x, double y) {
         // 1. Move highlight to hovered tile
-        double adjustedY = lastMouseY - topPadding;
+        double adjustedY = Mouse.getInstance().y - topPadding;
         // System.out.println(gc.getCanvas().getHeight());
-        int tileX = (int) Math.floor((lastMouseX - gc.getCanvas().getWidth() / 2.0) / TILE_SIZE + centralX);
+        int tileX = (int) Math.floor((x - gc.getCanvas().getWidth() / 2.0) / TILE_SIZE + centralX);
         int tileY = (int) Math.floor((adjustedY - gc.getCanvas().getHeight() / 2.0) / TILE_SIZE + centralY);
-        // System.err.println(String.format("%f %f %f %f %f %f %f",EDGE_SCROLL_THRESHOLD, adjustedY, gc.getCanvas().getWidth(), gc.getCanvas().getHeight(), lastMouseX,lastMouseY,topPadding));
         highlightX = tileX;
         highlightY = tileY;
     }
@@ -349,23 +339,23 @@ public class MapManager {
         // Mouse edge scrolling
         mouseScrollX = 0;
         mouseScrollY = 0;
-        if (lastMouseX >= 0 && lastMouseY >= 0) {
-            if (lastMouseX < EDGE_SCROLL_THRESHOLD) {
+        if (Mouse.getInstance().x >= 0 && Mouse.getInstance().y >= 0) {
+            if (Mouse.getInstance().x < EDGE_SCROLL_THRESHOLD) {
                 // Left edge
-                double factor = 1.0 - (lastMouseX / EDGE_SCROLL_THRESHOLD);
+                double factor = 1.0 - (Mouse.getInstance().x / EDGE_SCROLL_THRESHOLD);
                 mouseScrollX = -MOUSE_MOVE_GRADIENT * factor;
-            } else if (lastMouseX > gc.getCanvas().getWidth() - EDGE_SCROLL_THRESHOLD) {
+            } else if (Mouse.getInstance().x > gc.getCanvas().getWidth() - EDGE_SCROLL_THRESHOLD) {
                 // Right edge
-                double factor = 1.0 - (gc.getCanvas().getWidth() - lastMouseX) / EDGE_SCROLL_THRESHOLD;
+                double factor = 1.0 - (gc.getCanvas().getWidth() - Mouse.getInstance().x) / EDGE_SCROLL_THRESHOLD;
                 mouseScrollX = MOUSE_MOVE_GRADIENT * factor;
             }
 
-            if (lastMouseY < EDGE_SCROLL_THRESHOLD) {
+            if (Mouse.getInstance().y < EDGE_SCROLL_THRESHOLD) {
                 // Top edge
-                double factor = 1.0 - (lastMouseY / EDGE_SCROLL_THRESHOLD);
+                double factor = 1.0 - (Mouse.getInstance().y / EDGE_SCROLL_THRESHOLD);
                 mouseScrollY = -MOUSE_MOVE_GRADIENT * factor;
-            } else if (lastMouseY > gc.getCanvas().getHeight() - EDGE_SCROLL_THRESHOLD) {
-                double factor = 1.0 - (gc.getCanvas().getHeight() + topPadding - lastMouseY) / EDGE_SCROLL_THRESHOLD;
+            } else if (Mouse.getInstance().y > gc.getCanvas().getHeight() - EDGE_SCROLL_THRESHOLD) {
+                double factor = 1.0 - (gc.getCanvas().getHeight() + topPadding - Mouse.getInstance().y) / EDGE_SCROLL_THRESHOLD;
                 mouseScrollY = MOUSE_MOVE_GRADIENT * factor;
             }
         }
