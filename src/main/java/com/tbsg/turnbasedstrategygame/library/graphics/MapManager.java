@@ -20,7 +20,6 @@ public class MapManager {
 
     GraphicsContext gc;
     MapObject map;
-    Canvas canvas;
 
     double centralX; // IDX TILE
     double centralY; // IDX TILE
@@ -42,13 +41,7 @@ public class MapManager {
     double EDGE_SCROLL_THRESHOLD = 30; // px distance from edge
     final int BORDER_SIZE = 10;
 
-    boolean moveUp = false;
-    boolean moveDown = false;
-    boolean moveLeft = false;
-    boolean moveRight = false;
-
     public MapManager(Canvas canvas, double topPadding, int MAP_WIDTH, int MAP_HEIGHT) {
-        this.canvas = canvas;
         this.gc = canvas.getGraphicsContext2D();
         this.centralX = 0;
         this.centralY = 0;
@@ -73,8 +66,8 @@ public class MapManager {
     }
 
     public void updateEdgeThreshold(double threshold) {
-        // EDGE_SCROLL_THRESHOLD = threshold;
-        EDGE_SCROLL_THRESHOLD = 30;
+        EDGE_SCROLL_THRESHOLD = threshold;
+        // EDGE_SCROLL_THRESHOLD = 30;
     }
 
     public void updatePadding(double topPadding) {
@@ -259,48 +252,7 @@ public class MapManager {
             gc.fillRect(px, py, BORDER_SIZE, BORDER_SIZE);
         }
     }
-//TODO
-    // public void onKeyPressed(KeyEvent event) {
-    //     int keyId = event.getCode().getCode();
-    //     switch (keyId) {
-    //         case KeyboardConst.KEY_NORTH -> {
-    //             moveUp = true;
-    //         }
-    //         case KeyboardConst.KEY_SOUTH -> {
-    //             moveDown = true;
-    //         }
-    //         case KeyboardConst.KEY_WEST -> {
-    //             moveLeft = true;
-    //         }
-    //         case KeyboardConst.KEY_EAST -> {
-    //             moveRight = true;
-    //         }
-    //         default -> {
-    //         }
-    //     }
-    // }
-//TODO
-    // public void onKeyReleased(KeyEvent event) {
-    //     int keyId = event.getCode().getCode();
-    //     switch (keyId) {
-    //         case KeyboardConst.KEY_NORTH -> {
-    //             moveUp = false;
-    //         }
-    //         case KeyboardConst.KEY_SOUTH -> {
-    //             moveDown = false;
-    //         }
-    //         case KeyboardConst.KEY_WEST -> {
-    //             moveLeft = false;
-    //         }
-    //         case KeyboardConst.KEY_EAST -> {
-    //             moveRight = false;
-    //         }
 
-    //         default -> {
-    //         }
-    //     }
-    // }
-//TODO
     public void handleMouseMoved(double x, double y) {
         // 1. Move highlight to hovered tile
         double adjustedY = Mouse.getInstance().y - topPadding;
@@ -312,18 +264,6 @@ public class MapManager {
     }
 
     public void updateCamera() {
-        // if (moveUp) {
-        //     centralY -= KEYBOARD_MOVE_GRADIENT;
-        // }
-        // if (moveDown) {
-        //     centralY += KEYBOARD_MOVE_GRADIENT;
-        // }
-        // if (moveLeft) {
-        //     centralX -= KEYBOARD_MOVE_GRADIENT;
-        // }
-        // if (moveRight) {
-        //     centralX += KEYBOARD_MOVE_GRADIENT;
-        // }
         if (Keyboard.getInstance().getKeyStatus(KeyboardConst.KEY_NORTH)) {
             centralY -= KEYBOARD_MOVE_GRADIENT;
         }

@@ -107,7 +107,7 @@ public class GameController implements Initializable, RefreshableScene {
         MAP_HEIGHT = (int) Math.ceil(GraphicsConst.windowHeight / (2.0 * TILE_SIZE)) + 1;
         
         mapManager.updateMapSize(MAP_WIDTH, MAP_HEIGHT);
-        mapManager.updateEdgeThreshold(0.1*GraphicsConst.windowHeight);
+        mapManager.updateEdgeThreshold(0.04*GraphicsConst.windowHeight);
         //set size root
         if (root != null) {
             root.setPrefWidth(GraphicsConst.windowWidth);
