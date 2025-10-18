@@ -42,7 +42,6 @@ public class ProgressBarManager {
             if (taskProgress > 0) {
                 currentProgress++;
                 progress.get(task).total = taskProgress - 1;
-                // progress.put(task, taskProgress - 1);
                 queuedDelay += 1;
                 //update progressbar
                 double progressValue = (double) currentProgress / totalProgress;

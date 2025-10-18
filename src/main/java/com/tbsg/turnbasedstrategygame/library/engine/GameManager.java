@@ -9,7 +9,6 @@ public class GameManager {
 
     private GameManager(TurnManager turnManager) {
         this.turnManager = turnManager;
-        // this.map = map;
     }
 
     public static void initGameManager(TurnManager turnManager) {

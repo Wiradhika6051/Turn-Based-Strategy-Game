@@ -45,13 +45,9 @@ public class GameController implements Initializable, RefreshableScene {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // game.widthProperty().bind(root.widthProperty());
-        // game.heightProperty().bind(root.heightProperty());
         MapGenerator generator = new StaticMapGenerator("default.txt");
         GameManager.getInstance().setMap(generator.generate());
         mapManager = new MapManager(game, root.getPadding().getTop(), MAP_WIDTH, MAP_HEIGHT);
-        // game.widthProperty().bind(root.widthProperty());
-        // game.heightProperty().bind(root.heightProperty());
         game.sceneProperty().addListener((observable, oldScene, newScene) -> {
             if (newScene != null) {
                 //add onChange listener
@@ -59,17 +55,12 @@ public class GameController implements Initializable, RefreshableScene {
                 if (stage != null) {
                     gc = game.getGraphicsContext2D();
                     mapManager.updateGC(gc);
-                    // mapManager.generateMap();
                     mapManager.setStartingPoint();
                     mapManager.drawCanvas();
                     //init key listener
                     Scene scene = SceneManager.getSceneFromNode(game);
-                    // scene.setPrefWidth(GraphicsConst.windowWidth);
-                    // scene.setPrefHeight(GraphicsConst.windowHeight);
 
-                    // scene.setOnKeyPressed(mapManager::onKeyPressed);
                     scene.setOnKeyPressed(Keyboard.getInstance()::onKeyPressed);
-                    // scene.setOnKeyReleased(mapManager::onKeyReleased);
                     scene.setOnKeyReleased(Keyboard.getInstance()::onKeyReleased);
                     scene.setOnMouseMoved(Mouse.getInstance()::onMouseMoved);
                     // start game loop
@@ -128,11 +119,6 @@ public class GameController implements Initializable, RefreshableScene {
                 if (game.getParent() != null) {
                     game.setWidth(GraphicsConst.windowWidth);
                     game.setHeight(GraphicsConst.windowHeight);
-                    // System.out.println("Canvas size: " + game.getWidth() + " x " + game.getHeight());
-                    // System.out.println("Bounds in parent: " + game.getBoundsInParent());
-                    // System.out.println("Bounds in local: " + game.getBoundsInLocal());
-                    // System.out.println("Root padding: " + root.getPadding());
-                    // System.err.println(String.format(" Padding %f", root.getPadding()));
                 }
             });
         }

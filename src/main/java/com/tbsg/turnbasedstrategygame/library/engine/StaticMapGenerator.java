@@ -8,7 +8,7 @@ import com.tbsg.turnbasedstrategygame.library.graphics.GraphicsConst;
 public class StaticMapGenerator implements MapGenerator {
     final String basepath = GraphicsConst.MAP_FOLDER;
     String filename;
-    // "default.txt"
+
     public StaticMapGenerator(String filename) {
         this.filename = filename;
     }
@@ -37,7 +37,6 @@ public class StaticMapGenerator implements MapGenerator {
                         String[] size = row.split(" ");
                         width = Integer.parseInt(size[0]);
                         height = Integer.parseInt(size[1]);
-                        // map = GameManager.getInstance().getMap();
                         map.setX_longitude(width);
                         map.setY_latitude(height);
                     } else {

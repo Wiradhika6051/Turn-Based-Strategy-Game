@@ -65,57 +65,11 @@ public class MapManager {
     }
     public void updateEdgeThreshold(double threshold) {
         EDGE_SCROLL_THRESHOLD = threshold;
-        // EDGE_SCROLL_THRESHOLD = 30;
     }
 
     public void updatePadding(double topPadding) {
         this.topPadding = topPadding;
     }
-
-    // @SuppressWarnings("CallToPrintStackTrace")
-    // public void generateMap() {
-    //     try (InputStream inputStream = getClass().getResourceAsStream(GraphicsConst.MAP_FOLDER + "default.txt")) {
-    //         if (inputStream == null) {
-    //             System.err.println("Map File not found!");
-    //             return;
-    //         }
-
-    //         try (Scanner scanner = new Scanner(inputStream)) {
-    //             int i = 0;
-    //             int j = 0;
-    //             int width = -1;
-    //             int height = -1;
-
-    //             while (scanner.hasNextLine()) {
-    //                 String row = scanner.nextLine();
-    //                 if (row.length() == 0) {
-    //                     continue;
-    //                 }
-    //                 if (width < 0 && height < 0) {
-    //                     // read dimensions
-    //                     String[] size = row.split(" ");
-    //                     width = Integer.parseInt(size[0]);
-    //                     height = Integer.parseInt(size[1]);
-    //                     map = GameManager.getInstance().getMap();
-    //                     map.setX_longitude(width);
-    //                     map.setY_latitude(height);
-    //                 } else {
-    //                     for (String tileId : row.split("")) {
-    //                         Tile tile = new Tile(i, j, Integer.parseInt(tileId));
-    //                         map.addTile(tile);
-    //                         i++;
-    //                     }
-    //                     i = 0;
-    //                     j++;
-    //                 }
-    //             }
-    //         }
-    //         // generate coast map
-    //         map.initializeCoastMap();
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     }
-    // }
 
     public void setStartingPoint() {
         Random random = new Random();
@@ -131,7 +85,6 @@ public class MapManager {
         double centerScreenX = GraphicsConst.windowWidth / 2.0;
         double centerScreenY = GraphicsConst.windowHeight / 2.0;
 
-        // gc.setFill(Color.BLUE);
         for (int y = (int) centralY - MAP_HEIGHT - 1; y <= (int) centralY + MAP_HEIGHT + 1; y++) {
             for (int x = (int) centralX - MAP_WIDTH - 1; x <= (int) centralX + MAP_WIDTH + 1; x++) {
                 // Compute tile position in pixels
@@ -154,7 +107,6 @@ public class MapManager {
                     Image texture = TerrainManager.getInstance().getTerrain(tile.getTerrainId()).getTexture();
                     gc.drawImage(texture, px, py, TILE_SIZE, TILE_SIZE);
                     // render coast
-                    // color: #F0DCA0
                     if (tile.getTerrainId() == 0) {
                         renderCoast(tile, px, py);
                     }
@@ -254,7 +206,6 @@ public class MapManager {
     public void handleMouseMoved(double x, double y) {
         // 1. Move highlight to hovered tile
         double adjustedY = Mouse.getInstance().y - topPadding;
-        // System.out.println(gc.getCanvas().getHeight());
         int tileX = (int) Math.floor((x - gc.getCanvas().getWidth() / 2.0) / TILE_SIZE + centralX);
         int tileY = (int) Math.floor((adjustedY - gc.getCanvas().getHeight() / 2.0) / TILE_SIZE + centralY);
         highlightX = tileX;

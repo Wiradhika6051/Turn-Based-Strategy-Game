@@ -27,7 +27,6 @@ public class MainMenuController implements Initializable, RefreshableScene {
     Button credits;
     @FXML
     Button quit;
-
     @FXML
     VBox root;
 

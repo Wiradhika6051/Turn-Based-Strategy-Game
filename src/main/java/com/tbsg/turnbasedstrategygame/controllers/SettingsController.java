@@ -83,7 +83,6 @@ public class SettingsController implements Initializable, RefreshableScene {
             backButton.setFitWidth(StageManager.calculateWidth(0.07));
             backButton.setFitHeight(StageManager.calculateHeight(0.05));
         }
-
         if (resolutionTab != null) {
             resolutionTab.setPrefWidth(StageManager.calculateWidth(0.5));
         }
@@ -125,9 +124,6 @@ public class SettingsController implements Initializable, RefreshableScene {
         int newHeight = Integer.parseInt(resolutionConfig[1]);
         //simpan ke config
         ConfigManager.getInstance().set("graphics.screen.resolution", selectedResolutions);
-        //update width and height
-        // StageManager.getInstance().setWidth(newWidth);
-        // StageManager.getInstance().setHeight(newHeight);
         // Update global constants
         GraphicsConst.windowWidth = newWidth;
         GraphicsConst.windowHeight = newHeight;

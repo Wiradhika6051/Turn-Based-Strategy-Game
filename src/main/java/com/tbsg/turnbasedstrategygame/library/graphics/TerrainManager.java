@@ -13,7 +13,6 @@ public class TerrainManager {
 
     private TerrainManager(){
         this.terrainsMap = new HashMap<>();
-        // Image defaultTerrainTexture = new Image(getClass().getResourceAsStream(GraphicsConst.TERRAIN_FOLDER + "default.png"));
         this.defaultTerrain = new Terrain(-1,"unknown","default.png",false);
         this.defaultTerrain.loadTexture();
     }

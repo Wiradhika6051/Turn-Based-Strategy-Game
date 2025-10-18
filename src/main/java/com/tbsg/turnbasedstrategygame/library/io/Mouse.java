@@ -35,8 +35,5 @@ public class Mouse {
         x = event.getX();
         y = event.getY();
         callback.call(x,y);
-        // // 1. Move highlight to hovered tile
-        // highlightX = tileX;
-        // highlightY = tileY;
     }
 }

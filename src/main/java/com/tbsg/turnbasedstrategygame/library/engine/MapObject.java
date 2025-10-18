@@ -25,15 +25,6 @@ public class MapObject {
         if (!isCoordinateValid(x, y)) {
             return null;
         }
-//        for (Tile tile : tiles) {
-////            System.out.println("START");
-////            System.out.println(tile);
-////            System.out.println(x + " " + y);
-//            if (tile.x == x && tile.y == y) {
-//                return tile;
-//            }
-//        }
-//        return null;
         int idx = y * x_longitude + x;
         return tiles.get(idx);
     }
