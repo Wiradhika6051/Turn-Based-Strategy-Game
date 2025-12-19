@@ -205,7 +205,7 @@ public class MapManager {
 
     public void handleMouseMoved(double x, double y) {
         // 1. Move highlight to hovered tile
-        double adjustedY = Mouse.getInstance().y - topPadding;
+        double adjustedY = y - topPadding;
         int tileX = (int) Math.floor((x - gc.getCanvas().getWidth() / 2.0) / TILE_SIZE + centralX);
         int tileY = (int) Math.floor((adjustedY - gc.getCanvas().getHeight() / 2.0) / TILE_SIZE + centralY);
         highlightX = tileX;
@@ -228,6 +228,11 @@ public class MapManager {
         // Mouse edge scrolling
         mouseScrollX = 0;
         mouseScrollY = 0;
+        // System.err.println("tes2 "+gc.getCanvas().getWidth());
+        // System.err.println(Mouse.getInstance().x);
+        // System.err.println("tes1 "+gc.getCanvas().getHeight());
+        // System.err.println(Mouse.getInstance().y);
+        // System.out.println("||");
         if (Mouse.getInstance().x >= 0 && Mouse.getInstance().y >= 0) {
             if (Mouse.getInstance().x < EDGE_SCROLL_THRESHOLD) {
                 // Left edge

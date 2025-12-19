@@ -2,10 +2,9 @@
 
 TODO:
 - if the screen fit the curren scree, become full screen
-
+> bug kalau change ke resolution less than full screen, bottom lower not work for mouse
+- flicker when full screen and change stage
+- bug: change reoslution o fullscreen, dont update on setting
 caveat:
 1. its working at the cost of upper scroll slower (since it havent reach 0.00)
 2. sometime there is mini gap between coast, but after 3-4 reload of the program its disappear
-
-TODO:
-1. if resolutiom is bigger than screen size, clip it to maximum screen size

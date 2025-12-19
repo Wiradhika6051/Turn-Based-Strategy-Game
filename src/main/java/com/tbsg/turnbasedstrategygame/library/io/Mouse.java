@@ -34,6 +34,7 @@ public class Mouse {
         }
         x = event.getX();
         y = event.getY();
+        // System.err.println(x+" "+y);
         callback.call(x,y);
     }
 }

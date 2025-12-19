@@ -59,12 +59,12 @@ public class CreditScreenController implements Initializable,RefreshableScene {
 
     void updateWidth(double width, double height) {
         //set const
-        if (width != 0) {
-            GraphicsConst.windowWidth = width;
-        }
-        if (height != 0) {
-            GraphicsConst.windowHeight = height;
-        }
+        // if (width != 0) {
+        //     GraphicsConst.windowWidth = width;
+        // }
+        // if (height != 0) {
+        //     GraphicsConst.windowHeight = height;
+        // }
         //set size root
         if (root != null) {
             root.setPrefWidth(GraphicsConst.windowWidth);

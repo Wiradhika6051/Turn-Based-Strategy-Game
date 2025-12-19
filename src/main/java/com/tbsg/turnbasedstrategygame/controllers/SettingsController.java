@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -25,6 +26,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class SettingsController implements Initializable, RefreshableScene {
@@ -65,12 +67,12 @@ public class SettingsController implements Initializable, RefreshableScene {
 
     void updateWidth(double width, double height) {
         //set const
-        if (width != 0) {
-            GraphicsConst.windowWidth = width;
-        }
-        if (height != 0) {
-            GraphicsConst.windowHeight = height;
-        }
+        // if (width != 0) {
+        //     GraphicsConst.windowWidth = width;
+        // }
+        // if (height != 0) {
+        //     GraphicsConst.windowHeight = height;
+        // }
         //change scene size
         //set size root
         if (root != null) {
@@ -124,18 +126,34 @@ public class SettingsController implements Initializable, RefreshableScene {
         int newHeight = Integer.parseInt(resolutionConfig[1]);
         //simpan ke config
         ConfigManager.getInstance().set("graphics.screen.resolution", selectedResolutions);
-        // Update global constants
-        GraphicsConst.windowWidth = newWidth;
-        GraphicsConst.windowHeight = newHeight;
-        updateWidth(newWidth, newHeight);
-
         Stage stage = StageManager.getInstance();
         Scene currentScene = stage.getScene();
-        double overheadW = stage.getWidth() - currentScene.getWidth();
-        double overheadH = stage.getHeight() - currentScene.getHeight();
-        // set stage size
-        stage.setWidth(newWidth + overheadW);
-        stage.setHeight(newHeight + overheadH);
+        // double overheadW = stage.getWidth() - currentScene.getWidth();
+        // double overheadH = stage.getHeight() - currentScene.getHeight();
+
+        // check monitor resolutions
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getBounds();
+        double screenWidth = bounds.getWidth();
+        double screenHeight = bounds.getHeight();
+        // Update global constants
+        System.err.println("hah "+newWidth+" "+screenWidth );
+        GraphicsConst.windowWidth = Math.min(newWidth , screenWidth );
+        GraphicsConst.windowHeight = Math.min(newHeight , screenHeight );
+        System.err.println("heho "+GraphicsConst.windowWidth+" "+GraphicsConst.windowHeight);
+        updateWidth(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
+
+        // turn to fullscreen if the new resolution exceed screen
+        if (newWidth >= screenWidth - 1 && newHeight >= screenHeight - 1) {
+            stage.setFullScreen(true);
+            StageManager.toggleFullScreen(true);
+        } else {
+            // set stage size
+            stage.setFullScreen(false);
+            StageManager.toggleFullScreen(false);
+            stage.setWidth(GraphicsConst.windowWidth);
+            stage.setHeight(GraphicsConst.windowHeight);            
+        }
         // Refresh all scene
         Platform.runLater(() -> {
             Map<String, Scene> sceneMap = SceneManager.getAllScenes();

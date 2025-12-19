@@ -73,6 +73,7 @@ public class GameController implements Initializable, RefreshableScene {
 
     @Override
     public void refreshLayout() {
+        System.out.println("updated");
         updateLayout();
     }
 
@@ -91,14 +92,18 @@ public class GameController implements Initializable, RefreshableScene {
 
     void updateLayout() {
         //set const
-        double width = GraphicsConst.windowWidth;
-        double height = GraphicsConst.windowHeight;
-        if (width != 0) {
-            GraphicsConst.windowWidth = width;
-        }
-        if (height != 0) {
-            GraphicsConst.windowHeight = height;
-        }
+        double width = GraphicsConst.windowWidth+ GraphicsConst.widthOffset;
+        double height = GraphicsConst.windowHeight + GraphicsConst.heightOffset;
+                System.err.println("base width1 "+GraphicsConst.windowWidth);
+        System.err.println("base height1 "+GraphicsConst.windowWidth);
+        System.err.println("width1 "+width);
+        System.err.println("height1 "+height);
+        // if (width != 0) {
+        //     GraphicsConst.windowWidth = width;
+        // }
+        // if (height != 0) {
+        //     GraphicsConst.windowHeight = height;
+        // }
         MAP_WIDTH = (int) Math.ceil(GraphicsConst.windowWidth / (2.0 * TILE_SIZE)) + 1;
         MAP_HEIGHT = (int) Math.ceil(GraphicsConst.windowHeight / (2.0 * TILE_SIZE)) + 1;
         

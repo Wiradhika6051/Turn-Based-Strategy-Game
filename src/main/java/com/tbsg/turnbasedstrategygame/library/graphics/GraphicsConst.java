@@ -8,6 +8,9 @@ public class GraphicsConst {
     public static double scaleX = 1;
     public static double scaleY = 1;
 
+    public static double heightOffset = 0;
+    public static double widthOffset = 0;
+
     public static String MAP_FOLDER = "/com/tbsg/turnbasedstrategygame/map/";
     public static String TERRAIN_FOLDER = "/com/tbsg/turnbasedstrategygame/textures/terrains/";
 

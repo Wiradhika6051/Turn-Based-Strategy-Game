@@ -25,6 +25,7 @@ import com.tbsg.turnbasedstrategygame.library.graphics.TerrainManager;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.stage.Screen;
@@ -56,6 +57,7 @@ public class TurnBasedStrategyGame extends Application {
         //init progress bar manager
         try {
             loadConfig();
+            checkResolution();
             initScene();
             // get list of tiles
             searchTexturesData();
@@ -130,7 +132,8 @@ public class TurnBasedStrategyGame extends Application {
     void searchTexturesData() throws IOException {
         // tile textures
         Gson gson = new Gson();
-        Type listType = new TypeToken<List<Terrain>>(){}.getType();
+        Type listType = new TypeToken<List<Terrain>>() {
+        }.getType();
         InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream(EngineConst.DATAS_FOLDER + "terrains.json"));
         terrains = gson.fromJson(reader, listType);
     }
@@ -145,7 +148,7 @@ public class TurnBasedStrategyGame extends Application {
             pb_manager.forwardProgress("LOADING_FXML");
         }
         // load tiles
-        for (Terrain terrain:terrains) {
+        for (Terrain terrain : terrains) {
             try {
                 // get id
                 // String basename = filename.substring(0, filename.lastIndexOf("."));
@@ -169,14 +172,19 @@ public class TurnBasedStrategyGame extends Application {
         GraphicsConst.scaleY = screen.getOutputScaleY();
         //load config
         ConfigManager.setInstance(filePath);
+        // check monitor resolutions
+        Rectangle2D bounds = screen.getBounds();
+        double screenWidth = bounds.getWidth();
+        double screenHeight = bounds.getHeight();
         //update screen size
         String[] resolutions = ConfigManager.getInstance().get("graphics.screen.resolution").split("x");
-        GraphicsConst.windowWidth = Integer.parseInt(resolutions[0]);
-        GraphicsConst.windowHeight = Integer.parseInt(resolutions[1]);
+        GraphicsConst.windowWidth = Math.min(Integer.parseInt(resolutions[0]),screenWidth);
+        GraphicsConst.windowHeight = Math.min(Integer.parseInt(resolutions[1]),screenHeight);
     }
 
     void initScene() throws IOException {
         fxmlLoader = new FXMLLoader(TurnBasedStrategyGame.class.getResource("loading-screen.fxml"));
+        System.err.println(GraphicsConst.windowWidth + " hlo "+GraphicsConst.windowHeight);
         Scene scene = new Scene(fxmlLoader.load(), GraphicsConst.windowWidth, GraphicsConst.windowHeight);
         controller = fxmlLoader.getController();
         SceneManager.addScene("LOADING_SCREEN", scene);
@@ -184,6 +192,20 @@ public class TurnBasedStrategyGame extends Application {
 
     void resizeLoadingScreen() {
         SceneManager.getScene("LOADING_SCREEN");
+    }
+
+    void checkResolution() {
+        // kalau resolusi lebih besar dari screen, set full screen
+        // check monitor resolutions
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getBounds();
+        double screenWidth = bounds.getWidth();
+        double screenHeight = bounds.getHeight();
+        if (GraphicsConst.windowWidth >= screenWidth - 1 && GraphicsConst.windowHeight >= screenHeight - 1) {
+            StageManager.toggleFullScreen(true);
+        } else {
+            StageManager.toggleFullScreen(false);
+        }
     }
 
     public static void main(String[] args) {
