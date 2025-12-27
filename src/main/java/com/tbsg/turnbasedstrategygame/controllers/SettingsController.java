@@ -137,12 +137,8 @@ public class SettingsController implements Initializable, RefreshableScene {
         double screenWidth = bounds.getWidth();
         double screenHeight = bounds.getHeight();
         // Update global constants
-        System.err.println("hah "+newWidth+" "+screenWidth );
-        GraphicsConst.windowWidth = Math.min(newWidth , screenWidth );
-        GraphicsConst.windowHeight = Math.min(newHeight , screenHeight );
-        System.err.println("heho "+GraphicsConst.windowWidth+" "+GraphicsConst.windowHeight);
-        updateWidth(GraphicsConst.windowWidth, GraphicsConst.windowHeight);
-
+        GraphicsConst.windowWidth = Math.min(newWidth, screenWidth);
+        GraphicsConst.windowHeight = Math.min(newHeight, screenHeight);
         // turn to fullscreen if the new resolution exceed screen
         if (newWidth >= screenWidth - 1 && newHeight >= screenHeight - 1) {
             stage.setFullScreen(true);
@@ -152,13 +148,17 @@ public class SettingsController implements Initializable, RefreshableScene {
             stage.setFullScreen(false);
             StageManager.toggleFullScreen(false);
             stage.setWidth(GraphicsConst.windowWidth);
-            stage.setHeight(GraphicsConst.windowHeight);            
+            stage.setHeight(GraphicsConst.windowHeight);
         }
         // Refresh all scene
         Platform.runLater(() -> {
             Map<String, Scene> sceneMap = SceneManager.getAllScenes();
             if (sceneMap != null) {
                 for (Scene scene : sceneMap.values()) {
+                    if(scene==currentScene){
+                        // skip update scene
+                        continue;
+                    }
                     // Refresh controller if it implements RefreshableScene
                     Object controller = scene.getUserData();
                     // Resize scene
